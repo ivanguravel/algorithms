@@ -2,13 +2,6 @@ package org.ivzh.algebra;
 
 public class NOD {
 
-    public static void main(String[] args) {
-        NOD nod = new NOD();
-        System.out.println(nod.nod(1234567890, 2));
-        System.out.println(nod.recursiveNod(1234567890, 2));
-        System.out.println(nod.bitsNod(1234567890, 2));
-    }
-
     // Evclid algorithm
     public int nod(int a, int b) {
         while (a != b) {
