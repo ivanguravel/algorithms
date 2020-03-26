@@ -2,6 +2,7 @@ package org.ivzh.dynamic.programming;
 
 import java.math.BigDecimal;
 
+// TODO: 2 tests from 7 are passed
 public class Explosiveness2 {
 
     public static void main(String[] args) {
