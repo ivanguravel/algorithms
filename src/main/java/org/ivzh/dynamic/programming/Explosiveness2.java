@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 public class Explosiveness2 {
 
     public static void main(String[] args) {
-        System.out.println(solve(2));
+        System.out.println(solve(3));
     }
 
 
@@ -24,10 +24,14 @@ public class Explosiveness2 {
         dp[1][1] = new BigDecimal(1);
         dp[1][2] = new BigDecimal(1);
 
-        for (int i =2; i <= n; i++) {
+        dp[2][0] = new BigDecimal(3);
+        dp[2][1] = new BigDecimal(2);
+        dp[2][2] = new BigDecimal(3);
+
+        for (int i =3; i <= n; i++) {
             dp[i][0] = dp[i - 1][0].add(dp[i - 1][1]).add(dp[i - 1][2]);
-            dp[i][1] = dp[i - 1][0].add(dp[i - 1][1]).add(dp[i - 1][2]);
-            dp[i][2] = dp[i - 1][1].add(dp[i - 1][2]);
+            dp[i][1] = dp[i - 2][0].add(dp[i - 2][1]).add(dp[i - 2][2]);
+            dp[i][2] = dp[i - 1][0].add(dp[i - 1][1]).add(dp[i - 1][2]);
         }
 
         return dp[n][0].add(dp[n][1]).add(dp[n][2]);
