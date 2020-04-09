@@ -13,31 +13,34 @@ import static java.lang.Long.parseLong;
 import static java.util.Arrays.stream;
 import static java.util.stream.IntStream.range;
 
+// https://acm.timus.ru/problem.aspx?space=1&num=1119
 public class Metro {
+
+
+    private static final double HYPOTENUSE = 141.42;
 
         private void solve() {
 
             int n = nextInt();
+            int m = nextInt();
 
-            int[] dp = new int[n+1];
-            dp[1]= 0;
-            dp[2]= 1;
-            dp[3]= 2;
+            int[][] matrix = new int[n][m];
 
-            for (int i = 4; i <= n; i++) {
-                int buffer = dp[i - 1] + 1;
-                if (i % 3==0) {
-                    buffer = min(buffer, dp[i / 3] + 1);
-                } else if (i % 2==0) {
-                    buffer = min(buffer, dp[i / 2] + 1);
+            int crossLines = nextInt();
+
+            int[][] crossLinesNumbers = new int[crossLines][m];
+
+            for (int i = 0; i < crossLines; i++) {
+                for (int j = 0; j < m; j++) {
+                    crossLinesNumbers[i][j] = nextInt();
                 }
-
-                dp[i] = buffer;
             }
 
-            sout(dp[n]);
+            int[][] dp = new int[n+1][3];
 
-        }
+
+
+         }
 
         public static void main(String[] args) {
             new Metro().run();
