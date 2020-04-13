@@ -37,35 +37,45 @@ public class Metro {
                 }
             }
 
-            int[][][] dp = new int[n+1][m+1][3];
+            int[][][] dp = new int[n+2][m+2][6];
 
-            dp[0][0][1] = 100;
-            dp[0][0][2] = 100;
-            dp[0][0][3] = 100;
-            dp[0][0][4] = 100;
+            dp[1][1][0] = 100;
+            dp[1][1][1] = 100;
+            dp[1][1][2] = 100;
+            dp[1][1][3] = 100;
 
-            dp[0][0][5] =
+            dp[1][1][4] = isCrossLine(crossLines, m, crossLinesNumbers, 1, 1) ? (int) HYPOTENUSE : -1;
 
+            dp[1][1][5] = min(dp[1][1][0] + dp[1][1][1], dp[1][1][2] + dp[1][1][3]);
+            dp[1][1][5] = min(dp[1][1][5], dp[1][1][4]);
+
+            for (int i = 2; i < n; i++) {
+                for (int j =2; j < m; j++) {
+                    dp[i][j][0] = dp[i - 1][j - 1][0];
+                    dp[i][j][1] = dp[i - 1][j - 1][1];
+                    dp[i][j][2] = dp[i - 1][j - 1][2];
+                    dp[i][j][3] = dp[i - 1][j - 1][3];
+
+                    int crossLineValue = isCrossLine(crossLines, m, crossLinesNumbers, i, j) ? (int) HYPOTENUSE : -1;
+                    dp[i][j][4] = crossLineValue;
+                    dp[i][j][5] = min(dp[i - 1][j - 1][0] + dp[i - 1][j - 1][1], dp[i - 1][j - 1][2] + dp[i - 1][j - 1][3]);
+                    dp[i][j][5] = dp[i - 1][j - 1][5] + min(dp[i][j][5], dp[i][j][4]);
+                }
+            }
+            sout(dp[n][m][5]);
          }
 
-         static class Tuple {
-            public int i;
-            public int j;
-
-             @Override
-             public boolean equals(Object o) {
-                 if (this == o) return true;
-                 if (o == null || getClass() != o.getClass()) return false;
-                 Tuple tuple = (Tuple) o;
-                 return i == tuple.i &&
-                         j == tuple.j;
+         private static boolean isCrossLine(int crossLines, int m, int[][] crossLinesNumbers, int x, int y) {
+             for (int i = 0; i < crossLines; i++) {
+                 for (int j = 0; j < m; j++) {
+                     if (crossLinesNumbers[i][j] == x && crossLinesNumbers[i][j] == y) {
+                         return true;
+                     }
+                 }
              }
-
-             @Override
-             public int hashCode() {
-                 return Objects.hash(i, j);
-             }
+             return false;
          }
+
 
 
         public static void main(String[] args) {
