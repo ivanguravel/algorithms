@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Objects;
 import java.util.StringTokenizer;
 import java.math.BigDecimal;
 
@@ -36,11 +37,36 @@ public class Metro {
                 }
             }
 
-            int[][] dp = new int[n+1][3];
+            int[][][] dp = new int[n+1][m+1][3];
 
+            dp[0][0][1] = 100;
+            dp[0][0][2] = 100;
+            dp[0][0][3] = 100;
+            dp[0][0][4] = 100;
 
+            dp[0][0][5] =
 
          }
+
+         static class Tuple {
+            public int i;
+            public int j;
+
+             @Override
+             public boolean equals(Object o) {
+                 if (this == o) return true;
+                 if (o == null || getClass() != o.getClass()) return false;
+                 Tuple tuple = (Tuple) o;
+                 return i == tuple.i &&
+                         j == tuple.j;
+             }
+
+             @Override
+             public int hashCode() {
+                 return Objects.hash(i, j);
+             }
+         }
+
 
         public static void main(String[] args) {
             new Metro().run();
