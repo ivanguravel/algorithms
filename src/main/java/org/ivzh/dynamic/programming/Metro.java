@@ -56,7 +56,7 @@ public class Metro {
                     dp[i][j][2] = dp[i - 1][j - 1][2];
                     dp[i][j][3] = dp[i - 1][j - 1][3];
 
-                    int crossLine = isCrossLine();
+                    int crossLine = 0;//isCrossLine();
 
                     //
                     int firstMin = min(dp[i-1][j-1][5] + crossLine, dp[i-1][j][5] + 100);
