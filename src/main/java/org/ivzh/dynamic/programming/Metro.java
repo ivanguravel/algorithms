@@ -56,10 +56,12 @@ public class Metro {
                     dp[i][j][2] = dp[i - 1][j - 1][2];
                     dp[i][j][3] = dp[i - 1][j - 1][3];
 
-                    int crossLineValue = isCrossLine(crossLines, m, crossLinesNumbers, i, j) ? (int) HYPOTENUSE : -1;
-                    dp[i][j][4] = crossLineValue;
-                    dp[i][j][5] = min(dp[i - 1][j - 1][0] + dp[i - 1][j - 1][1], dp[i - 1][j - 1][2] + dp[i - 1][j - 1][3]);
-                    dp[i][j][5] = dp[i - 1][j - 1][5] + min(dp[i][j][5], dp[i][j][4]);
+                    int crossLine = isCrossLine();
+
+                    //
+                    int firstMin = min(dp[i-1][j-1][5] + crossLine, dp[i-1][j][5] + 100);
+                    dp[i][j][5] =  + min(firstMin, dp[i][j-1][5] + 100);
+
                 }
             }
             sout(dp[n][m][5]);
