@@ -25,8 +25,6 @@ public class Metro {
             int n = nextInt();
             int m = nextInt();
 
-            int[][] matrix = new int[n][m];
-
             int crossLines = nextInt();
 
             int[][] crossLinesNumbers = new int[crossLines][m];
@@ -37,34 +35,22 @@ public class Metro {
                 }
             }
 
-            int[][][] dp = new int[n+2][m+2][6];
+            int[][][] dp = new int[n+2][m+2][2];
 
-            dp[1][1][0] = 100;
-            dp[1][1][1] = 100;
-            dp[1][1][2] = 100;
-            dp[1][1][3] = 100;
+            int crossLine = isCrossLine(crossLines, m, crossLinesNumbers, 1, 1) ? (int) HYPOTENUSE : Integer.MAX_VALUE;
 
-            dp[1][1][4] = isCrossLine(crossLines, m, crossLinesNumbers, 1, 1) ? (int) HYPOTENUSE : -1;
+            dp[1][1][1] = min(200, crossLine);
 
-            dp[1][1][5] = min(dp[1][1][0] + dp[1][1][1], dp[1][1][2] + dp[1][1][3]);
-            dp[1][1][5] = min(dp[1][1][5], dp[1][1][4]);
-
-            for (int i = 2; i < n; i++) {
-                for (int j =2; j < m; j++) {
-                    dp[i][j][0] = dp[i - 1][j - 1][0];
-                    dp[i][j][1] = dp[i - 1][j - 1][1];
-                    dp[i][j][2] = dp[i - 1][j - 1][2];
-                    dp[i][j][3] = dp[i - 1][j - 1][3];
-
-                    int crossLine = 0;//isCrossLine();
-
+            for (int i = 2; i <= n; i++) {
+                for (int j =2; j <= m; j++) {
+                    crossLine = isCrossLine(crossLines, m, crossLinesNumbers, i, j) ? (int) HYPOTENUSE : Integer.MAX_VALUE;//isCrossLine();
                     //
-                    int firstMin = min(dp[i-1][j-1][5] + crossLine, dp[i-1][j][5] + 100);
-                    dp[i][j][5] =  + min(firstMin, dp[i][j-1][5] + 100);
+                    int firstMin = min(dp[i-1][j-1][1] + crossLine, dp[i-1][j][1] + 100);
+                    dp[i][j][1] =  + min(firstMin, dp[i][j-1][1] + 100);
 
                 }
             }
-            sout(dp[n][m][5]);
+            sout(dp[n][m][1]);
          }
 
          private static boolean isCrossLine(int crossLines, int m, int[][] crossLinesNumbers, int x, int y) {
@@ -77,8 +63,6 @@ public class Metro {
              }
              return false;
          }
-
-
 
         public static void main(String[] args) {
             new Metro().run();
