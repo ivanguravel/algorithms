@@ -14,54 +14,57 @@ public class MetroInEkaterinburg {
         out.flush();
     }
 
-    class Island {
-        List<Island> neibors = new LinkedList<>();
-        int num;
-
-        public Island(int num) {
-            this.num = num;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Island island = (Island) o;
-            return num == island.num;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(num);
-        }
-    }
-
-    Island[] islands;
-
-    void readEdges(Scanner in, int count, Map<Island, Island> tunnelss) {
-        for (int i = 0; i < count; i++) {
-            int one = in.nextInt();
-            int two = in.nextInt();
-            tunnelss.put(new Island(one), new Island(two));
-        }
-    }
-
     void solve(Scanner in, PrintWriter out) {
         int n = in.nextInt();
         int k = in.nextInt();
         int m = in.nextInt();
 
-        Map<Island, Island> tunnels = new HashMap<>();
+        Map<Integer, Integer> tunnels = new HashMap<>();
 
+        readGraph(in, k, tunnels);
 
-        readEdges(in, k, tunnels);
+        int dependentGroups = findDependentGroups(tunnels, n);
+        out.println(dependentGroups - 1);
+    }
 
-        int bridgesUsed = 0;
+    int findDependentGroups(Map<Integer, Integer> tunnels, int n) {
+        int dependentGroups = 0;
+        int allDependentGroups = 0;
+        Set<Integer> visited = new HashSet<>();
+        for (int i = 1; i <= n; i++) {
+            dependentGroups = dfs(tunnels, dependentGroups, visited, i);
 
+            if (dependentGroups != 0) {
+                allDependentGroups++;
+                dependentGroups = 0;
+            }
+        }
+        return allDependentGroups;
+    }
 
+    Integer dfs(Map<Integer, Integer> tunnels, Integer dependentGroups, Set<Integer> visited, Integer forFind) {
+        Integer val = tunnels.get(forFind);
+        if (Objects.nonNull(val)) {
+             if (!visited.contains(val)) {
+                 dependentGroups++;
+                 visited.add(forFind);
+                 dfs(tunnels, dependentGroups, visited, val);
+             } else {
+                 dfs(tunnels, dependentGroups, visited, tunnels.get(val));
+             }
+        } else {
+                visited.add(forFind);
+                dependentGroups++;
 
+        }
+        return dependentGroups;
+    }
 
-
-        out.println(bridgesUsed);
+    void readGraph(Scanner in, int count, Map<Integer, Integer> tunnelss) {
+        for (int i = 0; i < count; i++) {
+            int one = in.nextInt();
+            int two = in.nextInt();
+            tunnelss.put(one, two);
+        }
     }
 }
