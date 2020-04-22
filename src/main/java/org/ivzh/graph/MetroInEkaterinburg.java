@@ -15,23 +15,34 @@ public class MetroInEkaterinburg {
     }
 
     class Island {
-        List<Island> tunnels = new LinkedList<Island>();
-        List<Island> bridges = new LinkedList<Island>();
-        boolean visited;
+        List<Island> neibors = new LinkedList<>();
+        int num;
 
-        List<Island> getList(boolean bridges) {
-            return bridges ? this.bridges : this.tunnels;
+        public Island(int num) {
+            this.num = num;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Island island = (Island) o;
+            return num == island.num;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(num);
         }
     }
 
     Island[] islands;
 
-    void readEdges(Scanner in, int count, boolean bridges) {
+    void readEdges(Scanner in, int count, Map<Island, Island> tunnelss) {
         for (int i = 0; i < count; i++) {
-            Island land1 = islands[in.nextInt() - 1];
-            Island land2 = islands[in.nextInt() - 1];
-            land1.getList(bridges).add(land2);
-            land2.getList(bridges).add(land1);
+            int one = in.nextInt();
+            int two = in.nextInt();
+            tunnelss.put(new Island(one), new Island(two));
         }
     }
 
@@ -40,15 +51,15 @@ public class MetroInEkaterinburg {
         int k = in.nextInt();
         int m = in.nextInt();
 
-        islands = new Island[n];
-        for (int i = 0; i < n; i++) {
-            islands[i] = new Island();
-        }
+        Map<Island, Island> tunnels = new HashMap<>();
 
-        readEdges(in, k, false);
-       // readEdges(in, m, true);
+
+        readEdges(in, k, tunnels);
 
         int bridgesUsed = 0;
+
+
+
 
 
         out.println(bridgesUsed);
