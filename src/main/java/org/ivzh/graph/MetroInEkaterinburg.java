@@ -43,21 +43,7 @@ public class MetroInEkaterinburg {
     }
 
     Integer dfs(Map<Integer, Integer> tunnels, Integer dependentGroups, Set<Integer> visited, Integer forFind) {
-        Integer val = tunnels.get(forFind);
-        if (Objects.nonNull(val)) {
-             if (!visited.contains(val)) {
-                 dependentGroups++;
-                 visited.add(forFind);
-                 dfs(tunnels, dependentGroups, visited, val);
-             } else {
-                 dfs(tunnels, dependentGroups, visited, tunnels.get(val));
-             }
-        } else {
-                visited.add(forFind);
-                dependentGroups++;
-
-        }
-        return dependentGroups;
+        throw new UnsupportedOperationException();
     }
 
     void readGraph(Scanner in, int count, Map<Integer, Integer> tunnelss) {
