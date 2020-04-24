@@ -21,32 +21,39 @@ public class MetroInEkaterinburg {
 
         Map<Integer, Integer> tunnels = new HashMap<>();
 
-        readGraph(in, k, tunnels);
+        readTunnels(in, k, tunnels);
 
         int dependentGroups = findDependentGroups(tunnels, n);
         out.println(dependentGroups - 1);
     }
 
     int findDependentGroups(Map<Integer, Integer> tunnels, int n) {
-        int dependentGroups = 0;
-        int allDependentGroups = 0;
+        Integer dependentGroups = 0;
+        Integer allDependentGroups = 0;
         Set<Integer> visited = new HashSet<>();
         for (int i = 1; i <= n; i++) {
-            dependentGroups = dfs(tunnels, dependentGroups, visited, i);
+            if (!visited.contains(i)) {
+                dependentGroups = dfs(tunnels, 0, visited, i);
 
-            if (dependentGroups != 0) {
-                allDependentGroups++;
-                dependentGroups = 0;
+                if (dependentGroups != null) {
+                    allDependentGroups = allDependentGroups + 1;
+                }
             }
         }
         return allDependentGroups;
     }
 
-    Integer dfs(Map<Integer, Integer> tunnels, Integer dependentGroups, Set<Integer> visited, Integer forFind) {
-        throw new UnsupportedOperationException();
+    Integer dfs(Map<Integer, Integer> tunnels, Integer dependentGroups, Set<Integer> visited, Integer start) {
+        visited.add(start);
+        Integer val = tunnels.get(start);
+        if (val != null && !visited.contains(val)) {
+            dependentGroups = dependentGroups + 1;
+            dfs(tunnels, dependentGroups, visited, val);
+        }
+        return ++dependentGroups;
     }
 
-    void readGraph(Scanner in, int count, Map<Integer, Integer> tunnelss) {
+    void readTunnels(Scanner in, int count, Map<Integer, Integer> tunnelss) {
         for (int i = 0; i < count; i++) {
             int one = in.nextInt();
             int two = in.nextInt();
