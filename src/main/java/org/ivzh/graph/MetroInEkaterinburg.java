@@ -19,45 +19,78 @@ public class MetroInEkaterinburg {
         int k = in.nextInt();
         int m = in.nextInt();
 
-        Map<Integer, Integer> tunnels = new HashMap<>();
+        if (m == 0 || n == k) {
+            out.println(0);
+        } else {
+            Map<Integer, List<Integer>> tunnels = new HashMap<>();
 
-        readTunnels(in, k, tunnels);
+            readTunnels(in, k, tunnels);
 
-        int dependentGroups = findDependentGroups(tunnels, n);
-        out.println(dependentGroups - 1);
+            int connectedComponents = findConnectedComponents(tunnels, n);
+
+            out.println(n - connectedComponents - 1);
+        }
     }
 
-    int findDependentGroups(Map<Integer, Integer> tunnels, int n) {
-        Integer dependentGroups = 0;
-        Integer allDependentGroups = 0;
+    int findConnectedComponents(Map<Integer, List<Integer>> tunnels, int n) {
+        Integer connectedComponents = 0;
+        Integer allConnectedComponents = 0;
         Set<Integer> visited = new HashSet<>();
         for (int i = 1; i <= n; i++) {
             if (!visited.contains(i)) {
-                dependentGroups = dfs(tunnels, 0, visited, i);
+                connectedComponents = dfs(tunnels, 0, visited, i);
 
-                if (dependentGroups != null) {
-                    allDependentGroups = allDependentGroups + 1;
+                if (connectedComponents != null) {
+                    allConnectedComponents = allConnectedComponents + 1;
                 }
             }
         }
-        return allDependentGroups;
+        return allConnectedComponents;
     }
 
-    Integer dfs(Map<Integer, Integer> tunnels, Integer dependentGroups, Set<Integer> visited, Integer start) {
+    Integer dfs(Map<Integer, List<Integer>> tunnels, Integer connectedComponents, Set<Integer> visited, Integer start) {
         visited.add(start);
-        Integer val = tunnels.get(start);
-        if (val != null && !visited.contains(val)) {
-            dependentGroups = dependentGroups + 1;
-            dfs(tunnels, dependentGroups, visited, val);
+        List<Integer> values = tunnels.get(start);
+
+        if (values != null) {
+            for (Integer val : values) {
+                if (!visited.contains(val)) {
+                    dfs(tunnels, connectedComponents, visited, val);
+                }
+            }
+        } else {
+            connectedComponents = connectedComponents + 1;
         }
-        return ++dependentGroups;
+        return connectedComponents;
     }
 
-    void readTunnels(Scanner in, int count, Map<Integer, Integer> tunnelss) {
+    boolean isIslandContainsInTunnels(Map<Integer, List<Integer>> tunnels, int islandNumber) {
+        boolean inKey = tunnels.containsKey(islandNumber);
+        if (inKey) {
+            return inKey;
+        }
+        for (Map.Entry<Integer, List<Integer>> e : tunnels.entrySet()) {
+            if (e.getValue() != null) {
+                if (e.getValue().contains(islandNumber)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    void readTunnels(Scanner in, int count, Map<Integer, List<Integer>> tunnelss) {
         for (int i = 0; i < count; i++) {
             int one = in.nextInt();
             int two = in.nextInt();
-            tunnelss.put(one, two);
+            List<Integer> v = tunnelss.get(one);
+            if (v != null) {
+                v.add(two);
+            } else {
+                v = new LinkedList<>();
+                v.add(two);
+                tunnelss.put(one, v);
+            }
         }
     }
 }
