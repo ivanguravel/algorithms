@@ -28,7 +28,7 @@ public class MetroInEkaterinburg {
 
             int connectedComponents = findConnectedComponents(tunnels, n);
 
-            out.println(n - connectedComponents - 1);
+            out.println(connectedComponents - 1);
         }
     }
 
