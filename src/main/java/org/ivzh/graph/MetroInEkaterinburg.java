@@ -2,6 +2,7 @@ package org.ivzh.graph;
 
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 // https://acm.timus.ru/problem.aspx?space=1&num=1272
 public class MetroInEkaterinburg {
@@ -34,63 +35,65 @@ public class MetroInEkaterinburg {
 
     int findConnectedComponents(Map<Integer, List<Integer>> tunnels, int n) {
         Integer connectedComponents = 0;
-        Integer allConnectedComponents = 0;
         Set<Integer> visited = new HashSet<>();
         for (int i = 1; i <= n; i++) {
             if (!visited.contains(i)) {
-                connectedComponents = dfs(tunnels, 0, visited, i);
-
-                if (connectedComponents != null) {
-                    allConnectedComponents = allConnectedComponents + 1;
-                }
+                dfs(tunnels, i, visited);
+                connectedComponents = connectedComponents + 1;
             }
-        }
-        return allConnectedComponents;
-    }
-
-    Integer dfs(Map<Integer, List<Integer>> tunnels, Integer connectedComponents, Set<Integer> visited, Integer start) {
-        visited.add(start);
-        List<Integer> values = tunnels.get(start);
-
-        if (values != null) {
-            for (Integer val : values) {
-                if (!visited.contains(val)) {
-                    dfs(tunnels, connectedComponents, visited, val);
-                }
-            }
-        } else {
-            connectedComponents = connectedComponents + 1;
         }
         return connectedComponents;
     }
 
-    boolean isIslandContainsInTunnels(Map<Integer, List<Integer>> tunnels, int islandNumber) {
-        boolean inKey = tunnels.containsKey(islandNumber);
-        if (inKey) {
-            return inKey;
-        }
-        for (Map.Entry<Integer, List<Integer>> e : tunnels.entrySet()) {
-            if (e.getValue() != null) {
-                if (e.getValue().contains(islandNumber)) {
-                    return true;
+    void dfs(Map<Integer, List<Integer>> tunnels, int start, Set<Integer> visited) {
+        visited.add(start);
+        List<Integer> values = tunnels.get(start);
+        if (values != null) {
+            for (Integer val : values) {
+                if (!visited.contains(val)) {
+                    dfs(tunnels, val, visited);
+                    visited.add(val);
                 }
             }
         }
-        return false;
     }
 
     void readTunnels(Scanner in, int count, Map<Integer, List<Integer>> tunnelss) {
+        Set<Integer> visited = new HashSet<>();
         for (int i = 0; i < count; i++) {
             int one = in.nextInt();
             int two = in.nextInt();
-            List<Integer> v = tunnelss.get(one);
-            if (v != null) {
-                v.add(two);
-            } else {
-                v = new LinkedList<>();
-                v.add(two);
-                tunnelss.put(one, v);
+            fillIn(tunnelss, one, two);
+            checkVisit(tunnelss, two);
+         }
+    }
+
+    private void checkVisit(Map<Integer, List<Integer>> tunnelss, int two) {
+        Map<Integer, List<Integer>> forAdd = new HashMap<>();
+            Iterator<Map.Entry<Integer, List<Integer>>> iterator = tunnelss.entrySet().iterator();
+
+            while (iterator.hasNext()) {
+                Map.Entry<Integer, List<Integer>> e = iterator.next();
+                if (e.getValue() == null) {
+                    continue;
+                }
+                if (e.getValue().contains(two)) {
+                    fillIn(forAdd, two, e.getKey());
+                }
             }
+
+            tunnelss.putAll(forAdd);
+
+    }
+
+    void fillIn(Map<Integer, List<Integer>> tunnelss, Integer k, Integer v) {
+        List<Integer> val = tunnelss.get(k);
+        if (val != null) {
+            val.add(v);
+        } else {
+            val = new CopyOnWriteArrayList<>();
+            val.add(v);
+            tunnelss.put(k, val);
         }
     }
 }
