@@ -4,7 +4,7 @@ public class DistanceBeetweenNodesInBST {
 
 
     public static void main(String[] args) {
-        TreeNode root = new TreeNode(1);
+        TreeNode  root = new TreeNode(1);
         root.left = new TreeNode(2);
         root.right = new TreeNode(3);
         root.left.left = new TreeNode(4);
@@ -13,18 +13,19 @@ public class DistanceBeetweenNodesInBST {
         root.right.right = new TreeNode(7);
         root.right.left.right = new TreeNode(8);
 
-        System.out.println("Dist(4, 5) = "+answer(root, 4, 5));
-        System.out.println("Dist(4, 6) = "+answer(root, 4, 6));
-        System.out.println("Dist(3, 4) = "+answer(root, 3, 4));
-        System.out.println("Dist(2, 4) = "+answer(root, 2, 4));
-        System.out.println("Dist(8, 5) = " +answer(root, 8, 5));
+        System.out.println("Dist(4, 5) = "+findDistance(root, 4, 5));
+        System.out.println("Dist(4, 6) = "+findDistance(root, 4, 6));
+        System.out.println("Dist(3, 4) = "+findDistance(root, 3, 4));
+        System.out.println("Dist(2, 4) = "+findDistance(root, 2, 4));
+        System.out.println("Dist(8, 5) = " +findDistance(root, 8, 5));
+
     }
 
-    static int answer(TreeNode root, int n1, int n2) {
-        int firstDepth = dfsPathLengthCount(root, n1) - 1;
-        int secondDepth = dfsPathLengthCount(root, n2) - 1;
+    static int findDistance(TreeNode root, int n1, int n2) {
+        int firstDepth = dfsPathLengthCount(root, n1);
+        int secondDepth = dfsPathLengthCount(root, n2);
         TreeNode lca = lca(root, n1, n2);
-        int lcaDistance = dfsPathLengthCount(root, lca.val) - 1;
+        int lcaDistance = dfsPathLengthCount(root, lca.val);
         return (firstDepth + secondDepth) - 2 * lcaDistance;
     }
 
