@@ -59,7 +59,7 @@ public class MetroInEkaterinburg {
             int one = in.nextInt();
             int two = in.nextInt();
             fillIn(tunnelss, one, two);
-            // i did that because of graphs can contain bidirectional dependencies
+            // i did that because of graph's tests can contain bidirectional dependencies
             fillIn(tunnelss, two, one);
          }
     }
