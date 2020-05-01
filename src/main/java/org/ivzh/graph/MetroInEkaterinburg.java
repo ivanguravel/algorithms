@@ -2,7 +2,6 @@ package org.ivzh.graph;
 
 import java.io.PrintWriter;
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 // https://acm.timus.ru/problem.aspx?space=1&num=1272
 public class MetroInEkaterinburg {
@@ -20,15 +19,12 @@ public class MetroInEkaterinburg {
         int k = in.nextInt();
         int m = in.nextInt();
 
-        if (m == 0 || n == k) {
+        if (m == 0) {
             out.println(0);
         } else {
             Map<Integer, List<Integer>> tunnels = new HashMap<>();
-
             readTunnels(in, k, tunnels);
-
             int connectedComponents = findConnectedComponents(tunnels, n);
-
             out.println(connectedComponents - 1);
         }
     }
@@ -59,41 +55,23 @@ public class MetroInEkaterinburg {
     }
 
     void readTunnels(Scanner in, int count, Map<Integer, List<Integer>> tunnelss) {
-        Set<Integer> visited = new HashSet<>();
         for (int i = 0; i < count; i++) {
             int one = in.nextInt();
             int two = in.nextInt();
             fillIn(tunnelss, one, two);
-            checkVisit(tunnelss, two);
+            // i did that because of graphs can contain bidirectional dependencies
+            fillIn(tunnelss, two, one);
          }
     }
 
-    private void checkVisit(Map<Integer, List<Integer>> tunnelss, int two) {
-        Map<Integer, List<Integer>> forAdd = new HashMap<>();
-            Iterator<Map.Entry<Integer, List<Integer>>> iterator = tunnelss.entrySet().iterator();
-
-            while (iterator.hasNext()) {
-                Map.Entry<Integer, List<Integer>> e = iterator.next();
-                if (e.getValue() == null) {
-                    continue;
-                }
-                if (e.getValue().contains(two)) {
-                    fillIn(forAdd, two, e.getKey());
-                }
-            }
-
-            tunnelss.putAll(forAdd);
-
-    }
-
-    void fillIn(Map<Integer, List<Integer>> tunnelss, Integer k, Integer v) {
-        List<Integer> val = tunnelss.get(k);
+    void fillIn(Map<Integer, List<Integer>> tunnels, Integer k, Integer v) {
+        List<Integer> val = tunnels.get(k);
         if (val != null) {
             val.add(v);
         } else {
-            val = new CopyOnWriteArrayList<>();
+            val = new LinkedList<>();
             val.add(v);
-            tunnelss.put(k, val);
+            tunnels.put(k, val);
         }
     }
 }
