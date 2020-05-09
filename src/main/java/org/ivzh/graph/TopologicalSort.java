@@ -21,10 +21,12 @@ public class TopologicalSort {
         int n = in.nextInt();
         int m = in.nextInt();
 
-        Map<Integer, List<Integer>> graph = readGraph(in, n);
-        List<Integer> sequence = readSequence(in, m);
+        Map<Integer, List<Integer>> graph = readGraph(in, m);
+        List<Integer> sequence = readSequence(in, n);
 
-        validate4ReverseOrder(graph, sequence, n);
+        if (answer) {
+            validate4ReverseOrder(graph, sequence, n);
+        }
 
         if (answer) {
             out.println("YES");
@@ -36,7 +38,8 @@ public class TopologicalSort {
     void validate4ReverseOrder(Map<Integer, List<Integer>> graph, List<Integer> sequence, int n) {
         for (int i = 0; i < n - 1; i++) {
             for (int j = i + 1; j < n; j++) {
-                if(isVertexesConnected(graph, sequence.get(j), sequence.get(i))) {
+
+                if(isVertexesConnected(graph, sequence.get(j), sequence.get(i)) || sequence.get(j).equals(sequence.get(i))) {
                     this.answer = false;
                     return;
                 }
@@ -55,9 +58,12 @@ public class TopologicalSort {
 
     Map<Integer, List<Integer>> readGraph(Scanner in, int count) {
         Map<Integer, List<Integer>> graph = new HashMap<>();
-        for (int i = 0; i <= count; i++) {
+        for (int i = 0; i < count; i++) {
             int one = in.nextInt();
             int two = in.nextInt();
+            if (one == two) {
+                this.answer = false;
+            }
             fillIn(graph, one, two);
         }
         return graph;
@@ -65,7 +71,7 @@ public class TopologicalSort {
 
     List<Integer> readSequence(Scanner in, int count) {
         List<Integer> result = new ArrayList<>(count + 1);
-        for (int i = 0; i < count - 1; i++) {
+        for (int i = 0; i < count; i++) {
             result.add(in.nextInt());
         }
         return result;
