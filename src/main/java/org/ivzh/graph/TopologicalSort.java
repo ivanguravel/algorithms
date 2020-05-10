@@ -21,7 +21,7 @@ public class TopologicalSort {
         int n = in.nextInt();
         int m = in.nextInt();
 
-        Map<Integer, List<Integer>> graph = readGraph(in, m);
+        Map<Integer, Set<Integer>> graph = readGraph(in, m);
         List<Integer> sequence = readSequence(in, n);
 
         if (answer) {
@@ -35,7 +35,7 @@ public class TopologicalSort {
         }
     }
 
-    void validate4ReverseOrder(Map<Integer, List<Integer>> graph, List<Integer> sequence, int n) {
+    void validate4ReverseOrder(Map<Integer, Set<Integer>> graph, List<Integer> sequence, int n) {
         for (int i = 0; i < n - 1; i++) {
             for (int j = i + 1; j < n; j++) {
 
@@ -47,17 +47,17 @@ public class TopologicalSort {
         }
     }
 
-    boolean isVertexesConnected(Map<Integer, List<Integer>> graph, int k, int v) {
+    boolean isVertexesConnected(Map<Integer, Set<Integer>> graph, int k, int v) {
         boolean res = graph.containsKey(k);
         if (res) {
-            List<Integer> list = graph.get(k);
-            res = list != null && list.contains(v);
+            Set<Integer> s = graph.get(k);
+            res = s != null && s.contains(v);
         }
         return res;
     }
 
-    Map<Integer, List<Integer>> readGraph(Scanner in, int count) {
-        Map<Integer, List<Integer>> graph = new HashMap<>();
+    Map<Integer, Set<Integer>> readGraph(Scanner in, int count) {
+        Map<Integer, Set<Integer>> graph = new HashMap<>();
         for (int i = 0; i < count; i++) {
             int one = in.nextInt();
             int two = in.nextInt();
@@ -77,12 +77,12 @@ public class TopologicalSort {
         return result;
     }
 
-    void fillIn(Map<Integer, List<Integer>> graph, Integer k, Integer v) {
-        List<Integer> val = graph.get(k);
+    void fillIn(Map<Integer, Set<Integer>> graph, Integer k, Integer v) {
+        Set<Integer> val = graph.get(k);
         if (val != null) {
             val.add(v);
         } else {
-            val = new LinkedList<>();
+            val = new HashSet<>();
             val.add(v);
             graph.put(k, val);
         }
