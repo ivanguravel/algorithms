@@ -37,17 +37,20 @@ public class Metro {
 
             int[][][] dp = new int[n+2][m+2][2];
 
-            int crossLine = isCrossLine(crossLines, m, crossLinesNumbers, 1, 1) ? (int) HYPOTENUSE : Integer.MAX_VALUE;
+            int crossLine = isCrossLine(crossLines, m, crossLinesNumbers, 1, 1) ? (int) HYPOTENUSE : 10_000;
 
-            dp[1][1][1] = min(200, crossLine);
+            dp[1][1][1] = crossLine;
+            dp[1][0][1] = 0;
+            dp[0][1][1] = 0;
 
             for (int i = 2; i <= n; i++) {
                 for (int j =2; j <= m; j++) {
-                    crossLine = isCrossLine(crossLines, m, crossLinesNumbers, i, j) ? (int) HYPOTENUSE : Integer.MAX_VALUE;//isCrossLine();
-                    //
-                    int firstMin = min(dp[i-1][j-1][1] + crossLine, dp[i-1][j][1] + 100);
-                    dp[i][j][1] =  + min(firstMin, dp[i][j-1][1] + 100);
+                    dp[i-1][j][1] = dp[i][j -2][1] + 100;
+                    dp[i][j - 1][1] = dp[i - 2][j][1] + 100;
 
+                    crossLine = isCrossLine(crossLines, m, crossLinesNumbers, i, j) ? (int) HYPOTENUSE : 10_000;
+                    int firstMin = min(dp[i-1][j-1][1] + crossLine, dp[i-1][j][1] + 100);
+                    dp[i][j][1] =  min(firstMin, dp[i][j-1][1] + 100);
                 }
             }
             sout(dp[n][m][1]);

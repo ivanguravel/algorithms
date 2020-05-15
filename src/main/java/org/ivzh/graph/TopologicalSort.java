@@ -24,8 +24,15 @@ public class TopologicalSort {
         Map<Integer, Set<Integer>> graph = readGraph(in, m);
         List<Integer> sequence = readSequence(in, n);
 
+        List<Integer> integers = topSort(graph);
+        Collections.reverse(integers);
+
+        for (Integer i : integers)
+            System.out.print(i + " ");
+
         if (answer) {
-            validate4ReverseOrder(graph, sequence, n);
+           // validate4ReverseOrder(graph, sequence, n);
+            validateAnswer(integers, sequence);
         }
 
         if (answer) {
@@ -33,6 +40,11 @@ public class TopologicalSort {
         } else {
             out.println("NO");
         }
+    }
+
+    void validateAnswer(List<Integer> q, List<Integer> sequence) {
+       // Collections.sort(sequence);
+        answer = q.equals(sequence);
     }
 
     void validate4ReverseOrder(Map<Integer, Set<Integer>> graph, List<Integer> sequence, int n) {
@@ -46,6 +58,27 @@ public class TopologicalSort {
             }
         }
     }
+
+    List<Integer> topSort(Map<Integer, Set<Integer>> graph, List<Integer> sequence) {
+
+        int index = 0;
+        while (index < sequence.size()) {
+
+        }
+    }
+
+//    public void topSort(int start, Map<Integer, Set<Integer>> graph, Set<Integer> visited, List<Integer> q ) {
+//        Set<Integer> integers = graph.get(start);
+//        if (Objects.nonNull(integers)) {
+//            for (int vertex : integers) {
+//                if (!visited.contains(vertex)) {
+//                    visited.add(vertex);
+//                    topSort(vertex, graph, visited, q);
+//                }
+//            }
+//        }
+//        q.add(start);
+//    }
 
     boolean isVertexesConnected(Map<Integer, Set<Integer>> graph, int k, int v) {
         boolean res = graph.containsKey(k);

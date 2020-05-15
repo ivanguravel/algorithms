@@ -15,7 +15,6 @@ public class KthSmallestElemInBST {
 
     void fillArr(TreeNode root) {
         if (root != null) {
-
             fillArr(root.left);
             result.add(root.val);
             fillArr(root.right);
