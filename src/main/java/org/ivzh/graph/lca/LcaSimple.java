@@ -9,7 +9,7 @@ public class LcaSimple {
 
     public static void main(String[] args) {
         TreeNode binaryTree = createBinaryTree();
-        TreeNode lca = lca(binaryTree, 5, 30);
+        TreeNode lca = lca(binaryTree, 5, 55);
         System.out.println(lca.val);
     }
 
@@ -31,16 +31,16 @@ public class LcaSimple {
         path2Node(binaryTree, b, path2b);
 
         Integer c = 0;
-
-        TreeNode treeNode = path2a.get(c);
-        TreeNode treeNode2 = path2b.get(c);
-
-        while (path2a.size() > c && path2b.size() > c && treeNode.val == treeNode2.val) {
-            treeNode = path2a.get(c);
-            treeNode2 = path2b.get(c);
+        TreeNode res = null;
+        while (path2a.size() > c && path2b.size() > c) {
+            if (path2a.get(c).val == path2b.get(c).val) {
+                res = path2a.get(c);
+            } else {
+                break;
+            }
             c = c + 1;
         }
-        return treeNode;
+        return res;
     }
 
     private static void path2Node(TreeNode binaryTree, int a, List<TreeNode> forFeel) {
