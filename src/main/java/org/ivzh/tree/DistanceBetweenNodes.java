@@ -10,7 +10,7 @@ public class DistanceBetweenNodes {
     List<Tuple> graph[];
     int[] level;
     int[] distances;
-    int dp[][], log;
+    int dp[][], max_levels_count;
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -24,8 +24,8 @@ public class DistanceBetweenNodes {
         graph = new ArrayList[n+1];
         dp = new int[n + 1][n];
 
-        // black magic
-        log = (int)Math.ceil(Math.log(n) / Math.log(2));
+        // black magic :) calculate levels of the tree
+        max_levels_count = (int)Math.ceil(Math.log(n) / Math.log(2));
 
         for (int i = 0; i <= n; ++i) {
             graph[i] = new ArrayList<>(2);
@@ -59,21 +59,25 @@ public class DistanceBetweenNodes {
 
     int lca(int u, int v)
     {
+        // replace nodes if v higher than u
         if (level[u] < level[v]) {
             int temp = u;
             u = v;
             v = temp;
         }
 
-        for (int i = log; i >= 0; i--) {
+        // lift to the node
+        for (int i = max_levels_count; i >= 0; i--) {
             if ((level[u] - (int)Math.pow(2, i)) >= level[v])
                 u = dp[u][i];
         }
 
+        // if u is a parent of v - return u
         if (u == v)
             return u;
 
-        for (int i = log; i >= 0; i--) {
+        // we're on the current level for u and v both. lets find those lca
+        for (int i = max_levels_count; i >= 0; i--) {
             if (dp[u][i] != dp[v][i]) {
                 u = dp[u][i];
                 v = dp[v][i];
@@ -87,8 +91,10 @@ public class DistanceBetweenNodes {
     void dfs(int node, int parent) {
         level[node] = level[parent] + 1;
         dp[node][0] = parent;
-        for (int i = 1; i <= log; i++)
+        for (int i = 1; i <= max_levels_count; i++)
+            // find parent of parent
             dp[node][i] = dp[dp[node][i - 1]][i - 1];
+        // calculate distances to the nodes in the tree
         for (Tuple vertex : graph[node]) {
             if (vertex.node != parent) {
                 distances[vertex.node] = distances[node] + vertex.distance;
