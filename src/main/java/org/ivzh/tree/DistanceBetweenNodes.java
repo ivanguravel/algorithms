@@ -7,7 +7,7 @@ import java.util.*;
 // TODO: case 13
 public class DistanceBetweenNodes {
 
-    List<Tuple> graph[];
+    Map<Integer, List<Tuple>> graph;
     int[] level;
     int[] distances;
     int dp[][], max_levels_count;
@@ -21,14 +21,14 @@ public class DistanceBetweenNodes {
 
     public void solve(Scanner in, PrintWriter out) {
         int n = in.nextInt();
-        graph = new ArrayList[n+1];
-        dp = new int[n + 1][n];
+        graph = new HashMap<>(n+1);
+
 
         // black magic :) calculate levels of the tree
         max_levels_count = (int)Math.ceil(Math.log(n) / Math.log(2));
 
         for (int i = 0; i <= n; ++i) {
-            graph[i] = new ArrayList<>(2);
+            graph.put(i, new ArrayList<>());
         }
 
         this.level = new int[n + 1];
@@ -39,8 +39,8 @@ public class DistanceBetweenNodes {
             int v = in.nextInt();
             int w = in.nextInt();
 
-            graph[v].add(new Tuple(u, w));
-            graph[u].add(new Tuple(v, w));
+            graph.get(v).add(new Tuple(u, w));
+            graph.get(u).add(new Tuple(v, w));
         }
 
         dfs(0, 0);
@@ -95,7 +95,7 @@ public class DistanceBetweenNodes {
             // find parent of parent
             dp[node][i] = dp[dp[node][i - 1]][i - 1];
         // calculate distances to the nodes in the tree
-        for (Tuple vertex : graph[node]) {
+        for (Tuple vertex : graph.get(node)) {
             if (vertex.node != parent) {
                 distances[vertex.node] = distances[node] + vertex.distance;
                 dfs(vertex.node, node);
