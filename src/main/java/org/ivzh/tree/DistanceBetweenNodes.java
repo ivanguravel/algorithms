@@ -8,12 +8,9 @@ import java.util.*;
 public class DistanceBetweenNodes {
 
     List<Tuple> graph[];
-    int[] lev;
+    int[] level;
     int[] distances;
     int dp[][], log;
-
-    List<Integer> result;
-
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -31,10 +28,10 @@ public class DistanceBetweenNodes {
         log = (int)Math.ceil(Math.log(n) / Math.log(2));
 
         for (int i = 0; i <= n; ++i) {
-            graph[i] = new ArrayList<>();
+            graph[i] = new ArrayList<>(2);
         }
 
-        this.lev = new int[n + 1];
+        this.level = new int[n + 1];
         this.distances = new int[n + 1];
 
         for (int i = 1; i < n; ++i) {
@@ -48,16 +45,11 @@ public class DistanceBetweenNodes {
 
         dfs(0, 0);
         int m = in.nextInt();
-        this.result = new ArrayList<>(m + 1);
 
         for (int i =0 ; i < m; i++) {
             int u = in.nextInt();
             int v = in.nextInt();
-            result.add(distanceBetweenNodes(u, v));
-        }
-
-        for (Integer i : result) {
-            System.out.println(i);
+            System.out.println(distanceBetweenNodes(u, v));
         }
     }
 
@@ -67,14 +59,14 @@ public class DistanceBetweenNodes {
 
     int lca(int u, int v)
     {
-        if (lev[u] < lev[v]) {
+        if (level[u] < level[v]) {
             int temp = u;
             u = v;
             v = temp;
         }
 
         for (int i = log; i >= 0; i--) {
-            if ((lev[u] - (int)Math.pow(2, i)) >= lev[v])
+            if ((level[u] - (int)Math.pow(2, i)) >= level[v])
                 u = dp[u][i];
         }
 
@@ -93,7 +85,7 @@ public class DistanceBetweenNodes {
 
 
     void dfs(int node, int parent) {
-        lev[node] = lev[parent] + 1;
+        level[node] = level[parent] + 1;
         dp[node][0] = parent;
         for (int i = 1; i <= log; i++)
             dp[node][i] = dp[dp[node][i - 1]][i - 1];
