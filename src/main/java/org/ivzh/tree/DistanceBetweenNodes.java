@@ -4,7 +4,6 @@ import java.io.PrintWriter;
 import java.util.*;
 
 // https://acm.timus.ru/problem.aspx?space=1&num=1471
-// TODO: case 13
 public class DistanceBetweenNodes {
 
     Map<Integer, List<Tuple>> graph;
