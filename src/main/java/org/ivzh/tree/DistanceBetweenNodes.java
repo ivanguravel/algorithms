@@ -24,7 +24,7 @@ public class DistanceBetweenNodes {
 
 
 
-        // black magic :) calculate levels of the tree
+        // calculate levels in the tree. ~ log(n/2)
         max_levels_count = (int)Math.ceil(Math.log(n) / Math.log(2));
 
         dp = new int[n + 2][n+1];
