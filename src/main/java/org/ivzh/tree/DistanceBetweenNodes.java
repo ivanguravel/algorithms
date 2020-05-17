@@ -23,8 +23,11 @@ public class DistanceBetweenNodes {
         graph = new HashMap<>(n+1);
 
 
+
         // black magic :) calculate levels of the tree
         max_levels_count = (int)Math.ceil(Math.log(n) / Math.log(2));
+
+        dp = new int[n + 2][n+1];
 
         for (int i = 0; i <= n; ++i) {
             graph.put(i, new ArrayList<>());
