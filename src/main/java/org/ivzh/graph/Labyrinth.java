@@ -15,8 +15,8 @@ public class Labyrinth {
     Queue<Integer> qx = new LinkedList<>();
     Queue<Integer> qy = new LinkedList<>();
 
-    int enterOne[] = {1,0,-1,0};
-    int enterTwo[] = {0,1,0,-1};
+    int enterOne[] = {1,0,1,0};
+    int enterTwo[] = {0,1,0,1};
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -33,7 +33,7 @@ public class Labyrinth {
         // as per conditions
         graph[0][1] = graph[1][0] = graph[n][n+1] = graph[n+1][n] = '!';
 
-        int result = 9*bfs(n, n);
+        int result = 9*bfs(2, 2);
 
         System.out.println(result);
     }
@@ -55,8 +55,7 @@ public class Labyrinth {
             {
                 int nextx = currentX + enterOne[i];
                 int nexty = currentY + enterTwo[i];
-                if(!visited[nextx][nexty] && graph[nextx][nexty]=='.')
-                {
+                if(!visited[nextx][nexty] && graph[nextx][nexty]=='.') {
                     visited[nextx][nexty] = true;
                     qx.add(nextx);
                     qy.add(nexty);
@@ -66,7 +65,8 @@ public class Labyrinth {
                 }
             }
         }
-        return ans;
+        // because of 4 walls around #
+        return 4*ans;
     }
 
     private void readInput(Scanner in, PrintWriter out) {
