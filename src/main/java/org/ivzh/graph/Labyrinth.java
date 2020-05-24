@@ -46,6 +46,7 @@ public class Labyrinth {
         {
             Integer nowx = quex.poll();
             Integer nowy = quey.poll();
+            // look at the 4 walls
             for(int i = 0; i < 4; i ++)
             {
                 int nextx = nowx + tox[i];
