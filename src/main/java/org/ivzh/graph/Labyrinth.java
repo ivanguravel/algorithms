@@ -9,10 +9,14 @@ import java.util.Scanner;
 public class Labyrinth {
 
     int n = 0;
-    char[][] map = new char[40][40];
+    char[][] graph = new char[40][40];
     boolean[][] visited = new boolean[40][40];
-    int tox[] = {1,0,-1,0};
-    int toy[] = {0,1,0,-1};
+
+    Queue<Integer> qx = new LinkedList<>();
+    Queue<Integer> qy = new LinkedList<>();
+
+    int enterOne[] = {1,0,-1,0};
+    int enterTwo[] = {0,1,0,-1};
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -27,9 +31,9 @@ public class Labyrinth {
         readInput(in, out);
 
         // as per conditions
-        map[0][1] = map[1][0] = map[n][n+1] = map[n+1][n] = '!';
+        graph[0][1] = graph[1][0] = graph[n][n+1] = graph[n+1][n] = '!';
 
-        int result = 9*( bfs(2,2) + bfs(n, n));
+        int result = 9*bfs(n, n);
 
         System.out.println(result);
     }
@@ -37,27 +41,29 @@ public class Labyrinth {
     int bfs(int x,int y) {
         if(visited[x][y]) return 0;
 
-        Queue<Integer> quex = new LinkedList<>();
-        Queue<Integer> quey = new LinkedList<>();
-        quex.add(x); quey.add(y);
+
+        qx.add(x);
+        qy.add(y);
         visited[x][y] = true;
         int ans = 0;
-        while(!quex.isEmpty())
+        while(!qx.isEmpty())
         {
-            Integer nowx = quex.poll();
-            Integer nowy = quey.poll();
+            Integer currentX = qx.poll();
+            Integer currentY = qy.poll();
             // look at the 4 walls
             for(int i = 0; i < 4; i ++)
             {
-                int nextx = nowx + tox[i];
-                int nexty = nowy + toy[i];
-                if(!visited[nextx][nexty] && map[nextx][nexty]=='.')
+                int nextx = currentX + enterOne[i];
+                int nexty = currentY + enterTwo[i];
+                if(!visited[nextx][nexty] && graph[nextx][nexty]=='.')
                 {
                     visited[nextx][nexty] = true;
-                    quex.add(nextx);
-                    quey.add(nexty);
+                    qx.add(nextx);
+                    qy.add(nexty);
                 }
-                else if(map[nextx][nexty] == '#') ans ++;
+                if(graph[nextx][nexty] == '#') {
+                    ans++;
+                }
             }
         }
         return ans;
@@ -70,7 +76,7 @@ public class Labyrinth {
             String s = in.nextLine();
             char[] ch = s.toCharArray();
             for (int j = 0; j < n; j++) {
-                map[i][j] = ch[j];
+                graph[i][j] = ch[j];
             }
         }
     }
