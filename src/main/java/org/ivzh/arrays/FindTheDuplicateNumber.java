@@ -3,6 +3,7 @@ package org.ivzh.arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+// https://leetcode.com/problems/find-the-duplicate-number
 public class FindTheDuplicateNumber {
 
     public int findDuplicate(int[] nums) {
