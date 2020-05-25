@@ -1,5 +1,6 @@
 package org.ivzh.arrays;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,4 +19,16 @@ public class FindTheDuplicateNumber {
         }
         return -1;
     }
+
+    public int findDuplicate2(int[] nums) {
+        Arrays.sort(nums);
+        for (int i =1; i < nums.length; i++) {
+            if (nums[i] == nums[i - 1]) {
+                return nums[i];
+            }
+        }
+        return -1;
+    }
+
+
 }
