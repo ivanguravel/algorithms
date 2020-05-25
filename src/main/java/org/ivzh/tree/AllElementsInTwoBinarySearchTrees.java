@@ -3,6 +3,8 @@ package org.ivzh.tree;
 import java.util.LinkedList;
 import java.util.List;
 
+
+// https://leetcode.com/problems/all-elements-in-two-binary-search-trees
 public class AllElementsInTwoBinarySearchTrees {
 
     List<Integer> list = new LinkedList<>();
