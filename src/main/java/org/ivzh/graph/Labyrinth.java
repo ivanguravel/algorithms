@@ -1,22 +1,13 @@
 package org.ivzh.graph;
 
 import java.io.PrintWriter;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Scanner;
 
 // https://acm.timus.ru/problem.aspx?space=1&num=1033
 public class Labyrinth {
 
     int n = 0;
-    char[][] graph = new char[40][40];
-    boolean[][] visited = new boolean[40][40];
-
-    Queue<Integer> qx = new LinkedList<>();
-    Queue<Integer> qy = new LinkedList<>();
-
-    int enterOne[] = {1,0,1,0};
-    int enterTwo[] = {0,1,0,1};
+    char[][] matrix = new char[40][40];
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -30,43 +21,29 @@ public class Labyrinth {
     private void solve(Scanner in, PrintWriter out) {
         readInput(in, out);
 
-        // as per conditions
-        graph[0][1] = graph[1][0] = graph[n][n+1] = graph[n+1][n] = '!';
 
-        int result = 9*bfs(2, 2);
 
-        System.out.println(result);
+
+        System.out.println(9 * (count()));
     }
 
-    int bfs(int x,int y) {
-        if(visited[x][y]) return 0;
-
-
-        qx.add(x);
-        qy.add(y);
-        visited[x][y] = true;
-        int ans = 0;
-        while(!qx.isEmpty())
-        {
-            Integer currentX = qx.poll();
-            Integer currentY = qy.poll();
-            // look at the 4 walls
-            for(int i = 0; i < 4; i ++)
-            {
-                int nextx = currentX + enterOne[i];
-                int nexty = currentY + enterTwo[i];
-                if(!visited[nextx][nexty] && graph[nextx][nexty]=='.') {
-                    visited[nextx][nexty] = true;
-                    qx.add(nextx);
-                    qy.add(nexty);
-                }
-                if(graph[nextx][nexty] == '#') {
-                    ans++;
+    public int count() {
+        Integer result = 0;
+        for (int i = 1; i <= n; ++i ) {
+            for ( int j = 1; j <= n; ++j) {
+                if (matrix[i][j] == '#') {
+                    if (matrix[i+1][j] == '.' || i+1 > n)
+                        result++;
+                    if (matrix[i-1][j] == '.' || i-1 < 1)
+                        result++;
+                    if (matrix[i][j+1] == '.' || j+1 > n)
+                        result++;
+                    if (matrix[i][j-1] == '.' || j-1 < 1)
+                        result++;
                 }
             }
         }
-        // because of 4 walls around #
-        return 4*ans;
+        return result;
     }
 
     private void readInput(Scanner in, PrintWriter out) {
@@ -76,7 +53,7 @@ public class Labyrinth {
             String s = in.nextLine();
             char[] ch = s.toCharArray();
             for (int j = 0; j < n; j++) {
-                graph[i][j] = ch[j];
+                matrix[i][j] = ch[j];
             }
         }
     }
