@@ -29,16 +29,16 @@ public class Labyrinth {
 
     public int count() {
         Integer result = 0;
-        for (int i = 1; i <= n; ++i ) {
-            for ( int j = 1; j <= n; ++j) {
+        for (int i = 0; i <= n; ++i ) {
+            for ( int j = 0; j <= n; ++j) {
                 if (matrix[i][j] == '#') {
-                    if (matrix[i+1][j] == '.' || i+1 > n)
+                    if (matrix[i+1][j] == '.' || i+1 >= n)
                         result++;
-                    if (matrix[i-1][j] == '.' || i-1 < 1)
+                    if (matrix[i-1][j] == '.' || i-1 >= 0)
                         result++;
-                    if (matrix[i][j+1] == '.' || j+1 > n)
+                    if (matrix[i][j+1] == '.' || j+1 >= n)
                         result++;
-                    if (matrix[i][j-1] == '.' || j-1 < 1)
+                    if (matrix[i][j-1] == '.' || j-1 >=0)
                         result++;
                 }
             }
