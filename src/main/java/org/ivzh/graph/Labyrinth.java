@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Labyrinth {
 
     int n = 0;
-    char[][] matrix = new char[40][40];
+    char[][] matrix = new char[35][35];
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -24,7 +24,7 @@ public class Labyrinth {
 
 
 
-        System.out.println(9 * (count()));
+        System.out.println(9 * (count() - 2));
     }
 
     public int count() {
@@ -32,11 +32,11 @@ public class Labyrinth {
         for (int i = 0; i <= n; ++i ) {
             for ( int j = 0; j <= n; ++j) {
                 if (matrix[i][j] == '#') {
-                    if (matrix[i+1][j] == '.' || i+1 >= n)
+                    if (matrix[i+1][j] == '.' || i+1 <= n)
                         result++;
                     if (matrix[i-1][j] == '.' || i-1 >= 0)
                         result++;
-                    if (matrix[i][j+1] == '.' || j+1 >= n)
+                    if (matrix[i][j+1] == '.' || j+1 <= n)
                         result++;
                     if (matrix[i][j-1] == '.' || j-1 >=0)
                         result++;
