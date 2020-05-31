@@ -8,8 +8,6 @@ import java.util.stream.Stream;
 // https://acm.timus.ru/problem.aspx?space=1&num=1152
 public class FalseMirrors {
 
-    private static final int MAX = 20;
-
     int n;
     List<Integer> balcons;
     int[] cache;
