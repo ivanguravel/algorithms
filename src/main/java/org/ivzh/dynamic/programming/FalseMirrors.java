@@ -8,10 +8,12 @@ import java.util.stream.Stream;
 // https://acm.timus.ru/problem.aspx?space=1&num=1152
 public class FalseMirrors {
 
+    private static final int MAX = 20;
+
     int n;
     List<Integer> balcons;
-    int[] memo = new int[(1<<20)];
-    int[] damage = new int[(1<<20)];
+    int[] cache;
+    int[] damage;
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -38,39 +40,35 @@ public class FalseMirrors {
 
 
     int solve(int shot){
-        int ret = memo[shot];
+        int result = cache[shot];
 
-        if(ret == Integer.MIN_VALUE){
+        if (result == Integer.MIN_VALUE) {
             for(int i = 0;i<n;++i){
                 boolean valid = false;
 
+                int shot2 = shot;
                 for(int j = 0;j < 3;++j) {
                     if ((shot & (1 << ((i + j) % n))) == 0) {
+                        shot2 = shot2 | (1 << ((i + j) % n));
                         valid = true;
                     }
                 }
 
                 if(!valid) continue;
 
-                int mask2 = shot;
+                int temp = solve(shot2) + damage[shot2];
 
-                for(int j = 0; j<3; ++j) {
-                    mask2 = mask2 | (1 << ((i + j) % n));
-                }
-
-                int temp = solve(mask2) + damage[mask2];
-
-                if(ret == Integer.MIN_VALUE || temp<ret) {
-                    ret = temp;
+                if(result == Integer.MIN_VALUE || temp<result) {
+                    result = temp;
                 }
             }
 
-            if(ret == Integer.MIN_VALUE) {
-                ret = 0;
+            if (result == Integer.MIN_VALUE) {
+                result = 0;
             }
         }
 
-        return ret;
+        return result;
     }
 
     void readData(Scanner in) {
@@ -79,7 +77,8 @@ public class FalseMirrors {
         balcons = new ArrayList<>(n+1);
         String[] split = in.nextLine().split(" ");
         balcons.addAll(Stream.of(split).map(Integer::valueOf).collect(Collectors.toList()));
-
-        Arrays.fill(memo, Integer.MIN_VALUE);
+        cache = new int[n * 100];
+        damage = new int[n * 100];
+        Arrays.fill(cache, Integer.MIN_VALUE);
     }
 }
