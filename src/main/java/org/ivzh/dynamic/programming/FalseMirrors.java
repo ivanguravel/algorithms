@@ -52,9 +52,11 @@ public class FalseMirrors {
                 // going for every 3 elements
                 for(int j = 0; j < 3; ++j) {
                     // find mask which is present in array
-                    if ((shot & (1 << ((i + j) % n))) == 0) {
+                    int mod = calculateMod(i, j, n);
+                    if ((shot & (1 << mod)) == 0) {
                         // find smallest element which is suitable for us
-                        shot4SmallestDamage = shot4SmallestDamage | (1 << ((i + j) % n));
+                        shot4SmallestDamage = (shot4SmallestDamage | (1 << mod));
+
                         valid = true;
                     }
                 }
@@ -77,7 +79,7 @@ public class FalseMirrors {
                 result = 0;
             }
         }
-
+        cache[shot] = result;
         return result;
     }
 
@@ -87,8 +89,27 @@ public class FalseMirrors {
         balcons = new ArrayList<>(n+1);
         String[] split = in.nextLine().split(" ");
         balcons.addAll(Stream.of(split).map(Integer::valueOf).collect(Collectors.toList()));
-        cache = new int[120_000];
-        damage = new int[120_000];
+        cache = new int[1<<n];
+        damage = new int[1<<n];
         Arrays.fill(cache, Integer.MIN_VALUE);
+    }
+
+    private static int add(int i, int j) {
+        int uncommonBitsFromBoth = i ^ j;
+        int commonBitsFromBoth   = i & j;
+
+        if (commonBitsFromBoth == 0) {
+            return uncommonBitsFromBoth;
+        }
+
+        return add(uncommonBitsFromBoth, commonBitsFromBoth << 1);
+    }
+
+    static int calculateMod(int a, int b, int n) {
+        if ((a + b) >= n) {
+            return (a + b) - n;
+        } else {
+            return a +b;
+        }
     }
 }
