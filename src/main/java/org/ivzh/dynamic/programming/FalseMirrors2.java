@@ -79,7 +79,4 @@ public class FalseMirrors2 {
         damage = new int[1<<n];
         Arrays.fill(cache, Integer.MIN_VALUE);
     }
-
-    int biton(int n, int pos) { return n | (1<<pos); }
-    int check(int n, int pos) { return n & (1<<pos); }
 }
