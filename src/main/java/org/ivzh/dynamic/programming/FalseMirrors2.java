@@ -38,71 +38,35 @@ public class FalseMirrors2 {
                 }
         }
 
-        System.out.println(solver((1<<(n))-1));
+        System.out.println(solve((1<<(n))-1));
     }
 
-    int solver(int shot) {
+    int solve(int shot) {
         if (shot == 0) {
             cache[0] = 0;
             return cache[0];
         } else  if (cache[shot] != Integer.MIN_VALUE) {
             return cache[shot];
         } else {
-            int result = Integer.MIN_VALUE;
-            for(int i = 0; i<n; i++) {
-                int cas=0;
-                if((shot & (1<<i)) != 0 )continue;
-                if(i==0)
-                {
-                    cas|=(  (1<<0)|(1<<1)|(1<<(n-1))           );
+            int result = Integer.MAX_VALUE;
+            for (int i = 0; i < n; i++) {
+                int shot2 = 0;
+                if ((shot & (1 << i)) != 0) {
+                    continue;
                 }
-                else if(i==n-1)
-                {
-                    cas|=(  (1<<0)|(1<<(n-1))|(1<<(n-2)));
+                if (i == 0) {
+                    shot2 = shot2 | (1 + (1 << 1) + (1 << (n - 1)));
+                } else if (i == n - 1) {
+                    shot2 = shot2 | (1 + (1 << (n - 1)) + (1 << (n - 2)));
+                } else {
+                    shot2 = shot2 | ((1 << i) | (1 << (i - 1)) | (1 << (i + 1)));
                 }
-                else
-                {
-                    cas|=(  (1<<i)|(1<<(i-1))|(1<<(i+1)));
-                }
-                int cas1=(shot&(cas));
-                result=Math.min(result, damage[cas1]+solver(cas1));
+                int temp = shot & shot2;
+                result = Math.min(result, damage[temp] + solve(temp));
             }
             cache[shot] = result;
             return result;
         }
-    }
-
-
-    int solve(int shot){
-        int result = cache[shot];
-
-        if (result == Integer.MIN_VALUE) {
-            for(int i = 0;i<n;++i){
-                boolean valid = false;
-
-                int shot2 = shot;
-                for(int j = 0;j < 3;++j) {
-                    if ((shot & (1 << ((i + j) % n))) == 0) {
-                        shot2 = shot2 | (1 << ((i + j) % n));
-                        valid = true;
-                    }
-                }
-
-                if(!valid) continue;
-
-                int temp = solve(shot2) + damage[shot2];
-
-                if(result == Integer.MIN_VALUE || temp<result) {
-                    result = temp;
-                }
-            }
-
-            if (result == Integer.MIN_VALUE) {
-                result = 0;
-            }
-        }
-
-        return result;
     }
 
     void readData(Scanner in) {
@@ -111,8 +75,11 @@ public class FalseMirrors2 {
         balcons = new ArrayList<>(n+1);
         String[] split = in.nextLine().split(" ");
         balcons.addAll(Stream.of(split).map(Integer::valueOf).collect(Collectors.toList()));
-        cache = new int[n * 100];
-        damage = new int[n * 100];
+        cache = new int[(1<<n) + 3];
+        damage = new int[1<<n];
         Arrays.fill(cache, Integer.MIN_VALUE);
     }
+
+    int biton(int n, int pos) { return n | (1<<pos); }
+    int check(int n, int pos) { return n & (1<<pos); }
 }
