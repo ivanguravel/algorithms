@@ -75,7 +75,7 @@ public class FalseMirrors2 {
         balcons = new ArrayList<>(n+1);
         String[] split = in.nextLine().split(" ");
         balcons.addAll(Stream.of(split).map(Integer::valueOf).collect(Collectors.toList()));
-        cache = new int[(1<<n) + 3];
+        cache = new int[1<<n];
         damage = new int[1<<n];
         Arrays.fill(cache, Integer.MIN_VALUE);
     }
