@@ -1,6 +1,7 @@
 package org.ivzh.other;
 
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -13,7 +14,7 @@ public class OlegAndLittlePonies {
 
     int n;
     int m;
-    Map<String, String> wishes = new TreeMap<>();
+    Map<String, String> wishes;
     String presentToys;
 
     public static void main(String[] args) {
@@ -29,23 +30,28 @@ public class OlegAndLittlePonies {
 
         StringBuilder answerBuilder = new StringBuilder(presentToys);
 
-        for (int i = 0; i < n; i++) {
-            if (presentToys.charAt(i) == ONE || answerBuilder.charAt(i) == ONE) {
-                int zeroesNeed2BeAdded = n - i;
-                String initialWithSuffix = createStringWithZerosInSuffix(i, presentToys, zeroesNeed2BeAdded, answerBuilder);
-                String wish = wishes.get(initialWithSuffix);
-                if (wish != null && !wish.isEmpty()) {
-                    fillAnswer(answerBuilder, wish);
-                }
-            }
-        }
+        solve(answerBuilder);
 
         System.out.println(answerBuilder.toString());
+    }
+
+    void solve(StringBuilder answer) {
+        for (int i = 0; i < n; i++) {
+            int zeroesNeed2BeAdded = n - i;
+            String wish = wishes.get(createStringWithZerosInSuffix(i, presentToys, zeroesNeed2BeAdded, answer));
+            String wishBackup = null;
+            while (wish != null && !wish.isEmpty() && !wish.equalsIgnoreCase(wishBackup)) {
+                wishBackup = wish;
+                fillAnswer(answer, wish);
+                wish = wishes.get(wish);
+            }
+        }
     }
 
     private void readData(Scanner in) {
         this.n = in.nextInt();
         this.m = in.nextInt();
+        this.wishes = new HashMap<>(m + 1);
         in.nextLine();
         for (int i = 0 ; i < m; i++) {
             String s = in.nextLine();
