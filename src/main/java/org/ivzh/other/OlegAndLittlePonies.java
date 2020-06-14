@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 // https://timus.online/problem.aspx?space=1&num=2108
 public class OlegAndLittlePonies {
@@ -15,6 +17,7 @@ public class OlegAndLittlePonies {
     int n;
     int m;
     Map<String, String> wishes;
+    String base;
     String presentToys;
 
     public static void main(String[] args) {
@@ -46,12 +49,29 @@ public class OlegAndLittlePonies {
                 wish = wishes.get(wish);
             }
         }
+
+
+        for (int i = 0; i < n; i++) {
+            for (int j =1; j < n; j++) {
+                StringBuilder fillUnused = new StringBuilder(this.base);
+                fillUnused.setCharAt(i, answer.charAt(i));
+                fillUnused.setCharAt(j, answer.charAt(j));
+                String wish = wishes.get(fillUnused.toString());
+                String wishBackup = null;
+                while (wish != null && !wish.isEmpty() && !wish.equalsIgnoreCase(wishBackup)) {
+                    wishBackup = wish;
+                    fillAnswer(answer, wish);
+                    wish = wishes.get(wish);
+                }
+            }
+        }
     }
 
     private void readData(Scanner in) {
         this.n = in.nextInt();
         this.m = in.nextInt();
         this.wishes = new HashMap<>(m + 1);
+        this.base = Stream.generate(() -> "0").limit(n).collect(Collectors.joining());
         in.nextLine();
         for (int i = 0 ; i < m; i++) {
             String s = in.nextLine();
