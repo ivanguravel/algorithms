@@ -38,32 +38,21 @@ public class OlegAndLittlePonies {
         System.out.println(answerBuilder.toString());
     }
 
+    //
     void solve(StringBuilder answer) {
-        for (int i = 0; i < n; i++) {
-            int zeroesNeed2BeAdded = n - i;
-            String wish = wishes.get(createStringWithZerosInSuffix(i, presentToys, zeroesNeed2BeAdded, answer));
-            String wishBackup = null;
-            while (wish != null && !wish.isEmpty() && !wish.equalsIgnoreCase(wishBackup)) {
-                wishBackup = wish;
-                fillAnswer(answer, wish);
-                wish = wishes.get(wish);
-            }
-        }
-
-
-        for (int i = 0; i < n; i++) {
-            for (int j =1; j < n; j++) {
-                StringBuilder fillUnused = new StringBuilder(this.base);
-                fillUnused.setCharAt(i, answer.charAt(i));
-                fillUnused.setCharAt(j, answer.charAt(j));
-                String wish = wishes.get(fillUnused.toString());
-                String wishBackup = null;
-                while (wish != null && !wish.isEmpty() && !wish.equalsIgnoreCase(wishBackup)) {
-                    wishBackup = wish;
-                    fillAnswer(answer, wish);
-                    wish = wishes.get(wish);
+        for (Map.Entry<String, String> e : wishes.entrySet()) {
+            if (containsSimilarBits(answer, e.getKey())) {
+                String value = wishes.get(e.getKey());
+                for (int i = 0; i < n; i++) {
+                    answer.setCharAt(i, value.charAt(i));
                 }
             }
+        }
+    }
+
+    boolean containsSimilarBits(StringBuilder answer, String key) {
+        for (int i = 0; i < n; i++) {
+
         }
     }
 
