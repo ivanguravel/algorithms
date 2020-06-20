@@ -11,7 +11,6 @@ import java.util.stream.Stream;
 // https://timus.online/problem.aspx?space=1&num=2108
 public class OlegAndLittlePonies {
 
-    private static final String EMPTY = "";
     private static final char ONE = '1';
 
     int n;
@@ -40,20 +39,17 @@ public class OlegAndLittlePonies {
 
     //
     void solve(StringBuilder answer) {
-        for (Map.Entry<String, String> e : wishes.entrySet()) {
-            if (containsSimilarBits(answer, e.getKey())) {
-                String value = wishes.get(e.getKey());
-                for (int i = 0; i < n; i++) {
-                    answer.setCharAt(i, value.charAt(i));
+        for (int i =0 ; i < n; i++) {
+            for (Map.Entry<String, String> e : wishes.entrySet()) {
+                if (containsSimilarBits(answer, e.getKey())) {
+                    fillAnswer(answer, e.getValue());
                 }
             }
         }
     }
 
     boolean containsSimilarBits(StringBuilder answer, String key) {
-        for (int i = 0; i < n; i++) {
-
-        }
+        return (Integer.parseInt(answer.toString(), 2) & Integer.parseInt(key, 2)) > 0;
     }
 
     private void readData(Scanner in) {
@@ -76,20 +72,5 @@ public class OlegAndLittlePonies {
                 answerBuilder.setCharAt(i, ONE);
             }
         }
-    }
-
-    private static String createStringWithZerosInSuffix(int prefixSize, String initial, int suffixSize, StringBuilder answerBuilder) {
-        StringBuilder prefix = new StringBuilder(initial.substring(0, prefixSize));
-        for (int j = 0; j < prefixSize; ++j) {
-            if (answerBuilder.charAt(j) == ONE) {
-                prefix.setCharAt(j , ONE);
-            }
-        }
-        StringBuilder suffix = new StringBuilder();
-        for (int i = 0; i < suffixSize; i++) {
-            suffix.append("0");
-        }
-
-        return String.join(EMPTY, prefix.toString(), suffix.toString());
     }
 }
