@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 // https://timus.online/problem.aspx?space=1&num=2108
 public class OlegAndLittlePonies {
 
+    private static final String EMPTY = "";
     private static final char ONE = '1';
 
     int n;
@@ -40,16 +41,20 @@ public class OlegAndLittlePonies {
     //
     void solve(StringBuilder answer) {
         for (int i =0 ; i < n; i++) {
-            for (Map.Entry<String, String> e : wishes.entrySet()) {
-                if (containsSimilarBits(answer, e.getKey())) {
-                    fillAnswer(answer, e.getValue());
+            String baseWish = wishes.get(createStringWithZerosInSuffix(i, answer));
+            if (baseWish!=null) {
+              fillAnswer(answer, baseWish);
+            }
+            for (int j =1; j < n; j++) {
+                StringBuilder fillUnused = new StringBuilder(this.base);
+                fillUnused.setCharAt(i, answer.charAt(i));
+                fillUnused.setCharAt(j, answer.charAt(j));
+                String wish = wishes.get(fillUnused.toString());
+                if (wish != null) {
+                    fillAnswer(answer, wish);
                 }
             }
         }
-    }
-
-    boolean containsSimilarBits(StringBuilder answer, String key) {
-        return (Integer.parseInt(answer.toString(), 2) & Integer.parseInt(key, 2)) > 0;
     }
 
     private void readData(Scanner in) {
@@ -72,5 +77,9 @@ public class OlegAndLittlePonies {
                 answerBuilder.setCharAt(i, ONE);
             }
         }
+    }
+
+    private String createStringWithZerosInSuffix(int prefixSize, StringBuilder answerBuilder) {
+        return String.join(EMPTY, answerBuilder.toString().substring(0, prefixSize), base.substring(prefixSize));
     }
 }
