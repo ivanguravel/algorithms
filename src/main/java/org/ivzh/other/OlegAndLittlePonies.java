@@ -1,10 +1,7 @@
 package org.ivzh.other;
 
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -35,10 +32,11 @@ public class OlegAndLittlePonies {
 
         solve(answerBuilder);
 
-        System.out.println(answerBuilder.toString());
+        out.println(answerBuilder.toString());
+        out.flush();
     }
 
-    //
+    // 0(n^3)
     void solve(StringBuilder answer) {
         for (int i =0 ; i < n; i++) {
             String baseWish = wishes.get(createStringWithZerosInSuffix(i, answer));
@@ -79,7 +77,8 @@ public class OlegAndLittlePonies {
         }
     }
 
+    // 0(1)
     private String createStringWithZerosInSuffix(int prefixSize, StringBuilder answerBuilder) {
-        return String.join(EMPTY, answerBuilder.toString().substring(0, prefixSize), base.substring(prefixSize));
+        return new StringJoiner(EMPTY, answerBuilder.toString().substring(0, prefixSize), base.substring(prefixSize)).toString();
     }
 }
