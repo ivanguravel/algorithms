@@ -1,8 +1,12 @@
 package org.ivzh.algebra;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 // https://leetcode.com/problems/roman-to-integer/
 public class Romain2Integer {
+
 
     static Map<Character, Integer> cache = new HashMap<>();
 
