@@ -3,10 +3,11 @@ package org.ivzh.lists;
 public class BitwiseLinkedList2Integer {
 
     public static void main(String[] args) {
-        getDecimalValue(head);
+
+        getDecimalValue(new ListNode(1));
     }
     
-    public int getDecimalValue(ListNode head) {
+    public static int getDecimalValue(ListNode head) {
         String result = "";
         while (head != null) {
             result = result + head.val;
