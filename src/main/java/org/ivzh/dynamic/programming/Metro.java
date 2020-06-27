@@ -27,7 +27,6 @@ public class Metro {
     int n, m, crossLinesNumber;
 
     double[][] matrix;
-    double[][] cache;
     boolean[][] crossLines;
 
     private void solve() {
@@ -51,7 +50,7 @@ public class Metro {
                 }
             }
         }
-        out.println(ans / 2);
+        out.println(ans);
         out.flush();
     }
 
@@ -65,10 +64,9 @@ public class Metro {
         m = in.nextInt();
         crossLinesNumber = in.nextInt();
 
-        matrix = new double[1005][1005];
-        cache = new double[1005][1005];
+        matrix = new double[n + 2][m + 2];
 
-        crossLines = new boolean[1001][1001];
+        crossLines = new boolean[n + 2][m + 2];
 
         for (int i = 0; i <= n; i++) {
             for (int j = 0; j <= m; j++) {
@@ -78,8 +76,6 @@ public class Metro {
                 matrix[0][j] = j * 100;
             }
         }
-
-
 
         in.nextLine();
         for (int i = 0; i < crossLinesNumber; i++) {
