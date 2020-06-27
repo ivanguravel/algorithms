@@ -70,19 +70,16 @@ public class Metro {
 
         crossLines = new boolean[1001][1001];
 
-        //matrix[0][0] = 0;
-
         for (int i = 0; i <= n; i++) {
-            // every horizontal lines
-            matrix[i][0] = i * 100;
+            for (int j = 0; j <= m; j++) {
+                // every horizontal lines
+                matrix[i][0] = i * 100;
+                // every vertical lines
+                matrix[0][j] = j * 100;
+            }
         }
 
-        for (int j = 0; j <= m; j++) {
 
-
-            // every vertical lines
-            matrix[0][j] = j * 100;
-        }
 
         in.nextLine();
         for (int i = 0; i < crossLinesNumber; i++) {
