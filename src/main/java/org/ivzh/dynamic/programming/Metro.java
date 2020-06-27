@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Objects;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.math.BigDecimal;
 
@@ -20,146 +21,80 @@ public class Metro {
 
     private static final double HYPOTENUSE = 141.42;
 
-        private void solve() {
+    Scanner in;
+    PrintWriter out;
 
-            int n = nextInt();
-            int m = nextInt();
+    int n, m, crossLinesNumber;
 
-            int crossLines = nextInt();
+    double[][] matrix;
+    double[][] cache;
+    boolean[][] crossLines;
 
-            int[][] crossLinesNumbers = new int[crossLines][m];
+    private void solve() {
+        readData();
 
-            for (int i = 0; i < crossLines; i++) {
-                for (int j = 0; j < m; j++) {
-                    crossLinesNumbers[i][j] = nextInt();
+
+        double ans = 0;
+        for (int i = 1; i <= n; ++i) {
+            for (int j = 1; j <= m; ++j) {
+
+                double fromLowerCorner = matrix[i][j - 1] + 100.0;
+                double fromPreviousLine = matrix[i - 1][j] + 100.0;
+
+                double minimumWithoutHypotenuse = Math.min(fromLowerCorner, fromPreviousLine);
+
+                if (crossLines[i][j]) {
+                    double fromHypotenuse = matrix[i - 1][j - 1] + HYPOTENUSE ;
+                    ans += Math.min(fromHypotenuse, minimumWithoutHypotenuse);
+                } else {
+                    ans += minimumWithoutHypotenuse;
                 }
             }
+        }
+        out.println(ans / 2);
+        out.flush();
+    }
 
-            int[][][] dp = new int[n+2][m+2][2];
 
-            int crossLine = isCrossLine(crossLines, m, crossLinesNumbers, 1, 1) ? (int) HYPOTENUSE : 10_000;
+    private void readData() {
 
-            dp[1][1][1] = crossLine;
-            dp[1][0][1] = 0;
-            dp[0][1][1] = 0;
+        in = new Scanner(System.in);
+        out = new PrintWriter(System.out);
 
-            for (int i = 2; i <= n; i++) {
-                for (int j =2; j <= m; j++) {
-                    dp[i-1][j][1] = dp[i][j -2][1] + 100;
-                    dp[i][j - 1][1] = dp[i - 2][j][1] + 100;
+        n = in.nextInt();
+        m = in.nextInt();
+        crossLinesNumber = in.nextInt();
 
-                    crossLine = isCrossLine(crossLines, m, crossLinesNumbers, i, j) ? (int) HYPOTENUSE : 10_000;
-                    int firstMin = min(dp[i-1][j-1][1] + crossLine, dp[i-1][j][1] + 100);
-                    dp[i][j][1] =  min(firstMin, dp[i][j-1][1] + 100);
-                }
-            }
-            sout(dp[n][m][1]);
-         }
+        matrix = new double[1005][1005];
+        cache = new double[1005][1005];
 
-         private static boolean isCrossLine(int crossLines, int m, int[][] crossLinesNumbers, int x, int y) {
-             for (int i = 0; i < crossLines; i++) {
-                 for (int j = 0; j < m; j++) {
-                     if (crossLinesNumbers[i][j] == x && crossLinesNumbers[i][j] == y) {
-                         return true;
-                     }
-                 }
-             }
-             return false;
-         }
+        crossLines = new boolean[1001][1001];
 
-        public static void main(String[] args) {
-            new Metro().run();
+        //matrix[0][0] = 0;
+
+        for (int i = 0; i <= n; i++) {
+            // every horizontal lines
+            matrix[i][0] = i * 100;
         }
 
-        private BufferedReader reader;
-        private StringTokenizer tokenizer;
-        private PrintWriter writer;
+        for (int j = 0; j <= m; j++) {
 
-        private void run() {
-            try {
-                reader = new BufferedReader(new InputStreamReader(System.in));
-                tokenizer = null;
-                writer = new PrintWriter(System.out);
-                solve();
-                reader.close();
-                writer.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.exit(1);
-            }
+
+            // every vertical lines
+            matrix[0][j] = j * 100;
         }
 
-        private int nextInt() {
-            return parseInt(nextToken());
+        in.nextLine();
+        for (int i = 0; i < crossLinesNumber; i++) {
+            String line = in.nextLine();
+            String[] positions = line.split(" ");
+            int positionOne = Integer.parseInt(positions[0]);
+            int positionTwo = Integer.parseInt(positions[1]);
+            crossLines[positionOne][positionTwo] = true;
         }
+    }
 
-        private long nextLong() {
-            return parseLong(nextToken());
-        }
-
-        private double nextDouble() {
-            return parseDouble(nextToken());
-        }
-
-        private int[] nextArr(int size) {
-            return stream(new int[size]).map(c -> nextInt()).toArray();
-        }
-
-        private long[] nextArrL(int size) {
-            return stream(new long[size]).map(c -> nextLong()).toArray();
-        }
-
-        private double[] nextArrD(int size) {
-            return stream(new double[size]).map(c -> nextDouble()).toArray();
-        }
-
-        private char[][] nextCharMatrix(int n) {
-            return range(0, n).mapToObj(i -> nextToken().toCharArray()).toArray(char[][]::new);
-        }
-
-        private int[][] nextIntMatrix(final int n, final int m) {
-            return range(0, n).mapToObj(i -> nextArr(m)).toArray(int[][]::new);
-        }
-
-        private double[][] nextDoubleMatrix(int n, int m) {
-            return range(0, n).mapToObj(i -> nextArr(m)).toArray(double[][]::new);
-        }
-
-        private String nextToken() {
-            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
-                try {
-                    tokenizer = new StringTokenizer(reader.readLine());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            return tokenizer.nextToken();
-        }
-
-        private void souf(String format, Object... args) {
-            writer.printf(format, args);
-        }
-
-        private void sout(Object o) {
-            writer.print(o);
-        }
-
-        private void newLine() {
-            writer.println();
-        }
-
-        private void soutnl(Object o) {
-            sout(o);
-            newLine();
-        }
-
-        private int max(int a, int b) {
-            return Math.max(a, b);
-        }
-
-        private int min(int a, int b) {
-            return Math.min(a, b);
-        }
-
-
+    public static void main(String[] args) {
+        new Metro().solve();
+    }
 }
