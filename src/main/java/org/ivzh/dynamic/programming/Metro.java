@@ -34,8 +34,8 @@ public class Metro {
 
 
         double ans = 0;
-        for (int i = 1; i <= n; ++i) {
-            for (int j = 1; j <= m; ++j) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
 
                 double fromLowerCorner = matrix[i][j - 1] + 100.0;
                 double fromPreviousLine = matrix[i - 1][j] + 100.0;
