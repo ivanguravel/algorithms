@@ -57,9 +57,9 @@ public class Metro {
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= m; j++) {
                 // every horizontal lines
-                matrix[i][0] = i * 100.0;
+                matrix[i][0] = matrix[i - 1][0] + 100.0;
                 // every vertical lines
-                matrix[0][j] = j * 100.0;
+                matrix[0][j] = matrix[0][j - 1] + 100.0;
             }
         }
 
