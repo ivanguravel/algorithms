@@ -1,19 +1,7 @@
 package org.ivzh.dynamic.programming;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Objects;
 import java.util.Scanner;
-import java.util.StringTokenizer;
-import java.math.BigDecimal;
-
-import static java.lang.Double.parseDouble;
-import static java.lang.Integer.parseInt;
-import static java.lang.Long.parseLong;
-import static java.util.Arrays.stream;
-import static java.util.stream.IntStream.range;
 
 // https://acm.timus.ru/problem.aspx?space=1&num=1119
 public class Metro {
@@ -32,8 +20,6 @@ public class Metro {
     private void solve() {
         readData();
 
-
-        double ans = 0;
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= m; j++) {
 
@@ -41,16 +27,15 @@ public class Metro {
                 double fromPreviousLine = matrix[i - 1][j] + 100.0;
 
                 double minimumWithoutHypotenuse = Math.min(fromLowerCorner, fromPreviousLine);
-
+                matrix[i][j] = minimumWithoutHypotenuse;
+                // if hypotenuse present
                 if (crossLines[i][j]) {
                     double fromHypotenuse = matrix[i - 1][j - 1] + HYPOTENUSE ;
-                    ans += Math.min(fromHypotenuse, minimumWithoutHypotenuse);
-                } else {
-                    ans += minimumWithoutHypotenuse;
+                    matrix[i][j] = Math.min(fromHypotenuse, minimumWithoutHypotenuse);
                 }
             }
         }
-        out.println(ans);
+        out.println(Math.round(matrix[n][m]));
         out.flush();
     }
 
@@ -68,12 +53,13 @@ public class Metro {
 
         crossLines = new boolean[n + 2][m + 2];
 
-        for (int i = 0; i <= n; i++) {
-            for (int j = 0; j <= m; j++) {
+        matrix[0][0] = 0;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
                 // every horizontal lines
-                matrix[i][0] = i * 100;
+                matrix[i][0] = i * 100.0;
                 // every vertical lines
-                matrix[0][j] = j * 100;
+                matrix[0][j] = j * 100.0;
             }
         }
 
