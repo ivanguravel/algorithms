@@ -28,24 +28,21 @@ public class OlegAndLittlePonies2 {
         // read data
         readData(in);
 
-        dfs(presentToys);
+        dfs(presentToys, this.wishes.entrySet().iterator().next().getKey());
 
         out.println(presentToys.toString());
         out.flush();
     }
 
     // 0(n^3)
-    void dfs(Node answer) {
-        for (String wish : wishes) {
-            if (containsSimilarBits(answer, wish)) {
-                deque.add(wish);
-            }
+    void dfs(Node answer, Node wish) {
+        if (answer.containsSimilarBits(wish)) {
+            deque.addAll(this.wishes.get(wish));
+
         }
 
         while (!deque.isEmpty()) {
-            String wish = deque.pollFirst();
-            fillAnswer(answer, wish);
-            dfs(answer, wish);
+            fillAnswer(wish, answer);
         }
     }
 
@@ -76,10 +73,11 @@ public class OlegAndLittlePonies2 {
         this.presentToys = new Node(in.nextLine());
     }
 
-    private void fillAnswer(StringBuilder answerBuilder, String wish) {
-        for (int i = 0; i < wish.length(); i++) {
-            if (wish.charAt(i) == ONE) {
-                answerBuilder.setCharAt(i, ONE);
+    private void fillAnswer(Node wish, Node target) {
+        for (Map.Entry<Integer, Character> e : wish.bits.entrySet()) {
+            if (e.getValue() == ONE) {
+                target.enabledBitsCount = target.enabledBitsCount + 1;
+                target.bits.put(e.getKey(), e.getValue());
             }
         }
     }
