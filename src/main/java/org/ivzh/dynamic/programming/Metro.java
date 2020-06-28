@@ -23,10 +23,10 @@ public class Metro {
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= m; j++) {
 
-                double fromLowerCorner = matrix[i][j - 1] + 100.0;
-                double fromPreviousLine = matrix[i - 1][j] + 100.0;
+                double fromPreviousCorner = matrix[i][j - 1] + 100.0;
+                double fromLowerLine = matrix[i - 1][j] + 100.0;
 
-                double minimumWithoutHypotenuse = Math.min(fromLowerCorner, fromPreviousLine);
+                double minimumWithoutHypotenuse = Math.min(fromPreviousCorner, fromLowerLine);
                 matrix[i][j] = minimumWithoutHypotenuse;
                 // if hypotenuse present
                 if (crossLines[i][j]) {
