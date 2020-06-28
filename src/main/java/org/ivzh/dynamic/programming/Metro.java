@@ -64,9 +64,11 @@ public class Metro {
         }
 
         in.nextLine();
+        String line;
+        String[] positions;
         for (int i = 0; i < crossLinesNumber; i++) {
-            String line = in.nextLine();
-            String[] positions = line.split(" ");
+            line = in.nextLine();
+            positions = line.split(" ");
             int positionOne = Integer.parseInt(positions[0]);
             int positionTwo = Integer.parseInt(positions[1]);
             crossLines[positionOne][positionTwo] = true;
