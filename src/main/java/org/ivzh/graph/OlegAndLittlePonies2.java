@@ -34,7 +34,6 @@ public class OlegAndLittlePonies2 {
         out.flush();
     }
 
-    // 0(n^3)
     void dfs(Node answer, Node wish) {
         if (answer.containsSimilarBits(wish)) {
             deque.addAll(this.wishes.get(wish));
