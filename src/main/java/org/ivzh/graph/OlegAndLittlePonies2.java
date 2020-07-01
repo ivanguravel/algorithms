@@ -40,6 +40,8 @@ public class OlegAndLittlePonies2 {
 
         }
 
+        // TODO
+
         while (!deque.isEmpty()) {
             fillAnswer(wish, answer);
         }
