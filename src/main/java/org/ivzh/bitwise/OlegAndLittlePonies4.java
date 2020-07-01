@@ -19,7 +19,7 @@ public class OlegAndLittlePonies4 {
         Scanner in = new Scanner(System.in);
         PrintWriter out = new PrintWriter(System.out);
 
-        new OlegAndLittlePonies3().solve(in, out);
+        new OlegAndLittlePonies4().solve(in, out);
     }
 
     void solve(Scanner in, PrintWriter out) {
