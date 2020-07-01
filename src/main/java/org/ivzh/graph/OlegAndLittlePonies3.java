@@ -49,8 +49,7 @@ public class OlegAndLittlePonies3 {
 
     void dfs() {
         while (!queue.isEmpty()) {
-            int u = queue.pollFirst();
-            List<Integer> stored = store.get(u);
+            List<Integer> stored = store.get(queue.pollFirst());
             if (stored != null) {
                 for (Integer integer : stored) {
                     --counter[integer];
