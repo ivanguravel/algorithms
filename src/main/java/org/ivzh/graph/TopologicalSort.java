@@ -24,7 +24,7 @@ public class TopologicalSort {
         Map<Integer, Set<Integer>> graph = readGraph(in, m);
         List<Integer> sequence = readSequence(in, n);
 
-        List<Integer> integers = topSort(graph);
+        List<Integer> integers = null;
         Collections.reverse(integers);
 
         for (Integer i : integers)
@@ -65,6 +65,7 @@ public class TopologicalSort {
         while (index < sequence.size()) {
 
         }
+        return null;
     }
 
 //    public void topSort(int start, Map<Integer, Set<Integer>> graph, Set<Integer> visited, List<Integer> q ) {
