@@ -38,7 +38,7 @@ public class Table {
             Node node = q.poll();
             Node neibor;
             for (int positionInGraph = 0; positionInGraph < POSSIBLE_NODES_NEAR_ONE; positionInGraph++) {
-                neibor = new Node(node.row + byY[positionInGraph], node.column + byX[positionInGraph]);
+                neibor = new Node(node.row + byX[positionInGraph], node.column + byY[positionInGraph]);
                 if (isOnBoard(neibor) && !isVisited(neibor)) {
                     visited[neibor.row][neibor.column] = true;
                     // for future observation by getting from q
