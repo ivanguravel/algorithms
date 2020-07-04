@@ -40,9 +40,10 @@ public class Table {
             for (int positionInGraph = 0; positionInGraph < POSSIBLE_NODES_NEAR_ONE; positionInGraph++) {
                 neibor = new Node(node.row + byX[positionInGraph], node.column + byY[positionInGraph]);
                 if (isOnBoard(neibor) && !isVisited(neibor)) {
-                    visited[neibor.row][neibor.column] = true;
+
                     // for future observation by getting from q
                     q.add(neibor);
+                    visited[neibor.row][neibor.column] = true;
                     result[neibor.row][neibor.column] = result[node.row][node.column] + 1;
                 }
             }
