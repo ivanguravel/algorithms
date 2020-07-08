@@ -9,6 +9,8 @@ public class SurroundedRegions {
     int rowSize = 0;
     int columnSize = 0;
 
+    boolean[][] visited;
+
     public void solve(char[][] board) {
         if (board == null) {
             return;
@@ -16,7 +18,7 @@ public class SurroundedRegions {
             return;
         }
 
-
+        visited = new boolean[board.length + 1][board[0].length + 1];
 
         rowSize = board.length;
         columnSize = board[0].length;
@@ -61,8 +63,9 @@ public class SurroundedRegions {
 
     void dfs(char[][] board, int i, int j) {
         boolean isBoardEndReached = isSituatedOutOfTheBorder(board, i, j);
-        if (!isBoardEndReached) {
+        if (!isBoardEndReached && !visited[i][j]) {
             board[i][j] = FOR_REPLACE_WITH_O;
+            visited[i][j] = true;
 
             dfs(board, i - 1, j);
             dfs(board, i, j - 1);
