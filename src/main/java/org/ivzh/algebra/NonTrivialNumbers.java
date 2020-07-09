@@ -1,11 +1,10 @@
 package org.ivzh.algebra;
 
+
 import java.io.PrintWriter;
 import java.util.*;
 
 
-
-// https://timus.online/problem.aspx?space=1&num=1118
 public class NonTrivialNumbers {
 
     int n, m;
@@ -34,26 +33,11 @@ public class NonTrivialNumbers {
             return;
         }
 
-        if (m - n == 1) {
-            out.println(n);
-            out.flush();
-            return;
-        }
-
-        if (m > 10_000) {
-            primesInRange(m - 1000, m);
-        } else {
-            primesInRange(n, m);
-        }
-
         double globalNumerator = Double.MAX_VALUE;
         int result = 0;
         int previousPrime = 0;
-        for (int i = n; i <= m; i++) {
-            if (m > 10000 && n <= maxPrime && maxPrime <= m) {
-                result = maxPrime;
-                break;
-            } else if ((n < maxPrime || maxPrime > m) || this.primes.isEmpty()) {
+        if (m - n < 4000) {
+            for (int i = n; i <= m; i++) {
                 int localNumerator = calculateDividersSum(i);
                 int localDenominator = i;
 
@@ -62,7 +46,14 @@ public class NonTrivialNumbers {
                     result = localDenominator;
                 }
             }
-            else {
+        } else {
+            if (m > 10_000) {
+                primesInRange(m - 100, m);
+            } else {
+                primesInRange(n, m);
+            }
+
+            for (int i = n; i <= m; i++) {
                 if (!this.primes.contains(i)) {
                     result = previousPrime;
                 } else {
@@ -70,7 +61,9 @@ public class NonTrivialNumbers {
                     result = previousPrime;
                 }
             }
+
         }
+
         out.println(result);
         out.flush();
     }
