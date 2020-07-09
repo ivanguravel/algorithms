@@ -4,6 +4,8 @@ import java.io.PrintWriter;
 import java.util.*;
 
 
+
+// https://timus.online/problem.aspx?space=1&num=1118
 public class NonTrivialNumbers {
 
     int n, m;
