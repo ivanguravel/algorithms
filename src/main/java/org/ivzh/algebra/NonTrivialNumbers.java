@@ -20,39 +20,47 @@ public class NonTrivialNumbers {
     void solve(Scanner in, PrintWriter out) {
         readData(in);
 
-        if (n == m) {
-            out.println(n);
-            out.flush();
-            return;
-        }
-
         if (n == 1) {
             out.println(1);
             out.flush();
             return;
         }
 
+        if (n == m) {
+            out.println(n);
+            out.flush();
+            return;
+        }
+
+        if (m - n == 1) {
+            out.println(n);
+            out.flush();
+            return;
+        }
+
         if (m > 10_000) {
-            primesInRange(m - 100, m);
+            primesInRange(m - 1000, m);
         } else {
             primesInRange(n, m);
         }
 
-        double globalMinimum = Double.MAX_VALUE;
+        double globalNumerator = Double.MAX_VALUE;
         int result = 0;
         int previousPrime = 0;
         for (int i = n; i <= m; i++) {
-            if (m > 10000) {
+            if (m > 10000 && n <= maxPrime && maxPrime <= m) {
                 result = maxPrime;
                 break;
-            } else if (this.primes.isEmpty()) {
-                double localMinimum = (double) (calculateDividersSum(i) / i);
+            } else if ((n < maxPrime || maxPrime > m) || this.primes.isEmpty()) {
+                int localNumerator = calculateDividersSum(i);
+                int localDenominator = i;
 
-                if (localMinimum <= globalMinimum) {
-                    globalMinimum = localMinimum;
-                    result = i;
+                if (localNumerator * result <= globalNumerator * localDenominator) {
+                    globalNumerator = localNumerator;
+                    result = localDenominator;
                 }
-            } else {
+            }
+            else {
                 if (!this.primes.contains(i)) {
                     result = previousPrime;
                 } else {
@@ -66,14 +74,14 @@ public class NonTrivialNumbers {
     }
 
 
-    double calculateDividersSum(int k) {
+    int calculateDividersSum(int k) {
 
-        double result = 1;
-        for (int i = 2; (1 << i) <= k; i++) {
+        int result = 1;
+        for (int i = 2; i*i <= k; i++) {
             if (k % i == 0) {
                 result = result + i;
                 if (i * i != k) {
-                    result = result + (double) (k / i);
+                    result = result + (k / i);
                 }
 
             }
@@ -87,7 +95,7 @@ public class NonTrivialNumbers {
             boolean isPrimeNumber = true;
 
             // check to see if the number is prime
-            for (int j = 2; j < i; j++) {
+            for (int j = 2; j*j <= i; j++) {
                 if (i % j == 0) {
                     isPrimeNumber = false;
                     break; // exit the inner for loop
@@ -103,6 +111,8 @@ public class NonTrivialNumbers {
             }
         }
     }
+
+    // 2 ... 13
 
     private void readData(Scanner in) {
         this.n = in.nextInt();
