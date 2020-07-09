@@ -1,15 +1,14 @@
 package org.ivzh.algebra;
 
-
 import java.io.PrintWriter;
 import java.util.*;
 
-
+// https://timus.online/problem.aspx?space=1&num=1118
 public class NonTrivialNumbers {
 
-    int n, m;
-    int maxPrime = Integer.MIN_VALUE;
-    Set<Integer> primes;
+    long n, m;
+    long maxPrime = Long.MIN_VALUE;
+    Set<Long> primes;
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -34,12 +33,12 @@ public class NonTrivialNumbers {
         }
 
         double globalNumerator = Double.MAX_VALUE;
-        int result = 0;
-        int previousPrime = 0;
+        long result = 0;
+        long previousPrime = 0;
         if (m - n < 4000) {
-            for (int i = n; i <= m; i++) {
-                int localNumerator = calculateDividersSum(i);
-                int localDenominator = i;
+            for (long i = n; i <= m; i++) {
+                long localNumerator = calculateDividersSum(i);
+                long localDenominator = i;
 
                 if (localNumerator * result <= globalNumerator * localDenominator) {
                     globalNumerator = localNumerator;
@@ -48,12 +47,12 @@ public class NonTrivialNumbers {
             }
         } else {
             if (m > 10_000) {
-                primesInRange(m - 100, m);
+                primesInRange(m - 1000, m);
             } else {
                 primesInRange(n, m);
             }
 
-            for (int i = n; i <= m; i++) {
+            for (long i = n; i <= m; i++) {
                 if (!this.primes.contains(i)) {
                     result = previousPrime;
                 } else {
@@ -69,10 +68,10 @@ public class NonTrivialNumbers {
     }
 
 
-    int calculateDividersSum(int k) {
+    long calculateDividersSum(long k) {
 
-        int result = 1;
-        for (int i = 2; i*i <= k; i++) {
+        long result = 1;
+        for (long i = 2; i*i <= k; i++) {
             if (k % i == 0) {
                 result = result + i;
                 if (i * i != k) {
@@ -85,8 +84,8 @@ public class NonTrivialNumbers {
     }
 
 
-    void primesInRange(int a, int b) {
-        for (int i = a; i <= b; i++) {
+    void primesInRange(long a, long b) {
+        for (long i = a; i <= b; i++) {
             boolean isPrimeNumber = true;
 
             // check to see if the number is prime
