@@ -4,6 +4,7 @@ package org.ivzh.dynamic.programming;
 import java.util.*;
 
 // https://codeforces.com/problemset/problem/1350/B
+// https://www.programcreek.com/2014/04/leetcode-longest-increasing-subsequence-java/
 public class OracAndModels {
 
     static int n;
