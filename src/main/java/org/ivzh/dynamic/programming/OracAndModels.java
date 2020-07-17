@@ -15,24 +15,26 @@ public class OracAndModels {
         int k = sc.nextInt();
         for (int i = 0; i < k; ++i) {
             n = sc.nextInt();
-            numbers = new ArrayList<>(n+1);
+            numbers = new ArrayList<>(n);
             for (int j = 0; j < n; ++j) {
                 numbers.add(j, sc.nextInt());
             }
 
-            System.out.println(solve(numbers));
+            System.out.println(solve());
         }
 
         sc.close();
     }
 
-    private static int solve(List<Integer> localNumbers) {
-        List<Integer> extremums = createExtremums(localNumbers.size());
+    private static int solve() {
+        List<Integer> extremums = createExtremums(numbers.size());
 
+        Integer max;
         for (int i = 0; i < extremums.size(); ++i) {
-            for (int j = i; j < extremums.size(); j = j + i + 1) {
-                if (localNumbers.get(j) > localNumbers.get(i)) {
-                    extremums.set(j, Math.max(extremums.get(i), extremums.get(i) + 1));
+            for (int j = i * 2 + 1; j < extremums.size(); j = j + i + 1) {
+                if (numbers.get(j) > numbers.get(i)) {
+                    max = Math.max(extremums.get(j), extremums.get(i) + 1);
+                    extremums.set(j, max);
                 }
             }
         }
