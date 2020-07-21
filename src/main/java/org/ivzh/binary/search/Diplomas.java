@@ -1,6 +1,5 @@
 package org.ivzh.binary.search;
 
-import org.ivzh.dynamic.programming.LongestIncreasingSubsequence;
 
 import java.io.*;
 import java.util.StringTokenizer;
@@ -15,15 +14,32 @@ import static java.util.stream.IntStream.range;
 // https://informatics.mccme.ru/moodle/mod/statements/view3.php?id=1966&chapterid=1923
 public class Diplomas {
 
-    int w, h, n;
-
+    long width, heigth, diplomasCount;
 
     private void solve() {
-        this.w = nextInt();
-        this.h = nextInt();
-        this.n = nextInt();
+        this.width = nextLong();
+        this.heigth = nextLong();
+        this.diplomasCount = nextLong();
+
+        // when 1 diplomas (case 1 1 1 )
+        long leftBound = Math.max(width, heigth);
+        // find which part of diploma is smaller
+        long normalMinimum = Math.min(width, heigth);
+        // right bound from (case 1 1 1 ) to multiple diplomas case
+        long rightBound = Math.max(width, normalMinimum + diplomasCount);
 
 
+        while (rightBound > leftBound) {
+            long middle = (rightBound + leftBound) / 2;
+            // find if count of diplomas are smaller or equal then count of diplomas
+            if (diplomasCount <= (middle / width) * (middle / heigth)) {
+                // if it's true - we assign middle to right bound
+                rightBound = middle;
+            } else {
+                leftBound = middle + 1;
+            }
+        }
+        println(leftBound);
     }
 
 
