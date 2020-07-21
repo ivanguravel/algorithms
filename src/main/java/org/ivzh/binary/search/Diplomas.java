@@ -26,7 +26,7 @@ public class Diplomas {
         // find which part of diploma is smaller
         long normalMinimum = Math.min(width, heigth);
         // right bound from (case 1 1 1 ) to multiple diplomas case
-        long rightBound = Math.max(width, normalMinimum + diplomasCount);
+        long rightBound = Math.max(width, normalMinimum * diplomasCount);
 
 
         while (rightBound > leftBound) {
