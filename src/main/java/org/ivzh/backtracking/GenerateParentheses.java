@@ -22,8 +22,9 @@ public class GenerateParentheses {
     }
 
     private void generator(List<String> result, int originalSize, List<Character> characters, int index) {
-        if (isSequenceValid(characters)) {
+        if (isSequenceValid(characters) && index == originalSize) {
             result.add(getStringRepresentation(characters));
+            characters.clear();
         }
 
         if (index <= originalSize) {
