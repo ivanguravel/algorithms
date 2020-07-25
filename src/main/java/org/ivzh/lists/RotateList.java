@@ -1,7 +1,9 @@
 package org.ivzh.lists;
 
-import java.util.List;
 
+
+// https://leetcode.com/problems/rotate-list/
+// TL
 public class RotateList {
 
     public static void main(String[] args) {
