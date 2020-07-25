@@ -13,7 +13,7 @@ public class RotateList {
         ListNode t = new ListNode(3);
         s.next = t;
 
-        ListNode test = rotateRight(f, 1);
+        ListNode test = rotateRight(f, 2);
 
         while (test != null) {
             System.out.println(test.val);
@@ -24,6 +24,12 @@ public class RotateList {
 
 
     public static ListNode rotateRight(ListNode head, int k) {
+
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+
         ListNode result = head;
         ListNode firstNode;
         firstNode = head;
@@ -37,7 +43,9 @@ public class RotateList {
                 first = tmp;
                 head = head.next;
             }
+
             firstNode.val = last;
+            head = firstNode;
         }
         return result;
     }
