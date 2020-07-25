@@ -13,7 +13,7 @@ public class RotateList {
         ListNode t = new ListNode(3);
         s.next = t;
 
-        ListNode test = rotateRight(f, 2);
+        ListNode test = rotateRight(f, 1);
 
         while (test != null) {
             System.out.println(test.val);
