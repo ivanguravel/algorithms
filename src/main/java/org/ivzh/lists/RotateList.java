@@ -1,6 +1,8 @@
 package org.ivzh.lists;
 
 
+import java.util.ArrayList;
+import java.util.List;
 
 // https://leetcode.com/problems/rotate-list/
 // TL
@@ -15,16 +17,56 @@ public class RotateList {
         ListNode t = new ListNode(3);
         s.next = t;
 
-        ListNode test = rotateRight(f, 2);
+        ListNode test = rotateRight(f, 2000000);
 
         while (test != null) {
             System.out.println(test.val);
             test = test.next;
         }
 
+       // System.out.println(200000 % 3);
+
     }
 
+    public static ListNode rotateRight2(ListNode head, int k) {
 
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        List<Integer> buffer = new ArrayList<>();
+        List<Integer> buffer2 = new ArrayList<>();
+        convert2Array(buffer, buffer2, head);
+
+
+        for (int i = 0; i < buffer.size(); i++) {
+            buffer.set((i + k) % buffer.size(), buffer2.get(i));
+        }
+
+        return convert2List(buffer);
+    }
+
+    private static void convert2Array(List<Integer> buffer, List<Integer> buffer2, ListNode head) {
+        while (head != null) {
+            buffer.add(head.val);
+            buffer2.add(head.val);
+            head = head.next;
+        }
+    }
+
+    private static ListNode convert2List(List<Integer> buffer) {
+        ListNode head = new ListNode(buffer.get(0));
+        ListNode first = head;
+        ListNode listNode;
+        for (int i = 1; i < buffer.size(); i++) {
+            listNode = new ListNode(buffer.get(i));
+            head.next = listNode;
+            head = head.next;
+        }
+        return first;
+    }
+
+    // TL
     public static ListNode rotateRight(ListNode head, int k) {
 
         if (head == null || head.next == null) {
