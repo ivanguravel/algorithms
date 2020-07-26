@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
+
+// https://leetcode.com/problems/generate-parentheses/
 public class GenerateParentheses {
 
 
@@ -22,12 +24,10 @@ public class GenerateParentheses {
     }
 
     private void generator(List<String> result, int originalSize, List<Character> characters, int index) {
-        if (isSequenceValid(characters) && index == originalSize) {
+        if (isSequenceValid(characters) && originalSize == index - 1) {
             result.add(getStringRepresentation(characters));
             characters.clear();
-        }
-
-        if (index <= originalSize) {
+        } else {
             characters.add('(');
             generator(result, originalSize, characters, index + 1);
             characters.add(')');
