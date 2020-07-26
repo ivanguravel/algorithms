@@ -10,5 +10,6 @@
 
 # TODO
 
-https://acmp.ru/index.asp?main=task&id_task=41
 https://leetcode.com/problems/split-linked-list-in-parts/
+https://codeforces.com/problemset/problem/572/B
+

@@ -14,6 +14,7 @@ import static java.lang.Long.parseLong;
 import static java.util.Arrays.stream;
 import static java.util.stream.IntStream.range;
 
+// https://acmp.ru/index.asp?main=source&id=13114441
 public class CountingSort {
 
     int n;
