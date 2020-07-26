@@ -7,3 +7,8 @@
 
 `-- simple gcd algorithm test and time. operation takes: 0.3025869 seconds`
 
+
+# TODO
+
+https://acmp.ru/index.asp?main=task&id_task=41
+https://leetcode.com/problems/split-linked-list-in-parts/
