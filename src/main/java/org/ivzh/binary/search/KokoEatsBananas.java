@@ -25,16 +25,15 @@ public class KokoEatsBananas {
         return leftBound;
     }
 
-    private boolean canKokoEatsBanasFrom(int[] piles, int middle, int H) {
-        int K = 0;
+    private boolean canKokoEatsBanasFrom(int[] piles, int K, int H) {
+        int hours = 0;
         for (Integer i : piles) {
-            if (i % middle == 0) {
-                K = K + i / middle;
-            } else {
-                K = K + i / middle + 1;
+            if (i % K != 0) {
+                hours = hours + 1;
             }
+            hours = hours + i / K;
         }
 
-        return K <= H;
+        return hours <= H;
     }
 }
