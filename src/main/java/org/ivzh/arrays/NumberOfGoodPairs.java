@@ -1,5 +1,7 @@
 package org.ivzh.arrays;
 
+
+// https://leetcode.com/problems/number-of-good-pairs/
 public class NumberOfGoodPairs {
 
     public int numIdenticalPairs(int[] nums) {

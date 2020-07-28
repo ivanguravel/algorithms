@@ -1,9 +1,7 @@
 package org.ivzh.backtracking;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
 
 
 // https://leetcode.com/problems/generate-parentheses/
@@ -16,42 +14,21 @@ public class GenerateParentheses {
 
 
     public List<String> generateParenthesis(int n) {
-        List<String> result = new LinkedList<>();
-        int originalSize = n * 2;
-        List<Character> characters = new ArrayList<>(originalSize + 1);
-        generator(result, originalSize, characters, 0);
+        List<String> result = new ArrayList<>();
+        generator(n, n, "", result);
         return result;
     }
 
-    private void generator(List<String> result, int originalSize, List<Character> characters, int index) {
-        if (isSequenceValid(characters) && originalSize == index - 1) {
-            result.add(getStringRepresentation(characters));
-            characters.clear();
-        } else {
-            characters.add('(');
-            generator(result, originalSize, characters, index + 1);
-            characters.add(')');
-            generator(result, originalSize, characters, index + 1);
-        }
-    }
-
-    private boolean isSequenceValid(List<Character> characters) {
-        Stack<Character> validator = new Stack<>();
-        for (char ch : characters) {
-            if ('(' == ch) {
-                validator.push(ch);
+    private void generator(int open, int closed, String path, List<String> result) {
+        if (open <= closed) {
+            if (open == 0 && closed == 0) {
+                result.add(path);
+            } else if (open < 0) {
+                return;
             } else {
-                validator.pop();
+                generator(open - 1, closed, path + "(", result);
+                generator(open, closed - 1, path + ")", result);
             }
         }
-        return validator.size() == 0;
-    }
-
-    String getStringRepresentation(List<Character> list) {
-        StringBuilder builder = new StringBuilder(list.size());
-        for (Character ch : list) {
-            builder.append(ch);
-        }
-        return builder.toString();
     }
 }
