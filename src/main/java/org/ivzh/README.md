@@ -16,5 +16,6 @@
 - https://codeforces.com/problemset/problem/572/B
 - https://timus.online/problem.aspx?space=1&num=2108
 - https://leetcode.com/problems/jump-game-ii/
+- https://leetcode.com/problems/word-search/
 
 
