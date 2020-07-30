@@ -4,34 +4,40 @@ package org.ivzh.lists;
 public class Merge2SortedLists {
 
 //    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-//        ListNode result;
+//        ListNode node = null;
+//        ListNode pointer = null;
 //        ListNode first = null;
-//        int count = 0;
-//        while (l1 != null || l2 != null) {
+//        while(l1 != null || l2 != null) {
 //            if (l1 == null) {
-//                result = new ListNode(l2.val);
-//                l2 = l2.next;
-//                result = result.next;
-//                ++count;
+//                pointer = new ListNode(l2.val);
+//                if (l2 != null) {
+//                    l2 = l2.next;
+//                }
 //            } else if (l2 == null) {
-//                result = new ListNode(l1.val);
-//                l1 = l1.next;
-//                result = result.next;
-//                ++count;
+//                pointer = new ListNode(l1.val);
+//                if (l1 != null) {
+//                    l1 = l1.next;
+//                }
 //            } else if (l1.val >= l2.val) {
-//                result = new ListNode(l2.val);
-//                l2 = l2.next;
-//                result = result.next;
-//                ++count;
+//                pointer = new ListNode(l2.val);
+//                if (l2 != null) {
+//                    l2 = l2.next;
+//                }
 //            } else {
-//                result = new ListNode(l1.val);
-//                l1 = l1.next;
-//                result = result.next;
-//                ++count;
+//                pointer = new ListNode(l1.val);
+//                if (l1 != null) {
+//                    l1 = l1.next;
+//                }
 //            }
-//            if (count == 1) {
-//                first = result;
+//
+//            if (node != null) {
+//                node.next = pointer;
+//            } else {
+//                first = pointer;
 //            }
+//            node = pointer;
+//
+//
 //        }
 //        return first;
 //    }
