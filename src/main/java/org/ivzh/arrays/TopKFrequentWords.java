@@ -96,4 +96,62 @@ public class TopKFrequentWords {
 
         return mostFrequent;
     }
+    
+    
+    
+    public List<String> topKFrequentTrie(String[] words, int k) {
+        Trie trie = new Trie();
+
+        for (String word : words) {
+            insert(trie, word);
+        }
+
+        PriorityQueue<java.util.AbstractMap.SimpleEntry<String, Integer>> priorityQueue = new PriorityQueue<>((o1, o2) -> {
+            int compare = Integer.compare(o2.getValue(), o1.getValue());
+            return compare != 0 ? compare : o1.getKey().compareTo(o2.getKey());
+        });
+
+        fillInQ(priorityQueue, trie);
+
+        List<String> mostFrequent = new LinkedList<>();
+        int index = 0;
+        while (!priorityQueue.isEmpty() && index++ < k) {
+            mostFrequent.add(priorityQueue.poll().getKey());
+        }
+
+        return mostFrequent;
+    }
+    
+    
+    
+    void insert(Trie trie, String s) {
+        Trie current = trie;
+        // fill in trie
+        for (char ch : s.toCharArray()) {
+            current.holder.putIfAbsent(ch, new Trie());
+            current = current.holder.get(ch);
+        }
+        current.key = s;
+        ++current.count;
+    }
+
+
+    void fillInQ(PriorityQueue<java.util.AbstractMap.SimpleEntry<String, Integer>> priorityQueue, Trie trie) {
+        if (trie != null) {
+            for (Map.Entry<Character, Trie> e : trie.holder.entrySet()) {
+                if (e.getValue().count != 0) {
+                    priorityQueue.add(new java.util.AbstractMap.SimpleEntry<>(e.getValue().key, e.getValue().count));
+                }
+                fillInQ(priorityQueue, e.getValue());
+            }
+        }
+    }
+
+
+    static class Trie {
+        int count = 0;
+        String key = null;
+        Map<Character, Trie> holder = new HashMap<>();
+    }
+}
 }
