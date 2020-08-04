@@ -153,5 +153,5 @@ public class TopKFrequentWords {
         String key = null;
         Map<Character, Trie> holder = new HashMap<>();
     }
-}
+
 }
