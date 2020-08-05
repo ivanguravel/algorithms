@@ -17,6 +17,7 @@
 - https://timus.online/problem.aspx?space=1&num=2108
 - https://leetcode.com/problems/jump-game-ii/
 - https://leetcode.com/problems/letter-combinations-of-a-phone-number/
-- 
+- https://leetcode.com/problems/lru-cache/
+- https://leetcode.com/problems/lfu-cache/
 
 
