@@ -14,4 +14,28 @@ public class Searcha2DMatrixII {
         }
         return false;
     }
+  
+  
+    public boolean searchMatrix2(int[][] matrix, int target) {
+        if( matrix.length == 0)  {
+            return false;
+        } else if (matrix.length == 1 && matrix[0].length == 0) {
+           return false; 
+        } else {        
+            int i = 0;
+            int j = matrix[0].length -1;
+
+            while (i < matrix.length && j >= 0) {
+                if (matrix[i][j] == target) {
+                    return true;
+                } else if (matrix[i][j] < target) {
+                    i++;
+                } else {
+                    j--;
+                }
+            }
+               
+        }
+        return false;       
+    }
 }
