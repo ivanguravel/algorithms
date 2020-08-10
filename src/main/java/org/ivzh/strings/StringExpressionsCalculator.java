@@ -1,4 +1,6 @@
-package org.ivzh.strings
+package org.ivzh.strings;
+
+import java.util.*;
 
 public class StringExpressionsCalculator {
 
