@@ -1,14 +1,14 @@
 
-package org.ivzh.other;
+package org.ivzh.cache;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 // https://leetcode.com/problems/lru-cache/
 public class LRUCache {
 
     int capacity;
-    LinkedList<Integer> lru = new LinkedList<>();
     LinkedHashMap<Integer, Integer> hash;
 
     public LRUCache(int capacity) {
