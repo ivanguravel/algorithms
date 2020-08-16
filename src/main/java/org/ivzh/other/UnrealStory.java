@@ -2,6 +2,7 @@ package org.ivzh.other;
 
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 // https://acm.timus.ru/problem.aspx?space=1&num=1491
 public class UnrealStory {
@@ -10,8 +11,12 @@ public class UnrealStory {
     int[][] data;
     int[] result;
 
-    TreeMap<Integer, Integer> tree;
-    Map<Tuple, Integer> container;
+    int min = Integer.MAX_VALUE;
+    int max = Integer.MIN_VALUE;
+
+    Map<Interval, Integer> container;
+
+    Set<Interval> enabledIntervals = new HashSet<>();
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -19,27 +24,15 @@ public class UnrealStory {
         new UnrealStory().solve(in, out);
     }
 
-    // O(n*logn)
     void solve(Scanner in, PrintWriter out) {
         readData(in);
 
-        for (int i = this.tree.firstKey(); i <= this.tree.lastKey(); i++) {
+        for (int i = this.min; i <= this.max; i++) {
             Integer sum = 0;
-            if (this.tree.containsKey(i)) {
-                sum = sum + this.tree.get(i);
-            }
+            prepareEnabledIntervals(i);
 
-            Map.Entry<Integer, Integer> prev = this.tree.lowerEntry(i);
-            Map.Entry<Integer, Integer> next = this.tree.higherEntry(i);
-
-            if (prev != null && next != null) {
-                Integer prevKey = prev.getKey();
-                Integer nextKey = next.getKey();
-
-                Tuple tuple = new Tuple(prevKey, nextKey);
-                if (prevKey < i && i < nextKey && this.container.containsKey(tuple)) {
-                    sum = sum + this.container.get(tuple);
-                }
+            for (Interval enabled : enabledIntervals) {
+                sum = sum + container.get(enabled);
             }
 
             result[i] = sum;
@@ -76,9 +69,7 @@ public class UnrealStory {
 
     private void readData(Scanner in) {
         this.n = in.nextInt();
-        this.data = new int[n+1][3];
         this.result = new int[n+1];
-        this.tree = new TreeMap<>();
         this.container = new HashMap<>();
         in.nextLine();
         for (int i = 0; i < n+1; i++) {
@@ -87,36 +78,42 @@ public class UnrealStory {
             Integer key2 = Integer.parseInt(line[1]);
             Integer val = Integer.parseInt(line[2]);
 
-            this.data[i][0] = key1;
-            this.data[i][1] = key2;
-            this.data[i][2] = val;
 
-            this.container.put(new Tuple(key1, key2), val);
+            this.container.put(new Interval(key1, key2), val);
 
-            if (this.tree.containsKey(key1)) {
-                Integer val1 = this.tree.get(key1);
-                this.tree.put(key1, val1 + val);
-            } else {
-                this.tree.put(key1, val);
+            if (min > key1) {
+                min = key1;
             }
 
-            if (!key1.equals(key2)) {
-                if (this.tree.containsKey(key2)) {
-                    Integer val1 = this.tree.get(key2);
-                    this.tree.put(key2, val1 + val);
-                } else {
-                    this.tree.put(key2, val);
-                }
+            if (min > key2) {
+                min = key2;
             }
 
+            if (max < key1) {
+                max = key1;
+            }
+
+            if (max < key2) {
+                max = key2;
+            }
         }
     }
 
-    static class Tuple {
+    private void prepareEnabledIntervals(int i) {
+        Set<Interval> collect = container.keySet()
+                .stream()
+                .filter(integer -> integer.isInsideInterval(i))
+                .collect(Collectors.toSet());
+
+        enabledIntervals.removeAll(enabledIntervals.stream().filter(e -> !e.isInsideInterval(i)).collect(Collectors.toSet()));
+        enabledIntervals.addAll(collect);
+    }
+
+    static class Interval {
         int one;
         int two;
 
-        public Tuple(int one, int two) {
+        public Interval(int one, int two) {
             this.one = one;
             this.two = two;
         }
@@ -125,14 +122,18 @@ public class UnrealStory {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            Tuple tuple = (Tuple) o;
-            return one == tuple.one &&
-                    two == tuple.two;
+            Interval interval = (Interval) o;
+            return one == interval.one &&
+                    two == interval.two;
         }
 
         @Override
         public int hashCode() {
             return Objects.hash(one, two);
+        }
+
+        public boolean isInsideInterval(int i) {
+            return this.one <= i && i <= this.two;
         }
     }
 }
