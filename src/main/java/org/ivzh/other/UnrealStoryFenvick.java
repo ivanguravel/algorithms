@@ -75,7 +75,7 @@ public class UnrealStoryFenvick {
 
     static class BinaryIndexedTree {
         // Max tree size
-        final static int MAX = 100000;
+        final static int MAX = 100001;
 
         int BITree[] = new int[MAX];
         int queryRange = 0;
