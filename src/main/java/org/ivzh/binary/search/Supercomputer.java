@@ -28,17 +28,9 @@ public class Supercomputer {
                 ans = middle;
                 break;
             } else if (forCheck > this.n) {
-                if (j - i <= 1000) {
-                    --j;
-                } else {
-                    j = j / 2;
-                }
+                j = middle;
             } else {
-                if (j - i <= 1000) {
-                    ++i;
-                } else {
-                    i = i * 2;
-                }
+                i = middle;
             }
         }
 
