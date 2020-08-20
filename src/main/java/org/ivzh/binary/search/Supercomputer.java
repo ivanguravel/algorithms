@@ -16,9 +16,8 @@ public class Supercomputer {
     private void solve(Scanner in, PrintWriter out) {
         readData(in);
 
-
         int i = 1;
-        int j = n + 5;
+        int j = Integer.MAX_VALUE-3;
 
         int ans = -1;
         while ((i + 1) < j) {
@@ -29,9 +28,17 @@ public class Supercomputer {
                 ans = middle;
                 break;
             } else if (forCheck > this.n) {
-                --j;
+                if (j - i <= 1000) {
+                    --j;
+                } else {
+                    j = j / 2;
+                }
             } else {
-                ++i;
+                if (j - i <= 1000) {
+                    ++i;
+                } else {
+                    i = i * 2;
+                }
             }
         }
 
