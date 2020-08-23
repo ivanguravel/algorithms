@@ -4,6 +4,8 @@ package org.ivzh.queues;
 import java.io.PrintWriter;
 import java.util.*;
 
+
+// https://acm.timus.ru/problem.aspx?space=1&num=1126
 public class MagneticStorm {
 
     int m;

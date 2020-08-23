@@ -32,7 +32,6 @@ public class UnrealStoryFenvick {
 
     private void readData(Scanner in) {
         this.n = in.nextInt();
-        this.result = new int[n+1];
 
         in.nextLine();
 
