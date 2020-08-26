@@ -1,4 +1,4 @@
-package org.ivzh.graph;
+package org.ivzh.dsu;
 
 
 import java.io.PrintWriter;
