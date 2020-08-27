@@ -120,7 +120,7 @@ public class Network {
             }
         }
 
-        private void swap(int a, int b) {
+        private void swap(Integer a, Integer b) {
             int temp = a;
             a = b;
             b = temp;
