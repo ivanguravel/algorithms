@@ -31,7 +31,7 @@ public class TwoSum {
         Arrays.sort(nums);
         int start = 0;
         int end = nums.length -1;
-        while(start + 1 <= end) {
+        while(start < end) {
             int version = nums[start] + nums[end];
             if (target == version) {
                 int[] res = new int[2];
