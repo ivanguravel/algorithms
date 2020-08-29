@@ -63,7 +63,7 @@ public class AnansisCobweb {
 
         for(int i=0; i < q; i++) {
             breaks.add(in.nextInt() -1);
-            this.vertexes.get(i).isBreakPresent = true;
+            this.vertexes.get(breaks.get(i)).isBreakPresent = true;
         }
         this.connectedComponentsAfterBreaks = new HashSet<>();
     }
