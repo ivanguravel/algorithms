@@ -6,6 +6,7 @@ import java.util.Map;
 
 
 // https://leetcode.com/problems/two-sum/
+// https://web.stanford.edu/class/cs9/sample_probs/TwoSum.pdf
 public class TwoSum {
 
     private static int[] twoSum1(int[] arr, int target) {
@@ -30,7 +31,7 @@ public class TwoSum {
         Arrays.sort(nums);
         int start = 0;
         int end = nums.length -1;
-        while(end >= start) {
+        while(start + 1 <= end) {
             int version = nums[start] + nums[end];
             if (target == version) {
                 int[] res = new int[2];
