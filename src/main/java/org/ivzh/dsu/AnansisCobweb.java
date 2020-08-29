@@ -12,7 +12,7 @@ public class AnansisCobweb {
 
     DSU dsu;
 
-    Set<Integer> connectedComponentsAfterBreaks = new HashSet<>();
+    Set<Integer> connectedComponentsAfterBreaks = new TreeSet<>();
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -42,7 +42,7 @@ public class AnansisCobweb {
         Collections.reverse(result);
 
         for (int i = result.size() -1; i>=0; i--) {
-            out.print(String.format("%s ", i));
+            out.print(String.format("%s ", result.get(i)));
         }
     }
 
