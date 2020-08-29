@@ -3,6 +3,8 @@ package org.ivzh.dsu;
 import java.io.PrintWriter;
 import java.util.*;
 
+
+// https://timus.online/problem.aspx?space=1&num=1671
 public class AnansisCobweb {
     int n;
     int m;
