@@ -83,8 +83,8 @@ public class AnansisCobweb {
 
 
     static class DSU {
-        int[] parents = new int[10_0001];
-        int[] dsuSize = new int[10_0001];
+        int[] parents = new int[100002];
+        int[] dsuSize = new int[100002];
 
         int count;
 
