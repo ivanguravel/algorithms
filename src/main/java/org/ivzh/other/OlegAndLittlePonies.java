@@ -26,7 +26,7 @@ public class OlegAndLittlePonies {
 
     void solve(Scanner in, PrintWriter out) {
         // read data
-       // readData(in);
+        readData(in);
 
         StringBuilder answerBuilder = new StringBuilder(presentToys);
 
@@ -56,18 +56,19 @@ public class OlegAndLittlePonies {
     }
 
 
-//        this.n = in.nextInt();
-//        this.m = in.nextInt();
-//        this.wishes = new HashMap<>(m + 1);
-//        this.base = Stream.generate(() -> "0").limit(n).collect(Collectors.joining());
-//        in.nextLine();
-//        for (int i = 0 ; i < m; i++) {
-//            String s = in.nextLine();
-//            String[] split = s.split(" ");
-//            wishes.put(split[0], split[1]);
-//        }
-//        this.presentToys = in.nextLine();
-//    }
+    private void readData(Scanner in) {
+        this.n = in.nextInt();
+        this.m = in.nextInt();
+        this.wishes = new HashMap<>(m + 1);
+        this.base = Stream.generate(() -> "0").limit(n).collect(Collectors.joining());
+        in.nextLine();
+        for (int i = 0 ; i < m; i++) {
+            String s = in.nextLine();
+            String[] split = s.split(" ");
+            wishes.put(split[0], split[1]);
+        }
+        this.presentToys = in.nextLine();
+    }
 
     private void fillAnswer(StringBuilder answerBuilder, String wish) {
         for (int i = 0; i < wish.length(); i++) {
