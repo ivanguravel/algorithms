@@ -19,6 +19,9 @@
 - https://leetcode.com/problems/letter-combinations-of-a-phone-number/
 - https://leetcode.com/problems/implement-trie-prefix-tree
 - https://leetcode.com/problems/lfu-cache/
+- https://acm.timus.ru/problem.aspx?space=1&num=1223&locale=ru
+- https://acm.timus.ru/problem.aspx?space=1&num=1709
+- https://acm.timus.ru/problem.aspx?space=1&num=1223
 
 
 
