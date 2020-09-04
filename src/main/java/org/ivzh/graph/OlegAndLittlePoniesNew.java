@@ -52,8 +52,9 @@ public class OlegAndLittlePoniesNew {
             List<Integer> stored = store.get(queue.pollFirst());
             if (stored != null) {
                 for (Integer integer : stored) {
-                    --counter[integer];
+
                     if (counter[integer] != 0) {
+                        --counter[integer];
                         List<Integer> integers = wishes.get(integer);
                         for (int i = 0; i < wishes.size(); i++) {
                             if (integers != null && integers.size() > i) {
