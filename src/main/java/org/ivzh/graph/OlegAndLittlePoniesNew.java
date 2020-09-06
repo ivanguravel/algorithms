@@ -16,11 +16,11 @@ public class OlegAndLittlePoniesNew {
     int m;
 
 
-    Map<Integer, List<Integer>> store;
+    Map<Integer, List<Integer>> presentToys;
     Map<Integer, List<Integer>> wishes;
 
     int[] counter;
-    boolean[] visited;
+    boolean[] result;
 
     Deque<Integer> queue = new ArrayDeque<>();
 
@@ -35,12 +35,13 @@ public class OlegAndLittlePoniesNew {
         // read data
         readData(in);
 
+       //
         bfs();
 
         StringBuilder result = new StringBuilder(EMPTY);
 
         for (int i = 0; i < n; i++) {
-            result.append(visited[i] ? ONE : ZERO);
+            result.append(this.result[i] ? ONE : ZERO);
         }
 
         out.println(result.toString());
@@ -49,19 +50,16 @@ public class OlegAndLittlePoniesNew {
 
     void bfs() {
         while (!queue.isEmpty()) {
-            List<Integer> stored = store.get(queue.pollFirst());
-            if (stored != null) {
-                for (Integer integer : stored) {
-
+            List<Integer> present = presentToys.get(queue.pollFirst());
+            if (present != null) {
+                for (Integer integer : present) {
                     if (counter[integer] != 0) {
                         --counter[integer];
-                        List<Integer> integers = wishes.get(integer);
-                        for (int i = 0; i < wishes.size(); i++) {
-                            if (integers != null && integers.size() > i) {
-                                if (!visited[integers.get(i)]) {
-                                    visited[integers.get(i)] = true;
-                                    queue.push(integers.get(i));
-                                }
+                        List<Integer> wishesList = wishes.get(integer);
+                        for (int i = 0; i < wishesList.size(); i++) {
+                            if (!result[wishesList.get(i)]) {
+                                result[wishesList.get(i)] = true;
+                                queue.push(wishesList.get(i));
                             }
                         }
                     }
@@ -75,11 +73,11 @@ public class OlegAndLittlePoniesNew {
         this.n = in.nextInt();
         this.m = in.nextInt();
 
-        this.store = new HashMap<>(4010);
+        this.presentToys = new HashMap<>(4010);
         this.wishes = new HashMap<>(4010);
 
         this.counter = new int[4010];
-        this.visited = new boolean[4010];
+        this.result = new boolean[4010];
 
         in.nextLine();
 
@@ -94,14 +92,14 @@ public class OlegAndLittlePoniesNew {
             for (int j = 0; j < n; ++j) {
                 if (forToysRecognition.charAt(j) == ONE) {
 
-                    List<Integer> list = store.get(j);
+                    List<Integer> list = presentToys.get(i);
 
                     if (list == null) {
                         list = new LinkedList<>();
 
                     }
                     list.add(i);
-                    store.put(j, list);
+                    presentToys.put(j, list);
                     ++counter[i];
                 }
             }
@@ -109,7 +107,7 @@ public class OlegAndLittlePoniesNew {
             for (int j = 0; j < n; ++j) {
                 if (forWishes.charAt(j) == ONE) {
 
-                    List<Integer> list = store.get(i);
+                    List<Integer> list = wishes.get(i);
 
                     if (list == null) {
                         list = new LinkedList<>();
@@ -128,7 +126,7 @@ public class OlegAndLittlePoniesNew {
         for (int i = 0; i < n; ++i) {
             if (presentToys.charAt(i) == ONE) {
                 queue.add(i);
-                visited[i] = true;
+                result[i] = true;
             }
         }
     }
