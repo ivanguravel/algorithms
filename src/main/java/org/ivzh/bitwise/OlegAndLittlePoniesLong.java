@@ -1,5 +1,6 @@
 package org.ivzh.bitwise;
 
+
 import java.io.PrintWriter;
 import java.util.*;
 
@@ -11,7 +12,7 @@ public class OlegAndLittlePoniesLong {
     int n;
     int m;
 
-    long[][] data;
+    long[][] wishes;
     long presentToys;
     boolean[] visited;
 
@@ -33,11 +34,11 @@ public class OlegAndLittlePoniesLong {
             for (int i =0; i < m; i++) {
                 if (!visited[i]) {
                     long buffer = this.presentToys;
-                    buffer = buffer & data[i][0];
+                    buffer = buffer & wishes[i][0];
 
-                    if (buffer == data[i][0]) {
+                    if (buffer == wishes[i][0]) {
                         visited[i] = true;
-                        presentToys = presentToys | data[i][1];
+                        presentToys = presentToys | wishes[i][1];
                         continueLoop = true;
                     }
                 }
@@ -70,7 +71,7 @@ public class OlegAndLittlePoniesLong {
         this.n = in.nextInt();
         this.m = in.nextInt();
 
-        this.data = new long[4002][2];
+        this.wishes = new long[4002][2];
         //Arrays.fill(this.data, new BitSet[2]);
 
         this.visited = new boolean[4002];
@@ -80,10 +81,11 @@ public class OlegAndLittlePoniesLong {
             String s = in.nextLine();
             String[] split = s.split(" ");
 
-            data[i][0] = Long.parseLong(split[0], 2);
-            data[i][1] = Long.parseLong(split[1], 2);
+            wishes[i][0] = Long.parseLong(split[0], 2);
+            wishes[i][1] = Long.parseLong(split[1], 2);
         }
 
         this.presentToys = Long.parseLong(in.nextLine(), 2);
     }
 }
+
