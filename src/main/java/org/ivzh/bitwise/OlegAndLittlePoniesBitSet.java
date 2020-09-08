@@ -1,4 +1,4 @@
-package org.ivzh.bitwise;
+package org.ivzh.other;
 
 import java.io.PrintWriter;
 import java.util.*;
@@ -11,7 +11,7 @@ public class OlegAndLittlePoniesBitSet {
     int n;
     int m;
 
-    BitSet[][] data;
+    BitSet[][] wishes;
     BitSet presentToys;
     boolean[] visited;
 
@@ -29,14 +29,14 @@ public class OlegAndLittlePoniesBitSet {
 
 
         while (true) {
-            boolean continueLoop = false;
+            Boolean continueLoop = false;
             for (int i =0; i < m; i++) {
                 if (!visited[i]) {
                     BitSet buffer = (BitSet) presentToys.clone();
-                    buffer.and(data[i][0]);
-                    if (buffer.equals(data[i][0])) {
+                    buffer.and(wishes[i][0]);
+                    if (buffer.equals(wishes[i][0])) {
                         visited[i] = true;
-                        presentToys.or(data[i][1]);
+                        presentToys.or(wishes[i][1]);
                         continueLoop = true;
                     }
                 }
@@ -57,7 +57,7 @@ public class OlegAndLittlePoniesBitSet {
         this.n = in.nextInt();
         this.m = in.nextInt();
 
-        this.data = new BitSet[4002][2];
+        this.wishes = new BitSet[4002][2];
         //Arrays.fill(this.data, new BitSet[2]);
 
         this.visited = new boolean[4002];
@@ -67,8 +67,8 @@ public class OlegAndLittlePoniesBitSet {
             String s = in.nextLine();
             String[] split = s.split(" ");
 
-            data[i][0] = BitSet.valueOf(split[0].getBytes());
-            data[i][1] = BitSet.valueOf(split[1].getBytes());
+            wishes[i][0] = BitSet.valueOf(split[0].getBytes());
+            wishes[i][1] = BitSet.valueOf(split[1].getBytes());
         }
 
         this.presentToys = BitSet.valueOf(in.nextLine().getBytes());
