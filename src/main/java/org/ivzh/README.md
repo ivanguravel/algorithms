@@ -14,7 +14,6 @@
 - https://codeforces.com/contest/1327/problem/E
 - https://leetcode.com/problems/split-linked-list-in-parts/
 - https://codeforces.com/problemset/problem/572/B
-- https://timus.online/problem.aspx?space=1&num=2108
 - https://leetcode.com/problems/jump-game-ii/
 - https://leetcode.com/problems/letter-combinations-of-a-phone-number/
 - https://leetcode.com/problems/implement-trie-prefix-tree
