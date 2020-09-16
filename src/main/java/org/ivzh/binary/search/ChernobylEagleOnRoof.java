@@ -45,7 +45,8 @@ public class ChernobylEagleOnRoof {
             if (eggs == 0 && floors == 0) {
                break;
             } else {
-                out.print(dp[eggs][floors]);
+                int answer = binarySearch[floors] <= eggs ? binarySearch[floors] : dp[eggs][floors];
+                out.print(answer);
             }
         }
     }
