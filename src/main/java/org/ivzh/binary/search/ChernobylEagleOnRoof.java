@@ -22,15 +22,11 @@ public class ChernobylEagleOnRoof {
 
         for (int i = 0; i <= 1001; i++) {
             // for dynamic work
-            dp[0][i] = Integer.MAX_VALUE;
-            if (i >= 1) {
-                // we can break 1 egg for each floors
-                dp[1][i] = i;
-                // we got each egg on 1 floor
-                dp[i][1] = 1;
-                //dp[i][0] = 0;
-            }
+            dp[1][i] = i;
+            dp[i][0] = 0;
         }
+
+        binarySearch[0] = binarySearch[1] = 1;
 
         solve();
         result(in, out);
@@ -41,21 +37,24 @@ public class ChernobylEagleOnRoof {
             binarySearch[i] = binarySearch[i / 2] + 1;
         }
 
-        dp[1][1] = 1;
-
+        // per tests
         int eggsCount = 1001;
         int floorsCount = 1001;
 
         for (int i = 2; i <= eggsCount; i++) {
-            for (int j = 2; j <= floorsCount; j++) {
+            for (int j = Math.max(2, (int) Math.pow(2, i)); j <= floorsCount; j++) {
                 Integer min = Integer.MAX_VALUE;
                 for (int floor = 1; floor <= j; floor++) {
                     int min1 = dp[i - 1][floor - 1];
                     int min2 = dp[i][j - floor];
                     int current = (int) Math.max(min1, min2);
-                    min = (int) Math.min(current, min);
+                    if(current < min)
+                        min = current;
+                    else if(current > min) {// Break early because of convexity
+                        break;
+                    }
                 }
-                dp[eggsCount][floorsCount] = min +1;
+                dp[i][j] = min +1;
             }
         }
     }
