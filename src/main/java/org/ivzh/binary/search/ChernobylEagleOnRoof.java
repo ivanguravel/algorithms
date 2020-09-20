@@ -42,7 +42,7 @@ public class ChernobylEagleOnRoof {
         int floorsCount = 1001;
 
         for (int i = 2; i <= eggsCount; i++) {
-            for (int j = Math.max(2, (int) Math.pow(2, i)); j <= floorsCount; j++) {
+            for (int j = 2; j <= floorsCount; j++) {
                 Integer min = Integer.MAX_VALUE;
                 for (int floor = 1; floor <= j; floor++) {
                     int min1 = dp[i - 1][floor - 1];
