@@ -3,6 +3,8 @@ package org.ivzh.binary.search;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+
+// https://acm.timus.ru/problem.aspx?space=1&num=1223
 public class ChernobylEagleOnRoof {
 
 
