@@ -7,8 +7,8 @@ import java.util.*;
 // https://codeforces.com/problemset/problem/762/A
 public class KDivitor {
 
-    long n;
-    long k;
+    Long n;
+    Long k;
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -19,7 +19,7 @@ public class KDivitor {
     private void solve(Scanner in, PrintWriter out) {
         readData(in);
 
-        Set<Long> container = new HashSet<>();
+        Set<Long> container = new TreeSet<>();
 
         calculateDevidors(container);
 
@@ -49,7 +49,7 @@ public class KDivitor {
     }
 
     private void readData(Scanner in) {
-        this.n = in.nextLong();
-        this.k = in.nextLong();
+        this.n = new Long(in.next());
+        this.k = new Long(in.next());
     }
 }
