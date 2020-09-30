@@ -45,8 +45,8 @@ public class ChernobylEagleOnRoof {
             for (int j = 2; j <= floorsCount; j++) {
                 Integer min = Integer.MAX_VALUE;
                 for (int floor = 1; floor <= j; floor++) {
-                    int min1 = dp[i - 1][floor - 1];
-                    int min2 = dp[i][j - floor];
+                    int min1 = binarySearch[floor-1] <= i-1 ? (int) binarySearch[floor - 1] : dp[i - 1][floor - 1];
+                    int min2 = binarySearch[j-floor] <= i ? (int) binarySearch[j - floor] : dp[i][j - floor];
                     int current = (int) Math.max(min1, min2);
                     if(current < min)
                         min = current;
