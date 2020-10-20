@@ -8,7 +8,7 @@ class RemoveDuplicatesFromSortedArrayTwo {
         int duplicatesCount = 0;
         Map<Integer, Integer> map = new HashMap<>();
         for(int j : nums){
-            if(map.getOrDefault(j, 0) < 2){
+            if(map.getOrDefault(j, 0) <= 1){
                 nums[duplicatesCount++] = j;
             }
             map.put(j, map.getOrDefault(j, 0) + 1);
