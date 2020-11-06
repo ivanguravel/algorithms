@@ -1,5 +1,4 @@
 package org.ivzh.graph;
-
 import java.io.PrintWriter;
 import java.util.*;
 
@@ -22,18 +21,17 @@ public class MapColoring {
 
     private void solve(Scanner in, PrintWriter out) {
         readData(in);
-        int result = 0;
+
         for (int i = 1; i <= n; i++) {
             if (!visited.contains(i)) {
-                result = dfs(i, 0);
+               if (!dfs(i, 0)) {
+                    out.print(-1);
+                    out.flush();
+                    return;
+                }
             }
         }
-        if (result == -1) {
-            out.println(result);
-        } else {
-            printResult(out);
-        }
-        out.flush();
+        printResult(out);
     }
 
     private void readData(Scanner in) {
@@ -42,7 +40,10 @@ public class MapColoring {
 
         n = in.nextInt();
         colors = new int[n+1];
+
+        Arrays.fill(colors, -1);
         List<Integer> neighbors;
+        List<Integer> otherNeighbors;
         Integer value;
 
 
@@ -51,29 +52,35 @@ public class MapColoring {
             if (neighbors == null) {
                 neighbors = new LinkedList<>();
             }
-            value = in.nextInt();
-            while (value != 0) {
+
+            while ((value = in.nextInt()) != 0) {
                 neighbors.add(value);
+                otherNeighbors = graph.get(value);
+                if (otherNeighbors == null) {
+                    otherNeighbors = new LinkedList<>();
+                }
+                otherNeighbors.add(i);
                 graph.put(i, neighbors);
-                value = in.nextInt();
+                graph.put(value, otherNeighbors);
             }
         }
     }
 
-    private int dfs(int vertex, int color) {
+    private boolean dfs(int vertex, int color) {
+        colors[vertex] = color & 1;
         visited.add(vertex);
-        colors[vertex] = color % 2 != 0 ? 1 : 0;
+        
         List<Integer> neighbors = graph.get(vertex);
         if (neighbors != null) {
             for (int neighbor : neighbors) {
                 if (!visited.contains(neighbor)) {
-                    dfs(neighbor, ++color);
+                    dfs(neighbor, color + 1);
                 } else if (colors[neighbor] == colors[vertex]) {
-                    return -1;
+                    return false;
                 }
             }
         }
-        return 0;
+        return true;
     }
 
     private void printResult(PrintWriter out) {
@@ -82,5 +89,6 @@ public class MapColoring {
             builder.append(colors[i]);
         }
         out.println(builder.toString());
+        out.flush();
     }
 }
