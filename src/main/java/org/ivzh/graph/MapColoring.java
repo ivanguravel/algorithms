@@ -1,4 +1,5 @@
 package org.ivzh.graph;
+
 import java.io.PrintWriter;
 import java.util.*;
 
@@ -7,7 +8,7 @@ public class MapColoring {
 
     int n;
     int[] colors;
-    Map<Integer, List<Integer>> graph;
+    Map<Integer, Set<Integer>> graph;
     Set<Integer> visited;
 
     public static void main(String[] args) {
@@ -42,22 +43,22 @@ public class MapColoring {
         colors = new int[n+1];
 
         Arrays.fill(colors, -1);
-        List<Integer> neighbors;
-        List<Integer> otherNeighbors;
+        Set<Integer> neighbors;
+        Set<Integer> otherNeighbors;
         Integer value;
 
 
         for (int i = 1; i <= n; i++) {
             neighbors = graph.get(i);
             if (neighbors == null) {
-                neighbors = new LinkedList<>();
+                neighbors = new HashSet<>();
             }
 
             while ((value = in.nextInt()) != 0) {
                 neighbors.add(value);
                 otherNeighbors = graph.get(value);
                 if (otherNeighbors == null) {
-                    otherNeighbors = new LinkedList<>();
+                    otherNeighbors = new HashSet<>();
                 }
                 otherNeighbors.add(i);
                 graph.put(i, neighbors);
@@ -69,8 +70,8 @@ public class MapColoring {
     private boolean dfs(int vertex, int color) {
         colors[vertex] = color & 1;
         visited.add(vertex);
-        
-        List<Integer> neighbors = graph.get(vertex);
+
+        Set<Integer> neighbors = graph.get(vertex);
         if (neighbors != null) {
             for (int neighbor : neighbors) {
                 if (!visited.contains(neighbor)) {
@@ -88,7 +89,7 @@ public class MapColoring {
         for (int i = 1; i<= n; i++) {
             builder.append(colors[i]);
         }
-        out.println(builder.toString());
+        out.print(builder.toString());
         out.flush();
     }
 }
