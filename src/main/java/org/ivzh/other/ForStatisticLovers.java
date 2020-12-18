@@ -9,7 +9,7 @@ public class ForStatisticLovers {
 
     int n;
     Map<Long, Set<Integer>> queryContainer = new HashMap<>();
-    int m;
+    int q;
     List<QueryRequest> queries = new LinkedList<>();
 
     public static void main(String[] args) {
@@ -20,6 +20,25 @@ public class ForStatisticLovers {
 
     private void solve(Scanner in, PrintWriter out) {
         readData(in);
+        StringBuilder builder = new StringBuilder();
+        Set<Integer> set;
+        for (QueryRequest request : queries) {
+            set = queryContainer.get(request.count);
+            if (set == null) {
+                builder.append("0");
+                continue;
+            }
+            boolean result = false;
+            for (int i = request.from; i <= request.to; i++) {
+                if (set.contains(i)) {
+                    result = true;
+                    break;
+                }
+            }
+            builder.append(result ? "1" : "0");
+        }
+        out.println(builder.toString());
+        out.flush();
     }
 
     private void readData(Scanner in) {
@@ -34,6 +53,12 @@ public class ForStatisticLovers {
             }
             cities.add(count++);
             queryContainer.put(value, cities);
+        }
+        this.q = in.nextInt();
+        count = 1;
+        while (count <= q) {
+            queries.add(new QueryRequest(in.nextInt(), in.nextInt(), in.nextLong()));
+            ++count;
         }
     }
 
