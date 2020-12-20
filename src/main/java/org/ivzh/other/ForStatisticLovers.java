@@ -8,7 +8,7 @@ import java.util.*;
 public class ForStatisticLovers {
 
     int n;
-    Map<Long, Set<Integer>> queryContainer = new HashMap<>();
+    Map<Long, TreeSet<Integer>> queryContainer = new HashMap<>();
     int q;
     List<QueryRequest> queries = new LinkedList<>();
 
@@ -21,7 +21,7 @@ public class ForStatisticLovers {
     private void solve(Scanner in, PrintWriter out) {
         readData(in);
         StringBuilder builder = new StringBuilder();
-        Set<Integer> set;
+        TreeSet<Integer> set;
         for (QueryRequest request : queries) {
             set = queryContainer.get(request.count);
             if (set == null) {
@@ -29,12 +29,24 @@ public class ForStatisticLovers {
                 continue;
             }
             boolean result = false;
-            for (int i = request.from; i <= request.to; i++) {
-                if (set.contains(i)) {
+
+            Integer flooring = set.floor(request.from);
+            Integer ceiling = set.ceiling(request.to);
+
+
+            if (flooring != null && ceiling != null) {
+
+
+                if (request.from <= flooring && request.to <= ceiling) {
                     result = true;
-                    break;
+                } else if (request.from <= ceiling && request.to <= ceiling) {
+                    result = true;
+                } else if (request.from <= flooring && request.to >= flooring) {
+                    result = true;
                 }
             }
+
+
             builder.append(result ? "1" : "0");
         }
         out.println(builder.toString());
@@ -44,12 +56,12 @@ public class ForStatisticLovers {
     private void readData(Scanner in) {
         this.n = in.nextInt();
         int count = 1;
-        Set<Integer> cities;
+        TreeSet<Integer> cities;
         while (count <= n) {
             long value = in.nextLong();
             cities = queryContainer.get(value);
             if (cities == null) {
-                cities = new HashSet<>();
+                cities = new TreeSet<>();
             }
             cities.add(count++);
             queryContainer.put(value, cities);
