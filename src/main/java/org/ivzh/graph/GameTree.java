@@ -64,7 +64,7 @@ public class GameTree {
         String line;
         String[] parts;
         Integer ancestor;
-        while (count <= (n-1)) {
+        while (count <= (n)) {
             line = in.nextLine();
             parts = line.split(" ");
             if ("L".equals(parts[0])) {
