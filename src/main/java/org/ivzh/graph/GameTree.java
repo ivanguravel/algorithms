@@ -23,26 +23,30 @@ public class GameTree {
     private void solve(Scanner in, PrintWriter out) {
         readData(in);
         int result = dfs(1, true);
-        out.println(result);
+        if (result > 0) {
+            out.println(String.format("+%d", result));
+        } else {
+            out.println(result);
+        }
     }
 
     private int dfs(int i, boolean player) {
         if (valuesHolder[i] != -2) {
             return valuesHolder[i];
-        } else {
-            List<Integer> children = graph.get(i);
-            int max = Integer.MIN_VALUE;
-            if (children != null) {
-                for (Integer child : children) {
-                    if (player) {
-                        max = Math.min(max, dfs(child,false));
-                    } else {
-                        max = Math.max(max, dfs(child,true));
-                    }
+        }
+        List<Integer> children = graph.get(i);
+        Integer min = 0;
+        if (children != null) {
+            for (Integer child : children) {
+                if (player) {
+                    return Math.max(min, dfs(child, false));
+                } else {
+                    return Math.min(min, dfs(child, true));
                 }
             }
-            return max;
+
         }
+        return min;
     }
 
     private void readData(Scanner in) {
@@ -53,7 +57,7 @@ public class GameTree {
 
         Arrays.fill(valuesHolder, END_OF_TREE);
 
-        int count = 1;
+        int count = 2;
         String line;
         String[] parts;
         Integer ancestor;
