@@ -15,7 +15,7 @@ public class ForStatisticLovers {
     private PrintWriter writer;
 
     int n;
-    Map<Long, List<Integer>> queryContainer = new HashMap<>();
+    Map<Long, TreeSet<Integer>> queryContainer = new HashMap<>();
     int q;
     List<QueryRequest> queries = new LinkedList<>();
 
@@ -40,7 +40,7 @@ public class ForStatisticLovers {
     private void solve() {
         readData();
         StringBuilder builder = new StringBuilder();
-        List<Integer> list;
+        TreeSet<Integer> list;
         for (QueryRequest request : queries) {
             list = queryContainer.get(request.count);
             if (list == null) {
@@ -48,25 +48,25 @@ public class ForStatisticLovers {
                 continue;
             }
 
-            Collections.sort(list);
+            Integer floor = list.floor(request.to);
 
-            int i = lowerBound(list, request.from);
 
-            boolean result = i != list.size() && request.to >= list.get(i);
+            boolean result = floor != null && request.from <= floor;
             builder.append(result ? "1" : "0");
         }
         println(builder.toString());
+        flush();
     }
 
     private void readData() {
         this.n = nextInt();
         int count = 1;
-        List<Integer> cities;
+        TreeSet<Integer> cities;
         while (count <= n) {
             long value = nextLong();
             cities = queryContainer.get(value);
             if (cities == null) {
-                cities = new ArrayList<>();
+                cities = new TreeSet<>();
             }
             cities.add(count++);
             queryContainer.put(value, cities);
