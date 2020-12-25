@@ -22,7 +22,7 @@ public class GameTree {
 
     private void solve(Scanner in, PrintWriter out) {
         readData(in);
-        int result = dfs(1, true);
+        int result = dfs(1, 1);
         if (result > 0) {
             out.println(String.format("+%d", result));
         } else {
@@ -30,18 +30,21 @@ public class GameTree {
         }
     }
 
-    private int dfs(int i, boolean player) {
-        if (valuesHolder[i] != -2) {
+    private int dfs(int i, int player) {
+
+        List<Integer> children = graph.get(i);
+
+        if (children == null) {
             return valuesHolder[i];
         }
-        List<Integer> children = graph.get(i);
-        Integer min = 0;
+
+        Integer min = player * (-1);
         if (children != null) {
             for (Integer child : children) {
-                if (player) {
-                    return Math.max(min, dfs(child, false));
+                if (player > 0) {
+                    min = Math.max(min, dfs(child, player * (-1)));
                 } else {
-                    return Math.min(min, dfs(child, true));
+                    min = Math.min(min, dfs(child, player * (-1)));
                 }
             }
 
