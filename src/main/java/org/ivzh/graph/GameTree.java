@@ -39,16 +39,16 @@ public class GameTree {
         }
 
         Integer min = player * (-1);
-        if (children != null) {
-            for (Integer child : children) {
-                if (player > 0) {
-                    min = Math.max(min, dfs(child, player * (-1)));
-                } else {
-                    min = Math.min(min, dfs(child, player * (-1)));
-                }
-            }
 
+        for (Integer child : children) {
+            if (player > 0) {
+                min = Math.max(min, dfs(child, player * (-1)));
+            } else {
+                min = Math.min(min, dfs(child, player * (-1)));
+            }
         }
+
+
         return min;
     }
 
