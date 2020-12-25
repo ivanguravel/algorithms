@@ -79,22 +79,6 @@ public class ForStatisticLovers {
         }
     }
 
-    static int lowerBound(List<Integer> a, int x) { // x is the target value or key
-        int l=-1,r=a.size();
-        while(l+1<r) {
-            int m=(l+r) / 2;
-
-
-            if(m < a.size() && a.get(m)>=x) {
-                r = m;
-            } else {
-                l=m;
-            }
-        }
-        return r;
-    }
-
-
     static class QueryRequest {
         int from;
         int to;
