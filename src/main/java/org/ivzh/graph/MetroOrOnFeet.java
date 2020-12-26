@@ -60,7 +60,7 @@ public class MetroOrOnFeet {
 
     private void prepareData() {
         for (int i = 0; i < countOfMetroStations + 1; i++) {
-            for (int j = 0; j < countOfMetroStations + 2; j++) {
+            for (int j = 0; j < countOfMetroStations + 1; j++) {
                 double speed = connections[i][j] == 1 ? speedOnMetro : speedOnFeet;
                 graph[i][j] = calculatePoints(i, j, speed);
             }
