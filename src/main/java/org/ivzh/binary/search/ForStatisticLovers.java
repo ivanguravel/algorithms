@@ -40,15 +40,15 @@ public class ForStatisticLovers {
     private void solve() {
         readData();
         StringBuilder builder = new StringBuilder();
-        TreeSet<Integer> list;
+        TreeSet<Integer> cities;
         for (QueryRequest request : queries) {
-            list = queryContainer.get(request.count);
-            if (list == null) {
+            cities = queryContainer.get(request.count);
+            if (cities == null) {
                 builder.append("0");
                 continue;
             }
 
-            Integer floor = list.floor(request.to);
+            Integer floor = cities.floor(request.to);
 
 
             boolean result = floor != null && request.from <= floor;
