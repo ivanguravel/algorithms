@@ -71,7 +71,7 @@ public class MetroOrOnFeet {
 
         int count = 0;
         while (count < n) {
-            coordinates[count++] = new Point(nextInt(), nextInt());
+            coordinates[count++] = new Point(nextDouble(), nextDouble());
         }
 
         Integer i = nextInt();
@@ -114,10 +114,16 @@ public class MetroOrOnFeet {
     private void makeDijkstra() {
         time[n] = 0;
         int i;
+        // set initial data for dijkstra.
+
         for (i = 0; i < n + 2; i++) {
+            // for all nodes which are not equal to n
             if (i != n) {
+                // set time for some node from node n
                 time[i] = graph[n][i];
+                // set previous node
                 previous[i] = n;
+                // set for covering algo
                 dijkstraCoveringSet[i] = true;
             }
         }
@@ -125,7 +131,7 @@ public class MetroOrOnFeet {
         for (i = 0; i < n + 1; i++) {
             
             int nextStart = 0;
-            
+            // find minimum which are connected to current node
             double min = Double.MAX_VALUE;
             for (int nextStartValues = 0; nextStartValues < n + 2; nextStartValues++) {
                 if (dijkstraCoveringSet[nextStartValues] && (time[nextStartValues] < min)) {
@@ -135,6 +141,7 @@ public class MetroOrOnFeet {
             }
             dijkstraCoveringSet[nextStart] = false;
 
+            // re-compute time for connected nodes
             for (int nextStartValues = 0; nextStartValues < n + 2; nextStartValues++) {
                 if (dijkstraCoveringSet[nextStartValues]) {
                     if (time[nextStart] + graph[nextStart][nextStartValues] < time[nextStartValues]) {
@@ -156,20 +163,19 @@ public class MetroOrOnFeet {
             pathCounter++;
         }
 
-        DecimalFormat df = new DecimalFormat("#.#######");
-        df.setRoundingMode(RoundingMode.DOWN);
         println(round(time[n + 1], 7));
         print(String.format("%d ", pathCounter - 1));
         for (int i = pathCounter - 1; i >= 1; i--) {
             print(String.format("%d ", restoredPath[i] + 1));
         }
+        flush();
     }
 
     static class Point {
         double x;
         double y;
 
-        public Point(int x, int y) {
+        public Point(double x, double y) {
             this.x = x;
             this.y = y;
         }
