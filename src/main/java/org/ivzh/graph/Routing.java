@@ -39,14 +39,14 @@ public class Routing {
         readData();
         bfs();
         printer();
-    }
-
-    private void printer() {
 
     }
 
     private void bfs() {
 
+    }
+
+    private void printer() {
 
     }
 
@@ -74,12 +74,21 @@ public class Routing {
     }
 
     static class HostDescription {
-        String subnet;
-        String mask;
+        long subnet;
+        boolean visited;
 
-        public HostDescription(String subnet, String mask) {
-            this.subnet = subnet;
-            this.mask = mask;
+        public HostDescription(String ip, String mask) {
+            long subnetConverted = toBits(ip);
+            long maskConverted = toBits(mask);
+            this.subnet = subnetConverted & maskConverted;
+        }
+
+        private static long toBits(String s) {
+            String[] split = s.split("\\.");
+            return  (Long.parseLong(split[0])<<24) +
+                    (Long.parseLong(split[1])<<16) +
+                    (Long.parseLong(split[2])<<8) +
+                    Long.parseLong(split[3]);
         }
     }
 
