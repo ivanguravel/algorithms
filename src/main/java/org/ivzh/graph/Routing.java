@@ -43,6 +43,16 @@ public class Routing {
     }
 
     private void bfs() {
+        Queue<Integer> q = new LinkedList<>();
+        q.add(start);
+        boolean[] visited = new boolean[n+2];
+        visited[start] = true;
+        int[] d = new int[n+2];
+        Integer parent;
+        while (!q.isEmpty()) {
+            parent = q.poll();
+            for (Integer child : graph.get(parent))
+        }
 
     }
 
@@ -75,7 +85,6 @@ public class Routing {
 
     static class HostDescription {
         long subnet;
-        boolean visited;
 
         public HostDescription(String ip, String mask) {
             long subnetConverted = toBits(ip);
