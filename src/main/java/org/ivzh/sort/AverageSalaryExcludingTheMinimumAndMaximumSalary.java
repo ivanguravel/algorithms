@@ -3,6 +3,7 @@ package org.ivzh.sort
 
 import java.util.*;
 
+// https://leetcode.com/problems/average-salary-excluding-the-minimum-and-maximum-salary/
 public class AverageSalaryExcludingTheMinimumAndMaximumSalary {
   
   public double average(int[] salary) {
