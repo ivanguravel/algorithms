@@ -61,6 +61,11 @@ public class Customs {
         }
     }
 
+
+    private void provisionData() {
+
+    }
+
     private long nextLong() {
         return parseLong(nextToken());
     }
@@ -96,4 +101,41 @@ public class Customs {
     private void println() {
         writer.println();
     }
+
+    static class CustomInformationHolder implements Comparable<CustomInformationHolder> {
+
+        private static final int MAX_OCTET_NUMBER = 9;
+
+        private long taxBeforeHack;
+        private long taxAfterHack;
+
+        private long calculatedTax;
+
+
+        long mxw;
+        long mxp;
+        long a;
+        int b;
+
+        public CustomInformationHolder(long weight, long price, long mxw, long mxp, long a, int b) {
+            this.mxp = mxp;
+            this.mxw = mxw;
+            this.a = a;
+            this.b = b;
+        }
+
+        private void calculateTaxBeforeHack(long weight, long price, long mxw, long mxp) {
+            long tax = 0;
+
+            if (weight > mxw) {
+                //tax = tax + ()
+            }
+        }
+
+        @Override
+        public int compareTo(CustomInformationHolder o) {
+            return Long.compare(this.calculatedTax, o.calculatedTax);
+        }
+    }
+
 }
