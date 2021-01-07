@@ -55,6 +55,7 @@ public class Customs {
         }
 
         println(info.stream().map(i -> i.calculatedTax).reduce(Long::sum).get());
+        flush();
 
         int i =0;
         while (n-- >= 1) {
@@ -170,7 +171,7 @@ public class Customs {
             calculateTaxBeforeHack();
             calculateTaxAfterHack();
 
-            calculatedTax = Math.max(taxBeforeHack, taxAfterHack);
+            this.calculatedTax = taxBeforeHack;
         }
 
         private long calculateTax(long weight, long price) {
@@ -216,34 +217,28 @@ public class Customs {
             } else {
                 price = hackedPrice;
             }
+            calculatedTax = Math.max(taxAfterHack, calculatedTax);
         }
 
         private long changeNumberToBigger(long n) {
             String s = Long.toString(n);
-            int c =0;
-            if (s.length() != 1) {
-                for (char ch : s.toCharArray()) {
 
-                    if (ch != MAX_OCTET_NUMBER) {
+            char[] chars = s.toCharArray();
+            int i = 0;
+
+            if (s.length() != 1) {
+                for (i = 0; i < chars.length; i++) {
+                    if (chars[i] != MAX_OCTET_NUMBER) {
                         break;
-                    } else {
-                        ++c;
                     }
                 }
-            } else {
-                StringBuilder builder = new StringBuilder(s);
-                builder.setCharAt(c, MAX_OCTET_NUMBER);
-
-                return Long.parseLong(builder.toString());
             }
-            if (c != 0) {
-                StringBuilder builder = new StringBuilder(s);
-                builder.setCharAt(c, MAX_OCTET_NUMBER);
 
-                return Long.parseLong(builder.toString());
-            } else {
-                return n;
-            }
+            StringBuilder builder = new StringBuilder(s);
+            builder.setCharAt(i, MAX_OCTET_NUMBER);
+
+            return Long.parseLong(builder.toString());
+
         }
 
         @Override
