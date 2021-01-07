@@ -96,7 +96,7 @@ public class Customs {
     private void prepareSorting() {
         sortedInfo = new ArrayList<>(n+1);
         sortedInfo.addAll(info);
-        sortedInfo.sort(Comparator.comparingLong(o -> o.taxAfterHack));
+        sortedInfo.sort((o1, o2) -> Long.compare(o2.taxAfterHack, o1.taxAfterHack));
     }
 
     private long nextLong() {
@@ -142,7 +142,7 @@ public class Customs {
         private int number;
 
         private long taxBeforeHack;
-        private long taxAfterHack = Integer.MIN_VALUE;
+        private long taxAfterHack;
 
         private long calculatedTax;
 
@@ -160,6 +160,7 @@ public class Customs {
         int b;
 
         public CustomInformationHolder(int number, long weight, long price, long mxw, long mxp, long a, int b) {
+            this.number = number;
             this.mxp = mxp;
             this.mxw = mxw;
             this.a = a;
@@ -197,18 +198,22 @@ public class Customs {
         }
 
         private void calculateTaxAfterHack() {
-            long hackedWeight = changeNumberToBigger(weight);
-            long hackedPrice = changeNumberToBigger(price);
 
-            this.hackedWeight = hackedWeight;
-            this.hackedPrice = hackedPrice;
+            if (taxBeforeHack > 0) {
 
-            long hackedTaxWithWeight = calculateTax(hackedWeight, price);
-            long hackedTaxWithPrice = calculateTax(weight, hackedPrice);
+                long hackedWeight = changeNumberToBigger(weight);
+                long hackedPrice = changeNumberToBigger(price);
 
-            this.isWeightBetter = hackedTaxWithWeight > hackedTaxWithPrice;
+                this.hackedWeight = hackedWeight;
+                this.hackedPrice = hackedPrice;
 
-            taxAfterHack = Math.max(hackedTaxWithWeight, hackedTaxWithPrice);
+                long hackedTaxWithWeight = calculateTax(hackedWeight, price);
+                long hackedTaxWithPrice = calculateTax(weight, hackedPrice);
+
+                this.isWeightBetter = hackedTaxWithWeight > hackedTaxWithPrice;
+
+                taxAfterHack = Math.max(hackedTaxWithWeight, hackedTaxWithPrice);
+            }
         }
 
         private void burnIn() {
