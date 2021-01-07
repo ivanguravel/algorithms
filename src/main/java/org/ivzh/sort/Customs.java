@@ -185,7 +185,7 @@ public class Customs {
             if (price > mxp) {
                 long overprice = price - mxp;
                 double d = b / 100.0;
-                tax = (long) (tax + (overprice) * d);
+                tax = (long) (tax + (overprice * d));
             }
 
            return tax;
