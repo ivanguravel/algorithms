@@ -45,10 +45,9 @@ public class Customs {
         prepareSorting();
 
         for (CustomInformationHolder holder : sortedInfo) {
-            if (k-- != 0) {
+            if (k-- >= 0) {
                 holder.burnIn();
                 info.set(holder.number, holder);
-
             } else {
                 break;
             }
@@ -185,8 +184,8 @@ public class Customs {
 
             if (price > mxp) {
                 long overprice = price - mxp;
-                double d = a / 100.0;
-                tax = (long) (tax + (overprice - mxp) * d);
+                double d = b / 100.0;
+                tax = (long) (tax + (overprice) * d);
             }
 
            return tax;
@@ -217,9 +216,11 @@ public class Customs {
         }
 
         private void burnIn() {
-            if (isWeightBetter) {
+            if (isWeightBetter && hackedWeight > hackedPrice) {
                 weight = hackedWeight;
-            } else {
+            }
+
+            if (!isWeightBetter && hackedPrice > hackedWeight) {
                 price = hackedPrice;
             }
             calculatedTax = Math.max(taxAfterHack, calculatedTax);
