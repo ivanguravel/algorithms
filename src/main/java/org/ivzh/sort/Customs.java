@@ -46,7 +46,9 @@ public class Customs {
 
         for (CustomInformationHolder holder : sortedInfo) {
             if (k-- != 0) {
+                holder.burnIn();
                 info.set(holder.number, holder);
+
             } else {
                 break;
             }
@@ -149,6 +151,8 @@ public class Customs {
         private long hackedWeight;
         private long hackedPrice;
 
+        private boolean isWeightBetter;
+
         long mxw;
         long mxp;
         long a;
@@ -198,8 +202,20 @@ public class Customs {
             this.hackedWeight = hackedWeight;
             this.hackedPrice = hackedPrice;
 
+            long hackedTaxWithWeight = calculateTax(hackedWeight, price);
+            long hackedTaxWithPrice = calculateTax(weight, hackedPrice);
 
-            taxAfterHack = Math.max(calculateTax(hackedWeight, price), calculateTax(weight, hackedPrice));
+            this.isWeightBetter = hackedTaxWithWeight > hackedTaxWithPrice;
+
+            taxAfterHack = Math.max(hackedTaxWithWeight, hackedTaxWithPrice);
+        }
+
+        private void burnIn() {
+            if (isWeightBetter) {
+                weight = hackedWeight;
+            } else {
+                price = hackedPrice;
+            }
         }
 
         private long changeNumberToBigger(long n) {
