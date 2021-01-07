@@ -13,7 +13,7 @@ public class Customs {
     long mxw;
     long mxp;
     long a;
-    double b;
+    int b;
     List<Pair> holder;
     List<CustomInformationHolder> info;
     List<CustomInformationHolder> sortedInfo;
@@ -42,8 +42,15 @@ public class Customs {
     private void solve() {
         readData();
         provisionData();
+        prepareSorting();
 
-        // change k places
+        for (CustomInformationHolder holder : sortedInfo) {
+            if (k-- != 0) {
+                info.set(holder.number, holder);
+            } else {
+                break;
+            }
+        }
 
         println(info.stream().map(i -> i.calculatedTax).reduce(Long::sum).get());
 
@@ -51,6 +58,7 @@ public class Customs {
         while (n-- >= 1) {
             System.out.println(info.get(i++));
         }
+        flush();
     }
 
     private void readData() {
@@ -75,11 +83,17 @@ public class Customs {
     private void provisionData() {
         info = new ArrayList<>(n+1);
 
-       // for (Map.Entry<Long, Long> e : holder.entrySet()) {
-        //    info.add(new CustomInformationHolder(e.getKey(), e.getValue(), mxw, mxp, a, b));
-        //}
+        int c = 0;
+        for (Pair pair : holder) {
+            info.add(new CustomInformationHolder(c++, pair.weight, pair.price, mxw, mxp, a, b));
+        }
+        info.sort(Comparator.comparingInt(o -> o.number));
+    }
 
-        Collections.sort(info);
+    private void prepareSorting() {
+        sortedInfo = new ArrayList<>(n+1);
+        sortedInfo.addAll(info);
+        sortedInfo.sort(Comparator.comparingLong(o -> o.taxAfterHack));
     }
 
     private long nextLong() {
@@ -120,34 +134,42 @@ public class Customs {
 
     static class CustomInformationHolder implements Comparable<CustomInformationHolder> {
 
-        private static final String id = UUID.randomUUID().toString();
-
         private static final char MAX_OCTET_NUMBER = '9';
+
+        private int number;
 
         private long taxBeforeHack;
         private long taxAfterHack = Integer.MIN_VALUE;
 
         private long calculatedTax;
 
+        private long weight;
+        private long price;
+
+        private long hackedWeight;
+        private long hackedPrice;
+
         long mxw;
         long mxp;
         long a;
         int b;
 
-        public CustomInformationHolder(long weight, long price, long mxw, long mxp, long a, int b) {
+        public CustomInformationHolder(int number, long weight, long price, long mxw, long mxp, long a, int b) {
             this.mxp = mxp;
             this.mxw = mxw;
             this.a = a;
             this.b = b;
 
-            calculateTax(weight, price);
-            calculateTaxAfterHack(weight, price);
+            this.weight = weight;
+            this.price = price;
+
+            calculateTaxBeforeHack();
+            calculateTaxAfterHack();
 
             calculatedTax = Math.max(taxBeforeHack, taxAfterHack);
-
         }
 
-        private void calculateTax(long weight, long price) {
+        private long calculateTax(long weight, long price) {
             long tax = 0;
 
             if (weight > mxw) {
@@ -157,45 +179,60 @@ public class Customs {
 
             if (price > mxp) {
                 long overprice = price - mxp;
-                tax = tax + (overprice - mxp) * (a / 100);
+                double d = a / 100.0;
+                tax = (long) (tax + (overprice - mxp) * d);
             }
 
-
-
-            this.taxBeforeHack = tax;
-
-
+           return tax;
         }
 
 
-        private void calculateTaxAfterHack(long weight, long price) {
+        private void calculateTaxBeforeHack() {
+            taxBeforeHack = calculateTax(weight, price);
+        }
+
+        private void calculateTaxAfterHack() {
             long hackedWeight = changeNumberToBigger(weight);
             long hackedPrice = changeNumberToBigger(price);
 
+            this.hackedWeight = hackedWeight;
+            this.hackedPrice = hackedPrice;
 
-//            if () {
-//
-//            } else {
-//
-//            }
 
-            taxAfterHack = Math.max(hackedWeight - weight, hackedPrice - price);
+            taxAfterHack = Math.max(calculateTax(hackedWeight, price), calculateTax(weight, hackedPrice));
         }
 
         private long changeNumberToBigger(long n) {
             String s = Long.toString(n);
             int c =0;
-            for (char ch : s.toCharArray()) {
+            if (s.length() != 1) {
+                for (char ch : s.toCharArray()) {
 
-                if (ch != MAX_OCTET_NUMBER ) {
-                   break;
+                    if (ch != MAX_OCTET_NUMBER) {
+                        break;
+                    } else {
+                        ++c;
+                    }
                 }
-                ++c;
-             }
-            StringBuilder builder = new StringBuilder(s);
-            builder.setCharAt(c, MAX_OCTET_NUMBER);
+            } else {
+                StringBuilder builder = new StringBuilder(s);
+                builder.setCharAt(c, MAX_OCTET_NUMBER);
 
-            return Long.parseLong(builder.toString());
+                return Long.parseLong(builder.toString());
+            }
+            if (c != 0) {
+                StringBuilder builder = new StringBuilder(s);
+                builder.setCharAt(c, MAX_OCTET_NUMBER);
+
+                return Long.parseLong(builder.toString());
+            } else {
+                return n;
+            }
+        }
+
+        @Override
+        public String toString() {
+            return this.weight + " " + this.price;
         }
 
         @Override
