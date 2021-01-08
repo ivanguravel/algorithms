@@ -157,9 +157,6 @@ public class Customs {
         private long weight;
         private long price;
 
-        private long hackedWeight;
-        private long hackedPrice;
-
         private boolean isWeightBetter;
 
         long mxw;
@@ -214,9 +211,6 @@ public class Customs {
         private void calculateTaxAfterHack() {
                 long hackedWeight = changeNumberToBigger(weight);
                 long hackedPrice = changeNumberToBigger(price);
-
-                this.hackedWeight = hackedWeight;
-                this.hackedPrice = hackedPrice;
 
                 long hackedTaxWithWeight = calculateTax(hackedWeight, price);
                 long hackedTaxWithPrice = calculateTax(weight, hackedPrice);
