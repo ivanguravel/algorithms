@@ -32,6 +32,11 @@ public class Mahjong {
             int i;
             for (i = 1; i < container.size(); i++) {
                 if (container.get(prev).equalsIgnoreCase(container.get(i))) {
+//                    if ((i < (container.size() - 1) && !container.get(i).equalsIgnoreCase(container.get(i+1)))) {
+//                        i = i+2;
+//                        prev = i+1;
+//                        continue;
+//                    }
                     List<String> newContainer = new ArrayList<>();
                     newContainer.addAll(container);
                     newContainer.remove(i);
