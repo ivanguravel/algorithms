@@ -1,6 +1,8 @@
 package org.ivzh.sort;
 
 import java.io.*;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import static java.lang.Integer.parseInt;
@@ -10,10 +12,10 @@ public class Customs {
 
     int n;
     int k;
-    long mxw;
-    long mxp;
-    long a;
-    int b;
+    static long mxw;
+    static long mxp;
+    static long a;
+    static int b;
     List<Pair> holder;
     List<CustomInformationHolder> info;
     List<CustomInformationHolder> sortedInfo;
@@ -66,13 +68,13 @@ public class Customs {
     private void readData() {
         this.n = nextInt();
         this.k = nextInt();
-        this.mxw = nextLong();
-        this.mxp = nextLong();
+        Customs.mxw = nextLong();
+        Customs.mxp = nextLong();
 
-        this.a = nextLong();
+        Customs.a = nextLong();
 
 
-        this.b = nextInt();
+        Customs.b = nextInt();
 
         this.holder = new ArrayList<>(n+1);
 
@@ -87,7 +89,7 @@ public class Customs {
 
         int c = 0;
         for (Pair pair : holder) {
-            info.add(new CustomInformationHolder(c++, pair.weight, pair.price, mxw, mxp, a, b));
+            info.add(new CustomInformationHolder(c++, pair.weight, pair.price));
         }
         info.sort(Comparator.comparingInt(o -> o.number));
     }
@@ -108,11 +110,14 @@ public class Customs {
         return parseInt(nextToken());
     }
 
-    public static double round(double value, int places) {
-        long factor = (long) Math.pow(10, places);
-        value = value * factor;
-        long tmp = Math.round(value);
-        return (double) tmp / factor;
+    public static String round(double value, int places) {
+//        long factor = (long) Math.pow(10, places);
+//        value = value * factor;
+//        long tmp = Math.round(value);
+//        return (double) tmp / factor;
+        DecimalFormat df = new DecimalFormat("#.000000000");
+        df.setRoundingMode(RoundingMode.HALF_DOWN);
+        return df.format(value);
     }
 
     private String nextToken() {
@@ -159,21 +164,12 @@ public class Customs {
 
         private boolean isWeightBetter;
 
-        long mxw;
-        long mxp;
-        long a;
-        int b;
-
         public CustomInformationHolder() {
 
         }
 
-        public CustomInformationHolder(int number, long weight, long price, long mxw, long mxp, long a, int b) {
+        public CustomInformationHolder(int number, long weight, long price) {
             this.number = number;
-            this.mxp = mxp;
-            this.mxw = mxw;
-            this.a = a;
-            this.b = b;
 
             this.weight = weight;
             this.price = price;
@@ -188,10 +184,7 @@ public class Customs {
             result.number = holder.number;
             result.weight = holder.weight;
             result.price = holder.price;
-            result.mxw = holder.mxw;
-            result.mxp = holder.mxp;
-            result.a = holder.a;
-            result.b = holder.b;
+
             result.calculatedTax = holder.taxBeforeHack;
             result.calculateTaxAfterHack();
             return result;
@@ -200,14 +193,14 @@ public class Customs {
         private long calculateTax(long weight, long price) {
             long tax = 0;
 
-            if (weight > mxw) {
-                long overweight =  weight - mxw;
-                tax = tax + (overweight * a);
+            if (weight > Customs.mxw) {
+                long overweight =  weight - Customs.mxw;
+                tax = tax + (overweight * Customs.a);
             }
 
-            if (price > mxp) {
-                long overprice = price - mxp;
-                double d = b / 100.0;
+            if (price > Customs.mxp) {
+                long overprice = price - Customs.mxp;
+                double d = Customs.b / 100.0;
                 tax = (long) (tax + (overprice * d));
             }
 
@@ -243,21 +236,28 @@ public class Customs {
             String s = Long.toString(n);
 
             char[] chars = s.toCharArray();
-            int i = 0;
 
             if (s.length() != 1) {
-                for (i = 0; i < chars.length; i++) {
+                for (int i = 0; i < chars.length; ++i) {
                     if (chars[i] != MAX_OCTET_NUMBER) {
-                        break;
+                        return maxOctetFromCharArray(s, i);
                     }
+                }
+            } else {
+                if (chars[0] != MAX_OCTET_NUMBER) {
+                    return maxOctetFromCharArray(s, 0);
                 }
             }
 
+            return n;
+
+        }
+
+        private static long maxOctetFromCharArray(String s, int i) {
             StringBuilder builder = new StringBuilder(s);
             builder.setCharAt(i, MAX_OCTET_NUMBER);
 
             return Long.parseLong(builder.toString());
-
         }
 
         @Override
