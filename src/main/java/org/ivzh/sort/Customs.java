@@ -164,6 +164,10 @@ public class Customs {
         long a;
         int b;
 
+        public CustomInformationHolder() {
+
+        }
+
         public CustomInformationHolder(int number, long weight, long price, long mxw, long mxp, long a, int b) {
             this.number = number;
             this.mxp = mxp;
@@ -180,7 +184,15 @@ public class Customs {
         }
 
         private static CustomInformationHolder copyAndPriceAfterHack(CustomInformationHolder holder) {
-            CustomInformationHolder result = new CustomInformationHolder(holder.number, holder.weight, holder.price, holder.mxw, holder.mxp, holder.a, holder.b);
+            CustomInformationHolder result = new CustomInformationHolder();
+            result.number = holder.number;
+            result.weight = holder.weight;
+            result.price = holder.price;
+            result.mxw = holder.mxw;
+            result.mxp = holder.mxp;
+            result.a = holder.a;
+            result.b = holder.b;
+            result.calculatedTax = holder.taxBeforeHack;
             result.calculateTaxAfterHack();
             return result;
         }
