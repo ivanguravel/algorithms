@@ -55,7 +55,7 @@ public class Customs {
             }
         }
 
-        println(round(info.stream().map(i -> i.calculatedTax).reduce(Double::sum).get(), 9));
+        System.out.printf("%.12f%n", info.stream().map(i -> i.calculatedTax).reduce(Double::sum).get());
         flush();
 
         int i =0;
@@ -110,15 +110,12 @@ public class Customs {
         return parseInt(nextToken());
     }
 
-    public static String round(double value, int places) {
-//        long factor = (long) Math.pow(10, places);
-//        value = value * factor;
-//        long tmp = Math.round(value);
-//        return (double) tmp / factor;
-        DecimalFormat df = new DecimalFormat("#.000000000");
-        df.setRoundingMode(RoundingMode.HALF_DOWN);
-        return df.format(value);
-    }
+//    public static String round(double value, int places) {
+//        System.out.printf();
+//        DecimalFormat df = new DecimalFormat("#.#########");
+//        df.setRoundingMode(RoundingMode.HALF_DOWN);
+//        return df.format(value);
+//    }
 
     private String nextToken() {
         while (tokenizer == null || !tokenizer.hasMoreTokens()) {
@@ -190,8 +187,8 @@ public class Customs {
             return result;
         }
 
-        private long calculateTax(long weight, long price) {
-            long tax = 0;
+        private double calculateTax(long weight, long price) {
+            double tax = 0;
 
             if (weight > Customs.mxw) {
                 long overweight =  weight - Customs.mxw;
@@ -201,7 +198,7 @@ public class Customs {
             if (price > Customs.mxp) {
                 long overprice = price - Customs.mxp;
                 double d = Customs.b / 100.0;
-                tax = (long) (tax + (overprice * d));
+                tax = (tax + (overprice * d));
             }
 
             return tax;
@@ -217,8 +214,8 @@ public class Customs {
                 long hackedWeight = changeNumberToBigger(weight);
                 long hackedPrice = changeNumberToBigger(price);
 
-                long hackedTaxWithWeight = calculateTax(hackedWeight, price);
-                long hackedTaxWithPrice = calculateTax(weight, hackedPrice);
+                double hackedTaxWithWeight = calculateTax(hackedWeight, price);
+                double hackedTaxWithPrice = calculateTax(weight, hackedPrice);
 
                 this.isWeightBetter = hackedTaxWithWeight > hackedTaxWithPrice;
 
