@@ -3,6 +3,7 @@ package org.ivzh.backtracking;
 import java.io.PrintWriter;
 import java.util.*;
 
+// https://acm.timus.ru/problem.aspx?space=1&num=1535
 public class HobbitThereAndBackAgain {
 
     int n;
@@ -32,12 +33,14 @@ public class HobbitThereAndBackAgain {
                 buffer = buffer + (prev * i.get(j));
                 prev = i.get(j);
             }
+
+            buffer = buffer + (i.getFirst() * i.getLast());
             if (min >= buffer) {
                 min = buffer;
                 minList = i;
             }
 
-            if (max <= buffer) {
+            if (max < buffer) {
                 max = buffer;
                 maxList = i;
             }
@@ -77,12 +80,12 @@ public class HobbitThereAndBackAgain {
             }
             sequences.add(l);
         } else {
-            for (int i = 0; i < size; i++) {
+            for (int i = 1; i < size; i++) {
 
                 heapPermutation(a, size - 1);
 
                 if (size % 2 == 1) {
-                    swap(a, 0, size - 1);
+                    swap(a, 1, size - 1);
                 } else {
                     swap(a, i, size - 1);
                 }
