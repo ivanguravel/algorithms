@@ -1,5 +1,6 @@
 package org.ivzh.backtracking;
 
+import java.io.PrintWriter;
 import java.util.*;
 
 public class HobbitThereAndBackAgain {
@@ -15,10 +16,11 @@ public class HobbitThereAndBackAgain {
 
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
-        new HobbitThereAndBackAgain().solve(s);
+        PrintWriter p = new PrintWriter(System.out);
+        new HobbitThereAndBackAgain().solve(s, p);
     }
 
-    private void solve(Scanner s) {
+    private void solve(Scanner s, PrintWriter printWriter) {
         this.n = s.nextInt();
         this.sequences = new ArrayList<>();
         generateSeq();
@@ -30,19 +32,21 @@ public class HobbitThereAndBackAgain {
                 buffer = buffer + (prev * i.get(j));
                 prev = i.get(j);
             }
-            if (min > buffer) {
+            if (min >= buffer) {
                 min = buffer;
                 minList = i;
             }
 
-            if (max < buffer) {
+            if (max <= buffer) {
                 max = buffer;
                 maxList = i;
             }
         }
 
-        System.out.println(concatAsString(minList));
-        System.out.println(concatAsString(maxList));
+
+        printWriter.println(concatAsString(minList));
+        printWriter.println(concatAsString(maxList));
+        printWriter.flush();
 
     }
 
