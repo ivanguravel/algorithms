@@ -7,7 +7,6 @@ import java.util.*;
 public class HobbitThereAndBackAgain {
 
     int n;
-    List<LinkedList<Integer>> sequences;
 
     int min = Integer.MAX_VALUE;
     int max = Integer.MIN_VALUE;
@@ -23,29 +22,7 @@ public class HobbitThereAndBackAgain {
 
     private void solve(Scanner s, PrintWriter printWriter) {
         this.n = s.nextInt();
-        this.sequences = new ArrayList<>();
         generateSeq();
-
-        for (LinkedList<Integer> i : sequences) {
-            Integer prev = i.get(0);
-            Integer buffer = 0;
-            for (int j = 1; j < i.size(); j++) {
-                buffer = buffer + (prev * i.get(j));
-                prev = i.get(j);
-            }
-
-            buffer = buffer + (i.getFirst() * i.getLast());
-            if (min >= buffer) {
-                min = buffer;
-                minList = i;
-            }
-
-            if (max < buffer) {
-                max = buffer;
-                maxList = i;
-            }
-        }
-
 
         printWriter.println(concatAsString(minList));
         printWriter.println(concatAsString(maxList));
@@ -59,26 +36,13 @@ public class HobbitThereAndBackAgain {
             arr[i-1] = i;
         }
         heapPermutation(arr, n);
-        
     }
 
-    private String concatAsString(LinkedList<Integer> list) {
-        StringBuilder result = new StringBuilder();
-        for (Integer i : list) {
-            result.append(i).append(" ");
-        }
-        return result.toString();
-    }
 
     void heapPermutation(int a[], int size) {
 
         if (size == 1) {
-            int[] copy = Arrays.copyOf(a, a.length);
-            LinkedList<Integer> l = new LinkedList<>();
-            for (int i : copy) {
-                l.add(i);
-            }
-            sequences.add(l);
+            resultCalculator(a);
         } else {
             for (int i = 1; i < size; i++) {
 
@@ -93,9 +57,46 @@ public class HobbitThereAndBackAgain {
         }
     }
 
+    private void resultCalculator(int[] a) {
+        Integer prev = a[0];
+        Integer buffer = 0;
+        for (int j = 1; j < a.length; j++) {
+            buffer = buffer + (prev * a[j]);
+            prev = a[j];
+        }
+
+        buffer = buffer + (a[0] * a[a.length - 1]);
+        if (min >= buffer) {
+            min = buffer;
+            minList = toList(a);
+        }
+
+        if (max < buffer) {
+            max = buffer;
+            maxList = toList(a);
+        }
+    }
+
     private void swap(int[] input, int a, int b) {
         int tmp = input[a];
         input[a] = input[b];
         input[b] =tmp;
+    }
+
+    private LinkedList<Integer> toList(int[] a) {
+        int[] copy = Arrays.copyOf(a, a.length);
+        LinkedList<Integer> l = new LinkedList<>();
+        for (int i : copy) {
+            l.add(i);
+        }
+        return l;
+    }
+
+    private String concatAsString(LinkedList<Integer> list) {
+        StringBuilder result = new StringBuilder();
+        for (Integer i : list) {
+            result.append(i).append(" ");
+        }
+        return result.toString();
     }
 }
