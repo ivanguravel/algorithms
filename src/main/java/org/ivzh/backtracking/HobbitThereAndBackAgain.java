@@ -34,14 +34,18 @@ public class HobbitThereAndBackAgain {
         minList = new LinkedList<>();
         maxList = new LinkedList<>();
 
+        // find min
         minList.add(1);
         minList.add(n);
 
+
+
+        // find max
         for(int i = 1; i <= n; i += 2) {
             maxList.add(i);
         }
 
-        int j = n % 2 == 1 ? n-1 : n;
+        int j = n % 2 == 0 ? n : n-1;
 
         while (j > 0) {
             maxList.add(j);
@@ -57,7 +61,7 @@ public class HobbitThereAndBackAgain {
         heapPermutation(arr, n);
     }
 
-    // O(n!)
+    // O(n!*n^2)
     void heapPermutation(int a[], int size) {
 
         if (size == 1) {
