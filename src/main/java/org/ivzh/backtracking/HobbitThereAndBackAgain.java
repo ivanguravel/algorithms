@@ -22,12 +22,31 @@ public class HobbitThereAndBackAgain {
 
     private void solve(Scanner s, PrintWriter printWriter) {
         this.n = s.nextInt();
-        generateSeq();
+        generateSeq2();
 
         printWriter.println(concatAsString(minList));
         printWriter.println(concatAsString(maxList));
         printWriter.flush();
 
+    }
+
+    private void generateSeq2() {
+        minList = new LinkedList<>();
+        maxList = new LinkedList<>();
+
+        minList.add(1);
+        minList.add(n);
+
+        for(int i = 1; i <= n; i += 2) {
+            maxList.add(i);
+        }
+
+        int j = n % 2 == 1 ? n-1 : n;
+
+        while (j > 0) {
+            maxList.add(j);
+            j = j - 2;
+        }
     }
 
     private void generateSeq() {
