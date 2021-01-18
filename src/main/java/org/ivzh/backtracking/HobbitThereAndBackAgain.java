@@ -57,7 +57,7 @@ public class HobbitThereAndBackAgain {
         heapPermutation(arr, n);
     }
 
-
+    // O(n!)
     void heapPermutation(int a[], int size) {
 
         if (size == 1) {
