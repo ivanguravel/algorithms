@@ -22,30 +22,34 @@ public class HobbitThereAndBackAgain {
 
     private void solve(Scanner s, PrintWriter printWriter) {
         this.n = s.nextInt();
-        generateSeq2();
 
-        printWriter.println(concatAsString(minList));
-        printWriter.println(concatAsString(maxList));
-        printWriter.flush();
+            generateSeq2(n);
+
+            printWriter.println(concatAsString(minList));
+            printWriter.println(concatAsString(maxList));
+            printWriter.println("///////////////////////////////////");
+            printWriter.flush();
+            minList.clear();
+            maxList.clear();
+
 
     }
 
-    private void generateSeq2() {
+    private void generateSeq2(int n) {
         minList = new LinkedList<>();
         maxList = new LinkedList<>();
 
         // find min
-        minList.add(1);
-        minList.add(n);
 
 
+        burnMin(n);
 
         // find max
         for(int i = 1; i <= n; i += 2) {
             maxList.add(i);
         }
 
-        int j = n % 2 == 0 ? n : n-1;
+        int j = n % 2 == 1 ? n-1 : n;
 
         while (j > 0) {
             maxList.add(j);
@@ -53,7 +57,27 @@ public class HobbitThereAndBackAgain {
         }
     }
 
-    private void generateSeq() {
+    private void burnMin(int n) {
+        minList.add(1);
+        minList.add(n);
+        int i = 2;
+        int j = n -2;
+        while (i < n || j > 1) {
+            if (i < n) {
+                minList.add(i);
+                i = i + 2;
+            }
+
+            if (j > 1) {
+                minList.add(j);
+                j = j - 2;
+            }
+        }
+    }
+
+    private void generateSeq(int n) {
+        minList = new LinkedList<>();
+        maxList = new LinkedList<>();
         int[] arr = new int[n];
         for (int i = 1; i <= n; i++) {
             arr[i-1] = i;
