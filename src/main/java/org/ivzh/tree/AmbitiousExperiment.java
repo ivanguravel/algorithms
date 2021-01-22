@@ -48,9 +48,10 @@ public class AmbitiousExperiment {
         }
 
         for (Integer i : metrics) {
-            p.println(i);
+            p.println(a[i-1]);
+            p.flush();
         }
-        p.flush();
+
     }
 
 
