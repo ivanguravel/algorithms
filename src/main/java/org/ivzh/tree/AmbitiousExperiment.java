@@ -1,10 +1,7 @@
 package org.ivzh.tree;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 // https://timus.online/problem.aspx?space=1&num=2062
 public class AmbitiousExperiment {
@@ -12,7 +9,8 @@ public class AmbitiousExperiment {
     int n;
     SqrtDecomposition sqrtDecomposition;
     int[] a;
-    List<List<Integer>> nDivisors;
+    List<Integer>[] nDivisors;
+    List<Integer> metrics;
 
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
@@ -25,17 +23,34 @@ public class AmbitiousExperiment {
 
         this.sqrtDecomposition = new SqrtDecomposition(n);
         this.a = new int[n+1];
-        this.nDivisors = new ArrayList<>(n+1);
-        Collections.fill(nDivisors, new ArrayList<>());
-        calculateDivisors(n);
-        for (int i = 0; i < n; i++) {
-            a[i] = i+1;
+        this.metrics = new LinkedList<>();
+
+        int count = 0;
+        while (count < n) {
+            a[count++] = s.nextInt();
         }
 
-        sqrtDecomposition.updateRange(a, 0, 5, 2);
-        System.out.println(sqrtDecomposition.getValueByPosition(a, 2));
-        System.out.println(sqrtDecomposition.getValueByPosition(a, 3));
-        System.out.println(sqrtDecomposition.getValueByPosition(a, 4));
+        this.nDivisors = new ArrayList[n+1];
+        Arrays.fill(nDivisors, new ArrayList<>());
+        calculateDivisors(n);
+
+
+        int linesCount = s.nextInt();
+        String[] line;
+        s.nextLine();
+        while (linesCount-- > 0) {
+            line = s.nextLine().split(" ");
+            if ("1".equalsIgnoreCase(line[0])) {
+                metrics.add(Integer.parseInt(line[1]));
+            } else {
+                sqrtDecomposition.updateRange(a, Integer.parseInt(line[1]), Integer.parseInt(line[2]), Integer.parseInt(line[3]));
+            }
+        }
+
+        for (Integer i : metrics) {
+            p.println(i);
+        }
+        p.flush();
     }
 
 
@@ -69,7 +84,7 @@ public class AmbitiousExperiment {
             long result =  a[position] + blocks[(int) Math.sqrt(position)];
 
 
-            for (Integer i : nDivisors.get(position)) {
+            for (Integer i : nDivisors[position]) {
                 result = a[i] + blocks[(int) Math.sqrt(i)];
             }
 
@@ -85,9 +100,9 @@ public class AmbitiousExperiment {
         for (int c = 1; c < n; ++c) {
             for (int j = 1; j <= Math.sqrt(c); ++j) {
                 if (c % j == 0) {
-                    nDivisors.get(c).add(j);
+                    nDivisors[c].add(j);
                     if ((c / j) != j) {
-                        nDivisors.get(c).add(c / j);
+                        nDivisors[c].add(c / j);
                     }
                 }
             }
