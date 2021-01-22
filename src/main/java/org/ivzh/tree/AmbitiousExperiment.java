@@ -48,9 +48,9 @@ public class AmbitiousExperiment {
         }
 
         for (Integer i : metrics) {
-            p.println(a[i-1]);
-            p.flush();
+            p.println(sqrtDecomposition.getValueByPosition(a, i-1));
         }
+        p.flush();
 
     }
 
@@ -90,10 +90,6 @@ public class AmbitiousExperiment {
             }
 
             return result;
-        }
-
-        public int updateSingle(int[] a, int position) {
-            return a[position] + blocks[(int) Math.sqrt(position)];
         }
     }
 
