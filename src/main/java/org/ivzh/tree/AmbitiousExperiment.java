@@ -22,7 +22,7 @@ public class AmbitiousExperiment {
         this.n = s.nextInt();
 
         this.sqrtDecomposition = new SqrtDecomposition(n);
-        this.a = new int[n+1];
+        this.a = new int[n];
         this.metrics = new LinkedList<>();
 
         int count = 0;
@@ -48,7 +48,8 @@ public class AmbitiousExperiment {
         }
 
         for (Integer i : metrics) {
-            p.println(sqrtDecomposition.getValueByPosition(a, i-1));
+            p.println(sqrtDecomposition.getValueByPosition(a, i));
+          //  p.println(a[i-1]);
         }
         p.flush();
 
@@ -61,7 +62,7 @@ public class AmbitiousExperiment {
 
 
         public SqrtDecomposition(int n) {
-            this.blocks = new int[Math.toIntExact(Math.round(Math.sqrt(n) + 1))];
+            this.blocks = new int[(int) (Math.sqrt(n) + 1)];
         }
 
         public void updateRange(int[] a, int l, int r, int d) {
