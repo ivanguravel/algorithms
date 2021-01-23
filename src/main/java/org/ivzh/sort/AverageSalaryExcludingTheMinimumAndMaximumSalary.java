@@ -1,4 +1,4 @@
-package org.ivzh.sort
+package org.ivzh.sort;
 
 
 import java.util.*;
