@@ -10,7 +10,6 @@ public class AmbitiousExperiment {
     SqrtDecomposition sqrtDecomposition;
     int[] a;
     List<Integer>[] nDivisors;
-    List<Integer> metrics;
 
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
@@ -23,10 +22,9 @@ public class AmbitiousExperiment {
 
         this.sqrtDecomposition = new SqrtDecomposition(n);
         this.a = new int[n+1];
-        this.metrics = new LinkedList<>();
 
-        int count = 0;
-        while (count < n) {
+        int count = 1;
+        while (count <= n) {
             a[count++] = s.nextInt();
         }
 
@@ -41,14 +39,13 @@ public class AmbitiousExperiment {
         while (linesCount-- > 0) {
             line = s.nextLine().split(" ");
             if ("1".equalsIgnoreCase(line[0])) {
-               // metrics.add(Integer.parseInt(line[1]));
                 int request = Integer.parseInt(line[1]);
-                p.println(sqrtDecomposition.getValueByPosition(a, --request));
+                p.println(sqrtDecomposition.getValueByPosition(a, request));
                 p.flush();
             } else {
                 int left = Integer.parseInt(line[1]);
                 int right = Integer.parseInt(line[2]);
-                sqrtDecomposition.updateRange(a, --left, --right, Integer.parseInt(line[3]));
+                sqrtDecomposition.updateRange(a, left, right, Integer.parseInt(line[3]));
             }
         }
     }
