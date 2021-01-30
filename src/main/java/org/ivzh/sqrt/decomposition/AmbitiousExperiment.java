@@ -1,4 +1,4 @@
-package org.ivzh.tree;
+package org.ivzh.sqrt.decomposition;
 
 import java.io.PrintWriter;
 import java.util.*;
@@ -22,7 +22,7 @@ public class AmbitiousExperiment {
         this.n = s.nextInt();
 
         this.sqrtDecomposition = new SqrtDecomposition(n);
-        this.a = new int[n];
+        this.a = new int[n+1];
         this.metrics = new LinkedList<>();
 
         int count = 0;
@@ -41,28 +41,27 @@ public class AmbitiousExperiment {
         while (linesCount-- > 0) {
             line = s.nextLine().split(" ");
             if ("1".equalsIgnoreCase(line[0])) {
-                metrics.add(Integer.parseInt(line[1]));
+               // metrics.add(Integer.parseInt(line[1]));
+                int request = Integer.parseInt(line[1]);
+                p.println(sqrtDecomposition.getValueByPosition(a, --request));
+                p.flush();
             } else {
-                sqrtDecomposition.updateRange(a, Integer.parseInt(line[1]), Integer.parseInt(line[2]), Integer.parseInt(line[3]));
+                int left = Integer.parseInt(line[1]);
+                int right = Integer.parseInt(line[2]);
+                sqrtDecomposition.updateRange(a, --left, --right, Integer.parseInt(line[3]));
             }
         }
-
-        for (Integer i : metrics) {
-            p.println(sqrtDecomposition.getValueByPosition(a, i));
-          //  p.println(a[i-1]);
-        }
-        p.flush();
-
     }
 
 
     class SqrtDecomposition {
+        int size;
         int[] blocks;
 
-
-
         public SqrtDecomposition(int n) {
-            this.blocks = new int[(int) (Math.sqrt(n) + 1)];
+            this.size = (int) (Math.sqrt(n) + 1);
+            this.blocks = new int[size];
+
         }
 
         public void updateRange(int[] a, int l, int r, int d) {
@@ -82,8 +81,9 @@ public class AmbitiousExperiment {
             }
         }
 
+
         public long getValueByPosition(int[] a, int position) {
-            long result =  a[position] + blocks[(int) Math.sqrt(position)];
+            long result = a[position] + blocks[(int) Math.sqrt(position)];
 
 
             for (Integer i : nDivisors[position]) {
