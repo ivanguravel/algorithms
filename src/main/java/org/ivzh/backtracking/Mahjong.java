@@ -1,5 +1,4 @@
 package org.ivzh.backtracking;
-
 import java.util.*;
 
 public class Mahjong {
@@ -11,13 +10,15 @@ public class Mahjong {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         String s = in.nextLine();
-        new Mahjong().solve(s);
+        String s1 = in.nextLine();
+        String v = String.join(" ", s, s1);
+        new Mahjong().solve(v);
     }
 
     private void solve(String s) {
         String[] split = s.split(" ");
         Arrays.sort(split, Comparator.comparingInt((String o) -> o.charAt(1)).thenComparingInt(o -> o.charAt(0)));
-        System.out.println(Arrays.toString(split));
+       // System.out.println(Arrays.toString(split));
         backtracking(Arrays.asList(split), false, 0);
         if (IS_TENPAI) {
             System.out.println("Tenpai");
