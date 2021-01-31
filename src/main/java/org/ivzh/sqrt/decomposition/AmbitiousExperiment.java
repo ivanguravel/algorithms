@@ -8,7 +8,8 @@ public class AmbitiousExperiment {
 
     int n;
     SqrtDecomposition sqrtDecomposition;
-    int[] a;
+    long[] a;
+    long[] b;
     List<Integer>[] nDivisors;
 
     public static void main(String[] args) {
@@ -21,15 +22,20 @@ public class AmbitiousExperiment {
         this.n = s.nextInt();
 
         this.sqrtDecomposition = new SqrtDecomposition(n);
-        this.a = new int[n+1];
+        this.a = new long[n+1];
+        this.b = new long[n+1];
 
         int count = 1;
         while (count <= n) {
-            a[count++] = s.nextInt();
+            b[count++] = s.nextInt();
         }
 
-        this.nDivisors = new ArrayList[n+1];
-        Arrays.fill(nDivisors, new ArrayList<>());
+        Arrays.fill(this.a, 0);
+
+        this.nDivisors = new List[n+1];
+        for (int i = 0; i < nDivisors.length; i++) {
+            nDivisors[i] = new ArrayList<>();
+        }
         calculateDivisors(n);
 
 
@@ -40,7 +46,7 @@ public class AmbitiousExperiment {
             line = s.nextLine().split(" ");
             if ("1".equalsIgnoreCase(line[0])) {
                 int request = Integer.parseInt(line[1]);
-                p.println(sqrtDecomposition.getValueByPosition(a, request));
+                p.println(sqrtDecomposition.query(a, request));
                 p.flush();
             } else {
                 int left = Integer.parseInt(line[1]);
@@ -53,38 +59,44 @@ public class AmbitiousExperiment {
 
     class SqrtDecomposition {
         int size;
-        int[] blocks;
+        long[] blocks;
 
         public SqrtDecomposition(int n) {
             this.size = (int) (Math.sqrt(n) + 1);
-            this.blocks = new int[size];
+            this.blocks = new long[ size];
 
         }
 
-        public void updateRange(int[] a, int l, int r, int d) {
-            int lBound = (int) Math.sqrt(l);
-            int rBound = (int) Math.sqrt(r);
+        public void updateRange(long[] a, int l, int r, long d) {
+            int lBound = l / size;
+            int rBound = r / size;
 
-            for (int i = l; (int) Math.sqrt(i) == lBound; i++) {
-                a[i] = a[i] + d;
-            }
+            if (lBound == rBound) {
+                for (int i = l; i <= r; i++) {
+                    a[i] = a[i] + d;
+                }
+            } else {
+                for (int i = l; (i / size) == lBound; i++) {
+                    a[i] = a[i] + d;
+                }
 
-            for (int i = lBound + 1; i < rBound; i++) {
-                blocks[i] = blocks[i] + d;
-            }
+                for (int i = (lBound + 1); i < rBound; i++) {
+                    blocks[i] = blocks[i] + d;
+                }
 
-            for (int i = r; (int) Math.sqrt(i) == rBound; i--) {
-                a[i] = a[i] + d;
+                for (int i = r; (i / size) == rBound; i--) {
+                    a[i] = a[i] + d;
+                }
             }
         }
 
 
-        public long getValueByPosition(int[] a, int position) {
-            long result = a[position] + blocks[(int) Math.sqrt(position)];
+        public long query(long[] a, int position) {
+            long result =  b[position];
 
 
             for (Integer i : nDivisors[position]) {
-                result = a[i] + blocks[(int) Math.sqrt(i)];
+                result += a[i] + blocks[(i / size)];
             }
 
             return result;
@@ -97,7 +109,7 @@ public class AmbitiousExperiment {
                 if (c % j == 0) {
                     nDivisors[c].add(j);
                     if ((c / j) != j) {
-                        nDivisors[c].add(c / j);
+                        nDivisors[c].add((c / j));
                     }
                 }
             }
