@@ -1,7 +1,10 @@
 package org.ivzh.sqrt.decomposition;
 
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
+
+import static java.lang.Integer.parseInt;
+import static java.lang.Long.parseLong;
 
 // https://timus.online/problem.aspx?space=1&num=2062
 public class AmbitiousExperiment {
@@ -12,14 +15,29 @@ public class AmbitiousExperiment {
     long[] b;
     List<Long>[] nDivisors;
 
+    private BufferedReader reader;
+    private StringTokenizer tokenizer;
+    private PrintWriter writer;
+
     public static void main(String[] args) {
-        Scanner s = new Scanner(System.in);
-        PrintWriter p = new PrintWriter(System.out);
-        new AmbitiousExperiment().solve(s, p);
+        new AmbitiousExperiment().run();
     }
 
-    private void solve(Scanner s, PrintWriter p) {
-        this.n = s.nextInt();
+    private void run() {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+             PrintWriter writer = new PrintWriter(new OutputStreamWriter(System.out))) {
+            this.reader = reader;
+            this.writer = writer;
+            this.tokenizer = null;
+            solve();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    private void solve() throws IOException {
+        this.n = nextInt();
 
         this.sqrtDecomposition = new SqrtDecomposition(n);
         this.a = new long[n+1];
@@ -27,10 +45,10 @@ public class AmbitiousExperiment {
 
         int count = 1;
         while (count <= n) {
-            b[count++] = s.nextLong();
+            b[count++] = nextLong();
         }
 
-        Arrays.fill(this.a, new Long(0));
+        Arrays.fill(this.a, 0);
 
         this.nDivisors = new List[n+1];
         for (int i = 0; i < nDivisors.length; i++) {
@@ -39,15 +57,14 @@ public class AmbitiousExperiment {
         calculateDivisors(n);
 
 
-        int linesCount = s.nextInt();
+        int linesCount = nextInt();
         String[] line;
-        s.nextLine();
         while (linesCount-- > 0) {
-            line = s.nextLine().split(" ");
+            line = reader.readLine().split(" ");
             if ("1".equalsIgnoreCase(line[0])) {
                 int request = Integer.parseInt(line[1]);
-                p.println(sqrtDecomposition.query(a, request));
-                p.flush();
+                println(sqrtDecomposition.query(a, request));
+                flush();
             } else {
                 int left = Integer.parseInt(line[1]);
                 int right = Integer.parseInt(line[2]);
@@ -114,5 +131,42 @@ public class AmbitiousExperiment {
                 }
             }
         }
+    }
+
+
+    private int nextInt() {
+        return parseInt(nextToken());
+    }
+
+    private long nextLong() {
+        return parseLong(nextToken());
+    }
+
+    private String nextToken() {
+        while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+            try {
+                tokenizer = new StringTokenizer(reader.readLine());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return tokenizer.nextToken();
+    }
+
+    private void println(Object o) {
+        print(o);
+        println();
+    }
+
+    private void print(Object o) {
+        writer.print(o);
+    }
+
+    private void flush() {
+        writer.flush();
+    }
+
+    private void println() {
+        writer.println();
     }
 }
