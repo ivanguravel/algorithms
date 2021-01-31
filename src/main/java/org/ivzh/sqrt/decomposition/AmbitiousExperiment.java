@@ -104,7 +104,7 @@ public class AmbitiousExperiment {
     }
 
     private void calculateDivisors(int n) {
-        for (int c = 1; c < n; ++c) {
+        for (int c = 1; c <= n; ++c) {
             for (int j = 1; j <= Math.sqrt(c); ++j) {
                 if (c % j == 0) {
                     nDivisors[c].add((long)j);
