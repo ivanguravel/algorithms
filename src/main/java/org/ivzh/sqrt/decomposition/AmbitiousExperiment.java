@@ -10,7 +10,7 @@ public class AmbitiousExperiment {
     SqrtDecomposition sqrtDecomposition;
     long[] a;
     long[] b;
-    List<Integer>[] nDivisors;
+    List<Long>[] nDivisors;
 
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
@@ -27,10 +27,10 @@ public class AmbitiousExperiment {
 
         int count = 1;
         while (count <= n) {
-            b[count++] = s.nextInt();
+            b[count++] = s.nextLong();
         }
 
-        Arrays.fill(this.a, 0);
+        Arrays.fill(this.a, new Long(0));
 
         this.nDivisors = new List[n+1];
         for (int i = 0; i < nDivisors.length; i++) {
@@ -95,8 +95,8 @@ public class AmbitiousExperiment {
             long result =  b[position];
 
 
-            for (Integer i : nDivisors[position]) {
-                result += a[i] + blocks[(i / size)];
+            for (Long i : nDivisors[position]) {
+                result += a[Math.toIntExact(i)] + blocks[Math.toIntExact(i / size)];
             }
 
             return result;
@@ -107,9 +107,9 @@ public class AmbitiousExperiment {
         for (int c = 1; c < n; ++c) {
             for (int j = 1; j <= Math.sqrt(c); ++j) {
                 if (c % j == 0) {
-                    nDivisors[c].add(j);
+                    nDivisors[c].add((long)j);
                     if ((c / j) != j) {
-                        nDivisors[c].add((c / j));
+                        nDivisors[c].add((long)(c / j));
                     }
                 }
             }
