@@ -89,16 +89,16 @@ public class AmbitiousExperimentFenvick {
         return sum;
     }
 
-    void add(int i, long k) {
+    void add(int i, long d ) {
         while (i <= n) {
-            a[i] += k;
+            a[i] += d;
             i += lowbit(i);
         }
     }
 
-    void update(int j, int k, long d) {
-        add(j, d);
-        add(k + 1, -d);
+    void update(int i, int j, long d) {
+        add(i, d);
+        add(j + 1, -d);
     }
 
     int lowbit(int i) {
