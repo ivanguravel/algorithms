@@ -6,6 +6,7 @@ import java.util.*;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 
+// https://timus.online/problem.aspx?space=1&num=1795
 public class HusbandInShop {
 
 
