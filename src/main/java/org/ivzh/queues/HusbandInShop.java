@@ -71,7 +71,9 @@ public class HusbandInShop {
                 lastInQ.value = -1;
             }
 
-            if (goods.containsKey(fromQ.name) && fromQ.value <= goods.get(fromQ.name)) {
+            if (!goods.containsKey(fromQ.name)) {
+                goods.put(fromQ.name, 0);
+            } else if (fromQ.value <= goods.get(fromQ.name)) {
                 goods.put(fromQ.name, goods.get(fromQ.name) - fromQ.value);
             } else {
                 lastInQ = fromQ;
