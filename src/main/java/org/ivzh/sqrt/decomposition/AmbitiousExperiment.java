@@ -13,7 +13,7 @@ public class AmbitiousExperiment {
     SqrtDecomposition sqrtDecomposition;
     long[] a;
     long[] b;
-    List<Long>[] nDivisors;
+    List<Integer>[] nDivisors;
 
     private BufferedReader reader;
     private StringTokenizer tokenizer;
@@ -48,8 +48,6 @@ public class AmbitiousExperiment {
             b[count++] = nextLong();
         }
 
-        Arrays.fill(this.a, 0);
-
         this.nDivisors = new List[n+1];
         for (int i = 0; i < nDivisors.length; i++) {
             nDivisors[i] = new ArrayList<>();
@@ -64,7 +62,7 @@ public class AmbitiousExperiment {
             if ("1".equalsIgnoreCase(line[0])) {
                 int request = Integer.parseInt(line[1]);
                 println(sqrtDecomposition.query(a, request));
-                flush();
+              //  flush();
             } else {
                 int left = Integer.parseInt(line[1]);
                 int right = Integer.parseInt(line[2]);
@@ -89,33 +87,23 @@ public class AmbitiousExperiment {
             int rBound = r / size;
 
             if (lBound == rBound) {
-                for (int i = l; i <= r; i++) {
+                for (int i = l; i <= r; i++)
                     a[i] = a[i] + d;
-                }
             } else {
-                for (int i = l; (i / size) == lBound; i++) {
+                for (int i = l, end = (lBound + 1) * size; i < end; i++)
                     a[i] = a[i] + d;
-                }
-
-                for (int i = (lBound + 1); i < rBound; i++) {
+                for (int i = lBound + 1; i < rBound; i++)
                     blocks[i] = blocks[i] + d;
-                }
-
-                for (int i = r; (i / size) == rBound; i--) {
+                for (int i = rBound * size; i <= r; i++)
                     a[i] = a[i] + d;
-                }
             }
         }
 
 
         public long query(long[] a, int position) {
-            long result =  b[position];
-
-
-            for (Long i : nDivisors[position]) {
-                result += a[Math.toIntExact(i)] + blocks[Math.toIntExact(i / size)];
-            }
-
+            long result =  b[position], dsz = nDivisors[position].size();
+            for (int i = 0; i < dsz; ++i)
+                result += a[nDivisors[position].get(i)] + blocks[nDivisors[position].get(i) / size];
             return result;
         }
     }
@@ -124,9 +112,9 @@ public class AmbitiousExperiment {
         for (int c = 1; c <= n; ++c) {
             for (int j = 1; j <= Math.sqrt(c); ++j) {
                 if (c % j == 0) {
-                    nDivisors[c].add((long)j);
+                    nDivisors[c].add(j);
                     if ((c / j) != j) {
-                        nDivisors[c].add((long)(c / j));
+                        nDivisors[c].add((c / j));
                     }
                 }
             }
