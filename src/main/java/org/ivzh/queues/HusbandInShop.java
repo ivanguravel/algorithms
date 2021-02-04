@@ -60,25 +60,33 @@ public class HusbandInShop {
 
         int result = 0;
         Husband lastInQ = new Husband("", -1);
+        Husband mark = new Husband("mark", -1);
+        q.addLast(mark);
         Husband fromQ;
         while (!q.isEmpty()) {
             fromQ = q.pollFirst();
 
-            // handle last
-            if (lastInQ.value > 0) {
-                lastInQ.value = goods.get(lastInQ.name);
-                q.addFirst(lastInQ);
-                lastInQ.value = -1;
+            if ("mark".equalsIgnoreCase(fromQ.name)) {
+                break;
             }
 
-            if (!goods.containsKey(fromQ.name)) {
-                goods.put(fromQ.name, 0);
+            // handle last
+            Husband temp;
+            if (lastInQ.value > 0) {
+                temp = lastInQ;
+                temp.value = goods.get(lastInQ.name);
+                q.addFirst(temp);
+                lastInQ = new Husband("", -1);
+            }
+            ++result;
+            if (!goods.containsKey(fromQ.name) || goods.get(fromQ.name) == null || goods.get(fromQ.name) == 0) {
+
+                continue;
             } else if (fromQ.value <= goods.get(fromQ.name)) {
                 goods.put(fromQ.name, goods.get(fromQ.name) - fromQ.value);
             } else {
                 lastInQ = fromQ;
             }
-            ++result;
         }
         println(result);
         flush();
