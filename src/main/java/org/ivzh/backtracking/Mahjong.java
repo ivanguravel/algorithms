@@ -1,4 +1,5 @@
 package org.ivzh.backtracking;
+
 import java.util.*;
 
 public class Mahjong {
@@ -9,10 +10,10 @@ public class Mahjong {
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        String s = in.nextLine();
-        String s1 = in.nextLine();
-        String v = String.join(" ", s, s1);
-        new Mahjong().solve(v);
+        //String s = in.nextLine();
+        //String s1 = in.nextLine();
+       // String v = String.join(" ", s, s1);
+        new Mahjong().solve(in.nextLine());
     }
 
     private void solve(String s) {
