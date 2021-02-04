@@ -2,6 +2,7 @@ package org.ivzh.backtracking;
 
 import java.util.*;
 
+// https://acm.timus.ru/problem.aspx?space=1&num=2151
 public class Mahjong {
 
 
