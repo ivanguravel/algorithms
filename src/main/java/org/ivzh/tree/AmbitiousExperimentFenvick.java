@@ -24,7 +24,7 @@ public class AmbitiousExperimentFenvick {
     }
 
     private void run() {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in), 32768);
              PrintWriter writer = new PrintWriter(new OutputStreamWriter(System.out))) {
             this.reader = reader;
             this.writer = writer;
@@ -42,12 +42,8 @@ public class AmbitiousExperimentFenvick {
         this.a = new long[n+2];
         this.b = new long[n+1];
 
-        int count = 1;
-        while (count <= n) {
-            b[count++] = nextLong();
-        }
-
-        Arrays.fill(this.a, 0);
+        for (int i = 1; i <= n; ++i)
+            b[i] = nextInt();
 
         this.nDivisors = new List[n+1];
         for (int i = 0; i < nDivisors.length; i++) {
@@ -63,7 +59,6 @@ public class AmbitiousExperimentFenvick {
             if ("1".equalsIgnoreCase(line[0])) {
                 int request = Integer.parseInt(line[1]);
                 println(queryWithDividors(request));
-                flush();
             } else {
                 int left = Integer.parseInt(line[1]);
                 int right = Integer.parseInt(line[2]);
@@ -80,19 +75,19 @@ public class AmbitiousExperimentFenvick {
         return ans;
     }
 
-    long query(int i) {
-        long sum = 0;
-        while (i > 0) {
-            sum += a[i];
-            i -= lowbit(i);
+    private long query(int to) {
+        long result = 0;
+        while (to >= 0) {
+            result += a[to];
+            to = (to & (to + 1)) - 1;
         }
-        return sum;
+        return result;
     }
 
-    void add(int i, long d ) {
-        while (i <= n) {
-            a[i] += d;
-            i += lowbit(i);
+    public void add(int at, long value) {
+        while (at < this.a.length) {
+            this.a[at] += value;
+            at = at | (at + 1);
         }
     }
 
@@ -101,9 +96,6 @@ public class AmbitiousExperimentFenvick {
         add(j + 1, -d);
     }
 
-    int lowbit(int i) {
-        return i & -i;
-    }
 
 
     private void calculateDivisors(int n) {
