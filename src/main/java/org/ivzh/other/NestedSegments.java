@@ -1,6 +1,7 @@
 package org.ivzh.other;
 
 import java.io.*;
+import java.util.Comparator;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
 
@@ -40,16 +41,19 @@ public class NestedSegments {
 
     private void solve() {
         readData();
-        TreeSet<IntervalDescriptor> buffer = new TreeSet<>((o1, o2) -> o1.start == o2.start ? o1.id - o2.id : o1.start - o2.start);
+        TreeSet<IntervalDescriptor> bufferForEndIntervalsComparison = new TreeSet<>((o1, o2) -> o1.end == o2.end ? o1.id - o2.id : o1.end - o2.end);
         Integer query;
-        IntervalDescriptor descriptor;
-        for (int i = 0; i < m; i++) {
+        while (m-- > 0) {
             query = nextInt();
-            while (intervalDescriptors.iterator().hasNext()) {
-                descriptor = intervalDescriptors.iterator().next();
-
+            while (!intervalDescriptors.iterator().hasNext() && intervalDescriptors.first().start <= query) {
+                bufferForEndIntervalsComparison.add(intervalDescriptors.pollFirst());
             }
+            while (!bufferForEndIntervalsComparison.isEmpty() && bufferForEndIntervalsComparison.first().end < query) {
+                bufferForEndIntervalsComparison.pollFirst();
+            }
+            showResult(bufferForEndIntervalsComparison);
         }
+
     }
 
 
@@ -60,6 +64,14 @@ public class NestedSegments {
             intervalDescriptors.add(new IntervalDescriptor(nextInt(), nextInt(), i));
         }
         this.m = nextInt();
+    }
+
+    private void showResult(TreeSet<IntervalDescriptor> intervalDescriptors) {
+        if (!intervalDescriptors.isEmpty()) {
+            println((intervalDescriptors.first().id + 1));
+        } else {
+            println(-1);
+        }
     }
 
 
