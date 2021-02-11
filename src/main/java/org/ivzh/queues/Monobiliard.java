@@ -38,24 +38,32 @@ public class Monobiliard {
     private void solve() {
         this.n = nextInt();
         this.stack = new Stack<>();
-        while (n-- > 0) {
-            stack.push(nextLong());
-        }
 
+        boolean isCheater = false;
 
-        Long temp = stack.pop();
-        Long loopBuffer;
-        while (!stack.isEmpty()) {
-            loopBuffer = stack.pop();
-            if (loopBuffer < temp) {
-                print("Cheater");
-                flush();
-                return;
-            } else {
-                temp = loopBuffer;
+        long count = 0;
+
+        for (int i = 0; i < n; i++) {
+            long j = nextLong();
+            while (count < j) {
+                stack.push(++count);
             }
+
+            isCheater = (j != stack.lastElement());
+
+            if (isCheater) {
+                break;
+            }
+
+            stack.pop();
         }
-        print("Not a proof");
+
+        if (isCheater) {
+            println("Cheater");
+        } else {
+            println("Not a proof");
+        }
+
         flush();
     }
 
