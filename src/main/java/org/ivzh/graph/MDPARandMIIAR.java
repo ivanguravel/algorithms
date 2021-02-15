@@ -44,16 +44,25 @@ public class MDPARandMIIAR {
         this.y = nextInt();
         this.d = nextInt();
 
-        this.matrix = new char[w][h];
+        this.matrix = new char[h+2][w+2];
 
-        for (int i = 0; i< w; i++) {
+        for (int j =0; j < w+1; j++) {
+            matrix[0][j] = 'w';
+        }
+
+        for (int i = 1; i< h+1; i++) {
             String value = nextToken();
-            for (int j = 0; j < h; j++) {
+            for (int j = 1; j < w+1; j++) {
                 matrix[i][j] = value.toCharArray()[j];
             }
         }
 
-        System.out.println(matrix);
+        for (int i = 0; i<= h; i++) {
+            for (int j = 0; j <= w; j++) {
+                System.out.print(matrix[i][j]);
+            }
+            System.out.println();
+        }
 
     }
 
