@@ -15,6 +15,7 @@ public class MDPARandMIIAR {
     int y;
     int d;
     char[][] matrix;
+    boolean[][] isWatterPresent;
 
     private BufferedReader reader;
     private StringTokenizer tokenizer;
@@ -44,15 +45,16 @@ public class MDPARandMIIAR {
         this.y = nextInt();
         this.d = nextInt();
 
-        this.matrix = new char[h+2][w+2];
+        this.matrix = new char[h+1][w+1];
+        this.isWatterPresent = new boolean[h+1][w+1];
 
-        for (int j =0; j < w+1; j++) {
+        for (int j =0; j < w; j++) {
             matrix[0][j] = 'w';
         }
 
-        for (int i = 1; i< h+1; i++) {
+        for (int i = 1; i<= h; i++) {
             String value = nextToken();
-            for (int j = 1; j < w+1; j++) {
+            for (int j = 0; j < w; j++) {
                 matrix[i][j] = value.toCharArray()[j];
             }
         }
@@ -63,9 +65,11 @@ public class MDPARandMIIAR {
             }
             System.out.println();
         }
-
     }
 
+    private void bfs() {
+
+    }
 
     private int nextInt() {
         return parseInt(nextToken());
