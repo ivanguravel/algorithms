@@ -90,15 +90,15 @@ public class MDPARandMIIAR {
     }
 
     private void bfs() {
-        Deque<Pair> q = new ArrayDeque<>();
+        Queue<Pair> q = new LinkedList<>();
         for (int j = 0; j < w; j++) {
             q.add(new Pair(0, j));
         }
         Pair p;
         Pair it;
         while(!q.isEmpty()) {
-            p = q.peekFirst();
-            q.pollFirst();
+            p = q.peek();
+            q.poll();
             for (int i = 0; i < PAIRS.length -1; i++) {
                 it = PAIRS[i];
                 int x = p.x + it.x;
