@@ -53,15 +53,15 @@ public class MDPARandMIIAR {
         this.x = this.h - nextInt() + 1;
         this.d = nextInt();
 
-        this.matrix = new char[h+1][w+1];
-        this.airAmount = new Pair[h+1][w+1];
+        this.matrix = new char[h + 1][w + 1];
+        this.airAmount = new Pair[h + 1][w + 1];
 
 
-        for (int j =0; j < w; j++) {
+        for (int j = 0; j < w; j++) {
             matrix[0][j] = WATTER;
         }
 
-        for (int i = 1; i<= h; i++) {
+        for (int i = 1; i <= h; i++) {
             String value = nextToken();
             for (int j = 0; j < w; j++) {
                 matrix[i][j] = value.toCharArray()[j];
@@ -72,17 +72,17 @@ public class MDPARandMIIAR {
         provisionAirAmount();
 
 
-            int connectedComponent = dsu.get(airAmount[this.x][this.y].x);
+        int connectedComponent = dsu.get(airAmount[this.x][this.y].x);
 
-            for (int j =0; j < this.w; j++) {
-                if (airAmount[0][j] != null) {
-                    if (airAmount[0][j].x == connectedComponent) {
-                        println("Can be rescued by himself");
-                        flush();
-                        return;
-                    }
+        for (int j = 0; j < this.w; j++) {
+            if (airAmount[0][j] != null) {
+                if (airAmount[0][j].x == connectedComponent) {
+                    println("Can be rescued by himself");
+                    flush();
+                    return;
                 }
             }
+        }
 
 
         println("Rescue operation required");
@@ -96,10 +96,10 @@ public class MDPARandMIIAR {
         }
         Pair p;
         Pair it;
-        while(!q.isEmpty()) {
+        while (!q.isEmpty()) {
             p = q.peek();
             q.poll();
-            for (int i = 0; i < PAIRS.length -1; i++) {
+            for (int i = 0; i < PAIRS.length - 1; i++) {
                 it = PAIRS[i];
                 int x = p.x + it.x;
                 int y = p.y + it.y;
@@ -114,7 +114,7 @@ public class MDPARandMIIAR {
     private void provisionAirAmount() {
         int count = 1;
         Queue<Pair> q = new LinkedList<>();
-        for (int i = 1; i<= h; i++) {
+        for (int i = 1; i <= h; i++) {
             for (int j = 0; j < w; j++) {
                 if (matrix[i][j] == AIR) {
                     airAmount[i][j] = new Pair(count++, 0);
@@ -200,8 +200,8 @@ public class MDPARandMIIAR {
 
 
     static class DSU {
-        int[] parents = new int[500*500+1];
-        int[] dsuSize = new int[500*500+1];
+        int[] parents = new int[500 * 500 + 1];
+        int[] dsuSize = new int[500 * 500 + 1];
 
         public DSU(int n) {
             for (int i = 0; i <= n; i++) {
