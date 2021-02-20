@@ -1,4 +1,4 @@
-package org.ivzh.two.pointers;
+package org.ivzh.tree;
 
 import java.util.TreeMap;
 
