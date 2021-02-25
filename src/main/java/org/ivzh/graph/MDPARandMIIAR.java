@@ -76,7 +76,7 @@ public class MDPARandMIIAR {
 
         for (int j = 0; j < this.w; j++) {
             if (airAmount[0][j] != null) {
-                if (airAmount[0][j].x == connectedComponent) {
+                if (dsu.get(airAmount[0][j].x) == connectedComponent) {
                     println("Can be rescued by himself");
                     flush();
                     return;
