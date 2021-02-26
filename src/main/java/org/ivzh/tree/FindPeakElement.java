@@ -3,6 +3,7 @@ package org.ivzh.tree;
 import java.util.TreeMap;
 
 // https://algocademy.com/app/#problem/find-peak-element
+// https://leetcode.com/problems/find-peak-element/
 public class FindPeakElement {
     public static void main(String[] args) {
         int[] n = {1, 2, 1, 3, 5, 6, 4};
