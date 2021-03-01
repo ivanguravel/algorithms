@@ -1,4 +1,4 @@
-package org.ivzh.sort;
+package org.ivzh.queues;
 
 import java.io.*;
 import java.util.*;

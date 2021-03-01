@@ -60,7 +60,7 @@ public class AnotherStringProblem {
         Map<Integer, Integer> count;
 
         Window() {
-            this.count = new HashMap();
+            this.count = new HashMap<>();
         }
 
         void add(int x) {
