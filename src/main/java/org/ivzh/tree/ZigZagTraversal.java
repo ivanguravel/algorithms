@@ -1,6 +1,5 @@
 package org.ivzh.tree;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -16,30 +15,28 @@ public class ZigZagTraversal {
         }
 
         Integer n;
-        List<Integer> l;
+        LinkedList<Integer> l;
         TreeNode tree;
         boolean flag = false;
         while (!q.isEmpty()) {
             n = q.size();
-            l = new ArrayList<>();
+            l = new LinkedList<>();
             while(n-- != 0) {
                 tree = q.poll();
-                l.add(tree.val);
 
                 if (flag) {
-                    if (tree.left != null) {
-                        q.add(tree.left);
-                    }
-                    if (tree.right != null) {
-                        q.add(tree.right);
-                    }
+                    l.addFirst(tree.val);
                 } else {
-                    if (tree.right != null) {
-                        q.add(tree.right);
-                    }
-                    if (tree.left != null) {
-                        q.add(tree.left);
-                    }
+                    l.add(tree.val);
+                }
+
+
+                if (tree.left != null) {
+                    q.add(tree.left);
+                }
+
+                if (tree.right != null) {
+                    q.add(tree.right);
                 }
             }
             result.add(l);
