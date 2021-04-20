@@ -4,46 +4,47 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+// https://algocademy.com/app/#problem/zigzag-tree-traversal/
 public class ZigZagTraversal {
 
 
-    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+    public List<List<Integer>> zigzagTraversal(TreeNode root) {
         List<List<Integer>> result = new LinkedList<>();
-        Queue<TreeNode> q = new LinkedList<>();
-        if (root != null) {
-            q.add(root);
-        }
-
-        Integer n;
-        LinkedList<Integer> l;
+        Queue<TreeNode> queue = new LinkedList<>();
+        fillInQueue(root, queue);
+        
+        Integer size;
+        LinkedList<Integer> list;
         TreeNode tree;
         boolean flag = false;
-        while (!q.isEmpty()) {
-            n = q.size();
-            l = new LinkedList<>();
-            while(n-- != 0) {
-                tree = q.poll();
-
-                if (flag) {
-                    l.addFirst(tree.val);
-                } else {
-                    l.add(tree.val);
-                }
-
-
-                if (tree.left != null) {
-                    q.add(tree.left);
-                }
-
-                if (tree.right != null) {
-                    q.add(tree.right);
-                }
+        while (!queue.isEmpty()) {
+            size = queue.size();
+            list = new LinkedList<>();
+            while(size-- != 0) {
+                tree = queue.poll();
+                fillTheResult(list, tree, flag);
+                fillInQueue(tree.left, queue);
+                fillInQueue(tree.right, queue);
             }
-            result.add(l);
+            result.add(list);
             flag = !flag;
         }
 
         return result;
+    }
+    
+    private void fillTheResult(LinkedList<Integer> list, TreeNode tree, boolean flag) {
+        if (flag) {
+            list.addFirst(tree.val);
+        } else {
+            list.add(tree.val);
+        }
+    }
+    
+    private void fillInQueue(TreeNode tree, Queue<TreeNode> queue) {
+        if (tree != null) {
+            queue.add(tree);
+        }
     }
 
 
