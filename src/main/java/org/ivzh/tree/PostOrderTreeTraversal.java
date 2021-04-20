@@ -20,6 +20,22 @@ public class PostOrderTreeTraversal {
             result.add(root.val);
         }
     }
+    
+    private void preOrder(TreeNode root, List<Integer> result) {
+        if (root != null) {
+            result.add(root.val);
+            fillIn(root.left, result);
+            fillIn(root.right, result);            
+        }
+    }
+    
+    private void inOrder(TreeNode root, List<Integer> result) {
+        if (root != null) {            
+            fillIn(root.left, result);
+            result.add(root.val);
+            fillIn(root.right, result);            
+        }
+    }
 
     public class TreeNode {
         int val;
