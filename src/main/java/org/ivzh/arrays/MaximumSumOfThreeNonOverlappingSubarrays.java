@@ -1,5 +1,7 @@
 package org.ivzh.arrays;
 
+
+// https://algocademy.com/app/#problem/max-sum-of-three-subarrays
 public class MaximumSumOfThreeNonOverlappingSubarrays {
     public int maxSumOfThreeSubarrays(int[] nums) {
         int n = nums.length;
