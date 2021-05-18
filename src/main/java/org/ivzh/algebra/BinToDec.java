@@ -24,7 +24,6 @@ public class BinToDec {
 
     private static String dec2bin(int value) {
         StringBuilder result = new StringBuilder();
-        Integer pow;
         while (value > 0) {
             result.append(value % 2 == 0 ? '0' : '1');
             value = value / 2;
