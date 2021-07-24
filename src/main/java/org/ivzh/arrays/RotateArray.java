@@ -38,4 +38,20 @@ public class RotateArray {
             nums[i] = buffer[i];
         }
     }
+
+    private void rotatingHelper(int[] nums, int k, int callCounter) {
+        int buffer = nums[nums.length -1];
+        int first = nums[0];
+        int second = 0;
+        for (int i = 1; i< nums.length; i++) {
+            second = nums[i];
+            nums[i] = first;
+            first = second;
+        }
+        nums[0] = buffer;
+        if (k -1 > callCounter) {
+            callCounter = callCounter +1;
+            rotatingHelper(nums, k, callCounter);
+        }
+    }
 }
