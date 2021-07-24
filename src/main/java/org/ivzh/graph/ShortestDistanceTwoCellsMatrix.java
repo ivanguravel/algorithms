@@ -41,7 +41,6 @@ public class ShortestDistanceTwoCellsMatrix {
         }
 
         queue.add(source);
-        visited[source.row][source.column] = true;
 
         while (!queue.isEmpty()) {
 
