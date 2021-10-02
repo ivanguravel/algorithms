@@ -11,7 +11,7 @@ public class InsertionSort {
     }
 
     private static void insertionSort(int[] a) {
-        for (int i = 0; i < a.length; i++) {
+        for (int i = 1; i < a.length; i++) {
             int val = a[i];
             int j = i-1;
             while (j >=0 && a[j] > val) {
