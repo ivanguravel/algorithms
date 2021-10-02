@@ -12,6 +12,12 @@ public class HeapSort {
 
 
     private static void heapSort(int [] a) {
+        // heapify initial array
+        for (int i = a.length / 2 - 1; i >= 0; i--) {
+            heapify(a,i, a.length);
+        }
+
+        // sort itself
         for (int i = a.length - 1; i >= 0; i--) {
             swap(a,0, i);
             heapify(a,0, i);
