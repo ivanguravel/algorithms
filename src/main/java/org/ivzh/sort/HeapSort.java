@@ -12,13 +12,19 @@ public class HeapSort {
 
 
     private static void heapSort(int [] a) {
-        // heapify initial array
-        for (int i = a.length / 2 - 1; i >= 0; i--) {
-            heapify(a,i, a.length);
+        int n = a.length -1;
+        int i = n;
+        int tmp = i / 2 - 1;
+
+        // thift up all array
+        while (i >= 0 && a[i] > a[tmp]) {
+            swap(a, i, tmp);
+            i = tmp;
+            tmp = i / 2 - 1;
         }
 
         // sort itself
-        for (int i = a.length - 1; i >= 0; i--) {
+        for ( i = a.length - 1; i >= 0; i--) {
             swap(a,0, i);
             heapify(a,0, i);
         }
