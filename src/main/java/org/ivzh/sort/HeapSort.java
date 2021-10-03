@@ -5,26 +5,21 @@ import java.util.Arrays;
 public class HeapSort {
 
     public static void main(String[] args) {
-        int[] a = {64,25,12,22,11};
+        int[] a = {64,25,12,22, 0 ,11};
         heapSort(a);
         System.out.println(Arrays.toString(a));
     }
 
 
     private static void heapSort(int [] a) {
-        int n = a.length -1;
-        int i = n;
-        int tmp = i / 2 - 1;
+
 
         // thift up all array
-        while (i >= 0 && a[i] > a[tmp]) {
-            swap(a, i, tmp);
-            i = tmp;
-            tmp = i / 2 - 1;
+        for (int i = a.length / 2 - 1; i >= 0; i = i / 2 -1) {
+            heapify(a,0, i);
         }
-
         // sort itself
-        for ( i = a.length - 1; i >= 0; i--) {
+        for (int i = a.length - 1; i >= 0; i--) {
             swap(a,0, i);
             heapify(a,0, i);
         }
