@@ -2,6 +2,7 @@ package org.ivzh.sort;
 
 import java.util.Arrays;
 
+// https://algocademy.com/app/#problem/sorting/
 public class SelectionSort {
 
     public static void main(String[] args) {
