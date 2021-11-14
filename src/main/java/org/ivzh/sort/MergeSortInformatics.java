@@ -9,6 +9,7 @@ import static java.lang.Long.parseLong;
 import static java.util.Arrays.stream;
 import static java.util.stream.IntStream.range;
 
+// https://informatics.msk.ru/mod/statements/view.php?chapterid=766#1
 public class MergeSortInformatics {
     int[] arr;
 
@@ -19,12 +20,14 @@ public class MergeSortInformatics {
             arr[i] = nextInt();
         }
 
-        int[] result = mergeSort(arr);
+        arr = mergeSort(arr);
+
         StringBuilder response = new StringBuilder();
-        for (int i : result) {
+        for (int i : arr) {
             response.append(i + " ");
         }
         println(response.toString());
+
     }
 
     private int[] mergeSort(int[] arr) {
@@ -40,8 +43,9 @@ public class MergeSortInformatics {
                 first[i] = arr[i];
             }
 
+            int j =0;
             for (int i = middle; i < arr.length; i++) {
-                second[i] = arr[i];
+                second[j++] = arr[i];
             }
 
             int[] firstAnother = mergeSort(first);
