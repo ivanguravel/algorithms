@@ -1,4 +1,4 @@
-package org.ivzh.queues;
+package org.ivzh.stack;
 
 public class Stack {
 
