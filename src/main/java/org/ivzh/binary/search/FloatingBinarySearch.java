@@ -7,45 +7,43 @@ import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 
 
-// https://informatics.msk.ru/mod/statements/view.php?id=192#1
-public class ClosestElementToOrigin {
+// https://informatics.msk.ru/mod/statements/view.php?id=3516#1
+public class FloatingBinarySearch {
 
 
     int n;
-    int m;
-    int[] arr;
+    int k;
 
     private void solve() {
         this.n = nextInt();
-        this.m = nextInt();
-        this.arr = new int[n];
-        for (int i =0; i< arr.length; i++) {
-            arr[i] = nextInt();
-        }
+        this.k = nextInt();
 
-        Integer searched, closestToNumber;
-        for (int i =0; i< m; i++) {
-            searched = nextInt();
-            closestToNumber =closestToNumberBinarySearch(searched);
-            println(closestToNumber);
-        }
+        println(root(n, k));
     }
 
-    private int closestToNumberBinarySearch(int num) {
-        int l = 0;
-        int r = arr.length - 1;
+    static double root(double val, int n) {
+        double l, r;
+        if (val >= 0 && val <= 1) {
+            l = val;
+            r = 1;
+        } else {
+            l = 1;
+            r = val;
+        }
 
-        while (r - l > 1) {
-            int mid = (l + r) / 2;
-            if (arr[mid] < num) {
-                l = mid;
+        double diff = 1e-8;
+
+        double m = 0;
+        while (r -l >= diff) {
+            m = (l + r) / 2;
+            if (Math.pow(m, n) > val) {
+                r = m;
             } else {
-                r = mid;
+                l = m;
             }
         }
 
-        boolean condition = Math.abs(arr[r] - num) < Math.abs(arr[l] - num);
-        return condition ? arr[l] : arr[r];
+        return m;
     }
 
     private BufferedReader reader;
@@ -53,7 +51,7 @@ public class ClosestElementToOrigin {
     private PrintWriter writer;
 
     public static void main(String[] args) {
-        new ClosestElementToOrigin().run();
+        new FloatingBinarySearch().run();
     }
 
 
@@ -107,3 +105,4 @@ public class ClosestElementToOrigin {
         writer.println();
     }
 }
+
