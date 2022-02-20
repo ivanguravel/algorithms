@@ -39,14 +39,9 @@ public class PartsProduction {
         }
 
         for (int i=1; i<=n;i++) {
-            String s = reader.readLine();
-            String[] parts = s.split(" ");
-
-            for (String j : parts) {
-                Integer k = Integer.valueOf(j);
-                if (k != 0 && k != i) {
-                    graph[i].add(Integer.valueOf(k));
-                }
+            int k = nextInt();
+            for (int j =0; j<k; j++) {
+                graph[i].add(nextInt());
             }
         }
 
