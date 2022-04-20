@@ -36,6 +36,26 @@ public class CloneGraph {
         }
         return map.get(node.val);
     }
+    
+    private void dfs(Node node) {
+        if (visited.contains(node.val)) {
+            return;
+        }
+        
+        Node clone = map.getOrDefault(node.val, new Node(node.val));
+        map.put(node.val, clone);
+        
+        visited.add(node.val);
+        
+        for (Node n : node.neighbors) {
+            Node cloneN = map.getOrDefault(n.val, new Node(n.val));
+            
+            map.put(cloneN.val, cloneN);
+            
+            dfs(n);
+            clone.neighbors.add(cloneN);
+        }
+    }
   
   
   static class Node {
