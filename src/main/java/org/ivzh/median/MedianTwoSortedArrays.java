@@ -18,6 +18,38 @@ public class MedianTwoSortedArrays {
 
         return medianFinder.findMedian();
     }
+    
+    public double findMedianSortedArraysTwo(int[] nums1, int[] nums2) {
+        int[] medianArray = new int[nums1.length + nums2.length];
+        int i = 0;
+        int j = 0;
+        int k = 0;
+        int len1 = nums1.length;
+        int len2 = nums2.length;
+       
+        while(i < len1 && j < len2){
+            if(nums1[i] <= nums2[j]){
+                medianArray[k++] = nums1[i++];
+            }
+            else if(nums1[i] >= nums2[j]){
+                medianArray[k++] = nums2[j++];
+            }
+        }
+        while(i < len1){
+            medianArray[k++] = nums1[i++];
+        }
+        while(j < len2){
+            medianArray[k++] = nums2[j++];
+        }  
+        
+        if(medianArray.length % 2 != 0){
+            return medianArray[medianArray.length/2];
+        }
+        if(medianArray.length % 2 == 0){
+            return (medianArray[(medianArray.length - 1)/2] + medianArray[(medianArray.length + 1)/2])/2.0;
+        }
+        return 0;
+    }
 
     static class MedianFinder {
 
