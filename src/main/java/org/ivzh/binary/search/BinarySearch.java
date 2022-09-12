@@ -20,4 +20,61 @@ public class BinarySearch {
         }
         return -1;
     }
+    
+    
+    public static void main(String[] args) {
+        // 1 Найти позицию правого нуля в больщой строке. 00000000000000000111111111
+        String s = "00000000000000000111111111";
+        String s0 = "";
+        String s1 = "01";
+        String s2 = "1111";
+
+        System.out.println(upperBound(-1, s.length(), c -> s.charAt(c) < '1'));
+        System.out.println(upperBound(-1, s0.length(), c -> s0.charAt(c) < '1'));
+        System.out.println(upperBound(-1, s1.length(), c -> s1.charAt(c) < '1'));
+        System.out.println(upperBound(-1, s2.length(), c -> s2.charAt(c) < '1'));
+
+        // 1. Найти индекс вставки элемента в сортированный массив.
+        System.out.println("======== insert index =========");
+        int[] arr = {0, 1, 2, 4, 5, 6};
+
+        System.out.println(upperBound(-1, arr.length, integer -> arr[integer] <= 3) + 1);
+        System.out.println(upperBound(-1, arr.length, integer -> arr[integer] <= 7) + 1);
+        System.out.println(upperBound(-1, arr.length, integer -> arr[integer] <= -1));
+        // 2. Найти первую и последнюю позицию x в отсортированном массиве если она есть.
+        System.out.println("======== lower & upper bound =========");
+        int[] arr0 = {0, 1, 2, 4, 5, 5, 5, 5, 6};
+        System.out.println(lowerBound(-1, arr0.length, integer -> arr0[integer] > 4));
+        System.out.println(upperBound(-1, arr0.length, integer -> arr0[integer] < 6));
+
+        // 3. Дается массив который строго падает, потом поднимается. Найти экстремум позицию. [6, 4, 3, 2, 5, 6, 7, 12, 20]
+        System.out.println("======== extremum =========");
+        int[] arr1 = new int[]{6, 4, 3, 2, 5, 6, 7, 12, 20, 0, 1};
+        System.out.println(upperBound(-1, arr1.length-1, integer -> arr1[integer] > arr1[integer -1] && arr1[integer] < arr1[integer + 1]) +1);
+
+    }
+
+    private static int upperBound(int inclusiveLeft, int exclusiveRight, Predicate<Integer> predicate) {
+        while (exclusiveRight - inclusiveLeft > 1) {
+            int middle = inclusiveLeft + (exclusiveRight - inclusiveLeft) / 2;
+            if (predicate.test(middle)) {
+                inclusiveLeft = middle;
+            } else {
+                exclusiveRight = middle;
+            }
+        }
+        return inclusiveLeft;
+    }
+
+    private static int lowerBound(int exclusiveLeft, int inclusiveRight, Predicate<Integer> predicate) {
+        while (inclusiveRight - exclusiveLeft > 1) {
+            int middle = exclusiveLeft + (inclusiveRight - exclusiveLeft) / 2;
+            if (predicate.test(middle)) {
+                inclusiveRight = middle;
+            } else {
+                exclusiveLeft = middle;
+            }
+        }
+        return inclusiveRight;
+    }
 }
