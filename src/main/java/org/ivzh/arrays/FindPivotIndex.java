@@ -30,7 +30,7 @@ public class FindPivotIndex {
   }
 	
 	
-	public int pivotIndex(int[] nums) {
+   public int pivotIndexAnother(int[] nums) {
         int[] sufix = new int[nums.length];
         sufix[nums.length-1] = nums[nums.length-1];
         
