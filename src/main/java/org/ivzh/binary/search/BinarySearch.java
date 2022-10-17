@@ -77,4 +77,60 @@ public class BinarySearch {
         }
         return inclusiveRight;
     }
+    
+    static double findRootNthCount(int n, int m) {
+        double l=1, r=1000;
+
+        double epsilon = 0.00000001;
+
+        double guess = (l + r) / 2;
+        while (Math.abs((n - Math.pow(guess, m)))
+                >= epsilon) {
+            guess = (l + r) / 2;
+            if (Math.pow(guess, n) > n) {
+                r = guess;
+            }
+            else {
+                l = guess;
+            }
+
+        }
+
+        return guess;
+    }
+    
+    private int lowerBinarySearch(int i) {
+        int l = 0;
+        int r = arr.length;
+
+        while (r - l > 1) {
+            int m = (l+r) / 2;
+
+            if (arr[m] > i) {
+                r = m;
+            } else {
+                l = m;
+            }
+        }
+
+        return r;
+    }
+
+    private int upperBinarySearch(int i) {
+        int l = 0;
+        int r = arr.length;
+
+        while (r - l > 1) {
+            int m = (l+r) / 2;
+
+            if (arr[m] >= i) {
+                r = m;
+
+            } else {
+                l = m;
+            }
+        }
+
+        return r+1;
+    }
 }
