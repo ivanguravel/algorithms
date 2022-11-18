@@ -26,4 +26,19 @@ class LinkedListCycle {
         
         return null;
     }
+    
+    public ListNode detectCycle2(ListNode head) {
+        Set<Integer> set = new HashSet<>();
+        
+        while (head != null) {
+            if (set.contains(head.val)) {
+                return head;
+            }
+            
+            set.add(head.val);
+            head = head.next;
+        } 
+        
+        return null;
+    }
 }
