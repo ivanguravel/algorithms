@@ -24,4 +24,47 @@ public class ValidateBinarySearchTree {
             fillIn(l, root.right);
         }
     }
+    
+     public boolean isValidBST2(TreeNode root) {
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        Integer prev = null;
+
+        while (!stack.isEmpty() || root != null) {
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+            root = stack.pop();
+            if (prev != null && root.val <= prev) {
+                return false;
+            }
+            prev = root.val;
+            root = root.right;
+        }
+        return true;
+    }
+    
+    
+     Integer prev = null;
+    boolean result = true;
+    
+    public boolean isValidBST3(TreeNode root) {
+        if (!result ) {
+            return false;
+        }
+        
+        if (root!= null) {
+            isValidBST(root.left);
+            if (prev == null) {
+                prev = root.val;
+            } else {
+                if (prev != null && prev >= root.val) {
+                    result = false;
+                }
+                prev = root.val;
+            }
+            isValidBST(root.right);
+        }
+        return result;
+    }
 }
