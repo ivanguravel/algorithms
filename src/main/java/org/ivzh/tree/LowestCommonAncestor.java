@@ -55,54 +55,31 @@ public class LowestCommonAncestor {
     }
 
     private static TreeNode lca(TreeNode binaryTree, int a, int b) {
-        List<TreeNode> path2a = new LinkedList<>();
-        List<TreeNode> path2b = new LinkedList<>();
-
-        path2Node(binaryTree, a, path2a);
-        path2Node(binaryTree, b, path2b);
-
-        Integer c = 0;
-
-        TreeNode treeNode = path2a.get(c);
-        TreeNode treeNode2 = path2b.get(c);
-
-        if (checkIfOneTreeNodeIsAncestor(path2a, b) != null) {
-            return checkIfOneTreeNodeIsAncestor(path2a, b);
+        if (root == null || p == null || q == null) {
+            return root;
         }
-
-        if (checkIfOneTreeNodeIsAncestor(path2b, a) != null) {
-            return checkIfOneTreeNodeIsAncestor(path2b, a);
-        }
-
-        while (path2a.size() > c && path2b.size() > c && treeNode.val == treeNode2.val) {
-            treeNode = path2a.get(c);
-            treeNode2 = path2b.get(c);
-            c = c + 1;
-        }
-        return treeNode;
-    }
-
-    private static TreeNode checkIfOneTreeNodeIsAncestor(List<TreeNode> path, int a) {
-        for (int i = 0; i < path.size(); i++) {
-            if (path.get(i).val == a && i < (path.size() - 1)) {
-                return path.get(i);
-            }
-        }
-        return null;
-    }
-
-    private static void path2Node(TreeNode binaryTree, int a, List<TreeNode> forFeel) {
-        if (binaryTree != null) {
-            int val = binaryTree.val;
-            if (a == val) {
-                return;
-            } else if (a < val) {
-                forFeel.add(binaryTree);
-                path2Node(binaryTree.left, a, forFeel);
+        List<TreeNode> listP = new ArrayList<>();
+        List<TreeNode> listQ = new ArrayList<>();
+        findNode(root, p, listP);
+        findNode(root, q, listQ);
+        int size = Math.min(listP.size(), listQ.size());
+        TreeNode parent = root;
+        for (int i = 0; i < size; i++) {
+            if (listP.get(i).val == listQ.get(i).val) {
+                parent = listP.get(i);
             } else {
-                forFeel.add(binaryTree);
-                path2Node(binaryTree.right, a, forFeel);
+                return parent;
             }
+        }
+        return parent;
+    }
+    
+    private void findNode(TreeNode node, TreeNode target, List<TreeNode> list) {
+        while (node != null) {
+            list.add(node);
+            if (node.val == target.val) return;
+            if (node.val > target.val) node = node.left;
+            else node = node.right;
         }
     }
 
