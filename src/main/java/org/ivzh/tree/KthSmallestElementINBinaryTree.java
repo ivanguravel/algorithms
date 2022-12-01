@@ -1,7 +1,6 @@
 package org.ivzh.tree;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 
 // https://leetcode.com/problems/all-elements-in-two-binary-search-trees
