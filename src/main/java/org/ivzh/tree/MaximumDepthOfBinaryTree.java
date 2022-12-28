@@ -13,6 +13,36 @@ public class MaximumDepthOfBinaryTree {
             return 0;
         }
     }
+    
+    public int maxDepth2(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        Queue<TreeNode> q = new LinkedList<>();
+        int count = 0;
+        q.add(root);
+
+        while(!q.isEmpty()) {
+            int size = q.size();
+            count++;
+
+            for (int i=0; i<size; i++) {
+                TreeNode temp = q.poll();
+
+                if (temp == null) {
+                    continue;
+                }
+
+                if(temp.left != null)
+                    q.add(temp.left);
+
+                if(temp.right != null)
+                    q.add(temp.right);
+            }
+        }
+        return count;
+    }
 
 
     public class TreeNode {
