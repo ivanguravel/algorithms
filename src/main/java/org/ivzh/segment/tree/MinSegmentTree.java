@@ -48,9 +48,6 @@ public class MinSegmentTree {
             if (l >= 0 && r <= arr.length) {
                 return map.get(new Pair(l, r));
             }
-            if (l < 0 || r > arr.length) {
-                return Integer.MAX_VALUE;
-            }
         }
         return Integer.MAX_VALUE;
     }
