@@ -35,7 +35,7 @@ public class MinSegmentTree {
             build(m, r);
             map.put(new Pair(l, r), Math.min(map.get(left), map.get(right)));
         } else {
-            map.put(new Pair(l, r), Math.min(arr[l], arr[l]));
+            map.put(new Pair(l, r), Math.min(arr[l], arr[r]));
         }
     }
 
