@@ -142,6 +142,25 @@ public class SegmentTreeTasks {
 
         }
 
+        public long rmqNod(int l, int r) {
+            return rmqNod(this.root, l, r);
+        }
+
+        private long rmqNod(Segment root, int l, int r) {
+            if (root.start >= r || root.end <= l) {
+                return Integer.MIN_VALUE;
+            }
+
+            if (l <= root.start && root.end <= r) {
+                return root.nod;
+            }
+
+            long leftNod = rmqMax(root.left, l, r);
+            long rightNod = rmqMax(root.right, l, r);
+            return nod(leftNod, rightNod);
+        }
+
+
         public void set(Segment current, int position, int value) {
             if (current.start <= position && position < current.end) {
 
@@ -167,26 +186,6 @@ public class SegmentTreeTasks {
 
             }
         }
-
-        public long rmqNod(int l, int r) {
-            return rmqNod(this.root, l, r);
-        }
-
-        private long rmqNod(Segment root, int l, int r) {
-            if (root.start >= r || root.end <= l) {
-                return Integer.MIN_VALUE;
-            }
-
-            if (l <= root.start && root.end <= r) {
-                return root.nod;
-            }
-
-            long leftNod = rmqMax(root.left, l, r);
-            long rightNod = rmqMax(root.right, l, r);
-            return nod(leftNod, rightNod);
-        }
-
-
 
         class Segment {
             public int start, end;
