@@ -41,11 +41,25 @@ public class SegmentTreeTasks {
         int count = nextInt();
         for (int i =0; i < count; i++) {
             int j = nextInt()-1;
-            int k = nextInt()-1;
-
-            writer.println(tree.rmqMax(j, k));
+            int k = nextInt();
+            writer.println(tree.rmqNod(j, k));
         }
 
+//        SegmentTree tree = new SegmentTree(arr);
+//        int count = nextInt();
+//        StringBuilder sb = new StringBuilder();
+//        for (int i =0; i < count; i++) {
+//            String type = nextToken();
+//            int j = nextInt()-1;
+//            int k = nextInt();
+//            if ("u".equalsIgnoreCase(type)) {
+//                tree.set(tree.root, j, k);
+//            } else {
+//
+//                sb.append(tree.rmqSum(j, k)).append(" ");
+//            }
+//        }
+//        writer.println(sb);
     }
 
     private String nextToken() {
@@ -70,127 +84,133 @@ public class SegmentTreeTasks {
         private Segment root;
 
         public SegmentTree(int[] arr) {
-            this.root = build(arr, 0, arr.length-1);
+            this.root = build(arr, 0, arr.length);
         }
 
         public Segment build(int[] arr, int l, int r) {
-            if (l > r) {
-                return null;
-            }
 
             Segment root = new Segment(l, r);
-            if (l == r) {
+            if (r -l == 1) {
                 root.sum = arr[l];
                 root.max = arr[l];
+                root.nod = arr[l];
             } else {
                 int mid = l + (r - l) / 2;
                 root.left = build(arr, l, mid);
-                root.right = build(arr, mid+1, r);
+                root.right = build(arr, mid, r);
                 root.sum = root.left.sum + root.right.sum;
                 root.max = Math.max(root.left.max, root.right.max);
+                root.nod = nod(root.left.nod, root.right.nod);
             }
             return root;
         }
 
-        public int rmqSum(int l, int r) {
+        public long rmqSum(int l, int r) {
             return rmqSum(this.root, l, r);
         }
 
-        private int rmqSum(Segment root, int l, int r) {
-            if (root.start > r || root.end < l) {
+        private long rmqSum(Segment root, int l, int r) {
+            if ( root.start >= r || root.end <= l) {
                 return 0;
             }
 
-            if (root.end == r && root.start == l) {
+            if (l <= root.start && root.end <= r) {
                 return root.sum;
             }
 
-            int mid = root.start + (root.end - root.start) / 2;
-
-            if (mid >= r) {
-                return rmqSum(root.left, l, r);
-            }
-            if (mid < l) {
-                return rmqSum(root.right, l, r);
-            }
-            int leftSum = rmqSum(root.left, l, mid);
-            int rightSum = rmqSum(root.right, mid+1, r);
-            return leftSum + rightSum;
+            long leftMax = rmqSum(root.left, l, r);
+            long rightMax = rmqSum(root.right, l, r);
+            return rightMax + leftMax;
         }
 
-        public int rmqMax(int l, int r) {
+        public long rmqMax(int l, int r) {
             return rmqMax(this.root, l, r);
         }
 
-        private int rmqMax(Segment root, int l, int r) {
-            if (root.start > r || root.end < l) {
+        private long rmqMax(Segment root, int l, int r) {
+            if ( root.start >= r || root.end <= l) {
                 return Integer.MIN_VALUE;
             }
 
-            if (root.end == r && root.start == l) {
+            if (l <= root.start && root.end <= r) {
                 return root.max;
             }
 
-            int mid = root.start + (root.end - root.start) / 2;
-
-            if (mid >= r) {
-                return rmqMax(root.left, l, r);
-            }
-            if (mid < l) {
-                return rmqMax(root.right, l, r);
-            }
-            int leftMax = rmqMax(root.left, l, mid);
-            int rightMax = rmqMax(root.right, mid+1, r);
+            long leftMax = rmqMax(root.left, l, r);
+            long rightMax = rmqMax(root.right, l, r);
             return Math.max(leftMax, rightMax);
 
         }
 
-        public int rmqNod(int l, int r) {
+        public void set(Segment current, int position, int value) {
+            if (current.start <= position && position < current.end) {
+
+                if (current.end - current.start == 1) {
+                    current.max = value;
+                    current.sum = value;
+                    current.nod = value;
+                } else {
+
+                    int mid = current.start + (current.end - current.start) / 2;
+
+
+                    if (mid > position) {
+                        set(current.left, position, value);
+                    } else {
+                        set(current.right, position, value);
+                    }
+
+                    current.sum = current.left.sum + current.right.sum;
+                    current.max = Math.max(current.left.max, current.right.max);
+                    current.nod = nod(current.left.nod, current.right.nod);
+                }
+
+            }
+        }
+
+        public long rmqNod(int l, int r) {
             return rmqNod(this.root, l, r);
         }
 
-        private int rmqNod(Segment root, int l, int r) {
-            if (root.start > r || root.end < l) {
+        private long rmqNod(Segment root, int l, int r) {
+            if (root.start >= r || root.end <= l) {
                 return Integer.MIN_VALUE;
             }
 
-            if (root.end == r && root.start == l) {
-                return root.max;
+            if (l <= root.start && root.end <= r) {
+                return root.nod;
             }
 
-            int mid = root.start + (root.end - root.start) / 2;
-
-            if (mid >= r) {
-                return rmqNod(root.left, l, r);
-            }
-            if (mid < l) {
-                return rmqNod(root.right, l, r);
-            }
-            int leftMax = rmqNod(root.left, l, mid);
-            int rightMax = rmqNod(root.right, mid+1, r);
-            return Math.max(leftMax, rightMax);
-
+            long leftNod = rmqMax(root.left, l, r);
+            long rightNod = rmqMax(root.right, l, r);
+            return nod(leftNod, rightNod);
         }
 
-        public int euler(int a, int b) {
-            int test = a;
-            while (test % b != 0) {
-                test += a;
-            }
-            return test;
-        }
+
 
         class Segment {
             public int start, end;
-            public int sum;
-            public int max;
-            public int nod;
+            public long sum;
+            public long max;
+            public long nod;
             public Segment left, right;
 
             public Segment(int start, int end) {
                 this.start = start;
                 this.end = end;
             }
+        }
+
+
+        public long nod(long a, long b) {
+            while (a != b) {
+                if (a > b) {
+                    a = a - b;
+                } else {
+                    b = b - a;
+                }
+            }
+            return a;
         }
     }
 }
