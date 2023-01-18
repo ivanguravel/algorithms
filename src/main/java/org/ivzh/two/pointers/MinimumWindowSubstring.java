@@ -1,4 +1,4 @@
-package org.ivzh.greddy.algos;
+package org.ivzh.two.pointers;
 
 
 import java.util.HashMap;
