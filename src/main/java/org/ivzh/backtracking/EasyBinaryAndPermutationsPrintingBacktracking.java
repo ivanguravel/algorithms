@@ -1,13 +1,13 @@
 package org.ivzh.backtracking;
 
 import java.io.*;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
+import static java.lang.Math.min;
 
 // https://informatics.msk.ru/mod/statements/view.php?id=23327&chapterid=84#1
 public class EasyBinaryAndPermutationsPrintingBacktracking {
@@ -36,7 +36,7 @@ public class EasyBinaryAndPermutationsPrintingBacktracking {
 
     private void solve() {
         int n = nextInt();
-        int k = nextInt();
+        //int k = nextInt();
         //binaryStringsWhichAreAboutKOnesOnly(new LinkedList<>(), n, k,0);
 
 //        LinkedList<String> list = new LinkedList<>();
@@ -45,12 +45,84 @@ public class EasyBinaryAndPermutationsPrintingBacktracking {
 //        }
 //        permutations(list, n, 0);
 
-        int[] set = new int[k];
-        int count = 0;
-        for (int i = 0; i < k; i++) {
-            set[i] = i;
+//        int[] set = new int[n+1];
+//        int count = 0;
+//        for (int i = 1; i <= n; i++) {
+//            set[i] = i;
+//        }
+//        kDigitsWithLengthN(set, "", n, k, 0);
+
+//        List<List<String>> result = new LinkedList<>();
+//        termsDecomposition2(new LinkedList<>(), n, n, result);
+//        Collections.reverse(result);
+//        for (List<String> s : result) {
+//            writer.println(String.join(" ", s));
+//        }
+
+        correctParenthesis(0, n, new LinkedList<>());
+    }
+
+    private static void termsDecomposition2(LinkedList<Integer> list, int n, int lastTaken, List<List<String>> result) {
+        if (n==0) {
+            result.add(list.stream().map(String::valueOf).collect(Collectors.toList()));
+            return;
         }
-        kDigitsWithLengthN(set, "", n, k, 0);
+
+
+        for (int k = min(n,lastTaken); k >= 1; k--) {
+            list.add(k);
+            termsDecomposition2(list, n-k, k ,result);
+            list.removeLast();
+        }
+
+    }
+
+    private static void termsDecomposition(LinkedList<Integer> list, int n, int lastTaken) {
+        if (n==0) {
+            System.out.println(String.join(" ", list.stream().map(String::valueOf).collect(Collectors.toList())));
+            return;
+        }
+
+
+        for (int k = min(n,lastTaken); k >= 1; k--) {
+            list.add(k);
+            termsDecomposition(list, n-k, k);
+            list.removeLast();
+        }
+
+    }
+
+    void correctParenthesis2(int balance, int n, String s) {
+        if (s.length() == n) {
+            writer.println(s);
+            return;
+        }
+
+        if (balance < n/2) {
+            correctParenthesis2(balance+1, n, s + "(");
+        }
+
+        if (balance > 0) {
+            correctParenthesis2(balance-1, n, s + ")");
+        }
+
+    }
+
+    void correctParenthesis(int open, int closed, LinkedList<String> s) {
+        if (open <= closed) {
+            if (open <= 0 && closed == 0) {
+                writer.println(String.join("", s));
+                return;
+            }  else {
+                s.add("(");
+                correctParenthesis(open - 1, closed, new LinkedList<>(s));
+                s.removeLast();
+                s.add("(");
+                correctParenthesis(open, closed - 1, new LinkedList<>(s));
+                s.removeLast();
+            }
+        }
+
     }
 
 
@@ -58,11 +130,28 @@ public class EasyBinaryAndPermutationsPrintingBacktracking {
                             String s,
                             int n, int k, int start) {
         if (start ==k) {
-            writer.println(s);
+            boolean isIncreasing = true;
+            for (int i = 1; i < s.length(); i++) {
+                Integer first = Character.getNumericValue(s.charAt(i));
+                Integer second = Character.getNumericValue(s.charAt(i-1));
+
+                // if (first >= second) { - for task H
+                if (first >= second) {
+                    isIncreasing = false;
+                    break;
+                }
+            }
+            if (isIncreasing) {
+                StringBuilder sb = new StringBuilder();
+                for (char c : s.toCharArray()) {
+                    sb.append(c).append(" ");
+                }
+                writer.println(sb.toString());
+            }
             return;
         }
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 1; i <= n; i++) {
             kDigitsWithLengthN(set, s + set[i], n, k, start +1);
         }
     }
@@ -134,3 +223,4 @@ public class EasyBinaryAndPermutationsPrintingBacktracking {
         return parseDouble(nextToken());
     }
 }
+
