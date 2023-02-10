@@ -1,5 +1,4 @@
 package org.ivzh.backtracking;
-
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -34,6 +33,12 @@ public class EasyBinaryAndPermutationsPrintingBacktracking {
         }
     }
 
+    private static boolean[][] board;
+    private static int count=0;
+    private static Set<Integer> columns = new HashSet<>();
+    private static Set<Integer> mainDiagonal = new HashSet<>();
+    private static Set<Integer> additionalDiagonal = new HashSet<>();
+
     private void solve() {
         int n = nextInt();
         //int k = nextInt();
@@ -59,8 +64,44 @@ public class EasyBinaryAndPermutationsPrintingBacktracking {
 //            writer.println(String.join(" ", s));
 //        }
 
-        correctParenthesis(0, n, new LinkedList<>());
+//        correctParenthesis3(new Stack<>(), "", n);
+//        correctParenthesis2(0, n, "");
+        peaceQueens(0, n);
+        writer.println(count);
     }
+
+
+
+    public void peaceQueens(int row, int n) {
+        if (row == n) {
+            count = count + 1;
+            return;
+        }
+        for (int column = 0; column < n; column++) {
+
+            if (isQueenCanNotBePlaced(row, column)) {
+                continue;
+            }
+
+            columns.add(column);
+            mainDiagonal.add(row + column);
+            additionalDiagonal.add(row - column);
+
+            peaceQueens(row + 1, n);
+
+            columns.remove(column);
+            mainDiagonal.remove(row + column);
+            additionalDiagonal.remove(row - column);
+        }
+    }
+
+    private static boolean isQueenCanNotBePlaced(int row, int column) {
+        return columns.contains(column) ||
+                mainDiagonal.contains(row + column) ||
+                additionalDiagonal.contains(row - column);
+    }
+
+
 
     private static void termsDecomposition2(LinkedList<Integer> list, int n, int lastTaken, List<List<String>> result) {
         if (n==0) {
@@ -92,20 +133,52 @@ public class EasyBinaryAndPermutationsPrintingBacktracking {
 
     }
 
+    void correctParenthesis3(Stack<String> stack, String s, int n) {
+        if (s.length() == n) {
+            writer.println(s);
+            return;
+        }
+
+        if (n - s.length() < stack.size()) {
+            stack.push("(");
+            correctParenthesis3(createCopyOfStack(stack), s + "(", n);
+            // stack.pop();
+            stack.push("[");
+            correctParenthesis3(createCopyOfStack(stack), s + "[", n);
+            //   stack.pop();
+        }
+
+        if (stack.size() > 0) {
+
+            if ("(".equals(stack.peek())) {
+                s = s + ")";
+            } else {
+                s = s + "]";
+            }
+            stack.pop();
+            correctParenthesis3(createCopyOfStack(stack), s, n);
+        }
+    }
+
+    Stack<String> createCopyOfStack(Stack<String> stack) {
+        Stack<String> copy = new Stack<>();
+        copy.addAll(stack);
+        return copy;
+    }
+
     void correctParenthesis2(int balance, int n, String s) {
         if (s.length() == n) {
             writer.println(s);
             return;
         }
 
-        if (balance < n/2) {
+        if (n - s.length() < balance ) {
             correctParenthesis2(balance+1, n, s + "(");
         }
 
         if (balance > 0) {
             correctParenthesis2(balance-1, n, s + ")");
         }
-
     }
 
     void correctParenthesis(int open, int closed, LinkedList<String> s) {
@@ -223,4 +296,3 @@ public class EasyBinaryAndPermutationsPrintingBacktracking {
         return parseDouble(nextToken());
     }
 }
-
