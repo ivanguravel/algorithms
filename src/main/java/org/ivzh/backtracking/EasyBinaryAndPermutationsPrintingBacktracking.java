@@ -1,4 +1,5 @@
 package org.ivzh.backtracking;
+
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -40,7 +41,7 @@ public class EasyBinaryAndPermutationsPrintingBacktracking {
     private static Set<Integer> additionalDiagonal = new HashSet<>();
 
     private void solve() {
-        int n = nextInt();
+        //int n = nextInt();
         //int k = nextInt();
         //binaryStringsWhichAreAboutKOnesOnly(new LinkedList<>(), n, k,0);
 
@@ -66,11 +67,60 @@ public class EasyBinaryAndPermutationsPrintingBacktracking {
 
 //        correctParenthesis3(new Stack<>(), "", n);
 //        correctParenthesis2(0, n, "");
-        peaceQueens(0, n);
-        writer.println(count);
+//        peaceQueens(0, n);
+//        writer.println(count);
+
+        correctParenthesis2(0,  3, "");
     }
 
 
+    void correctParenthesis3(Stack<String> stack, String s, int n) {
+        if (s.length() == 2*n) {
+            writer.println(s);
+            return;
+        }
+
+        if (2*n - s.length() > stack.size()) {
+            stack.push("(");
+            correctParenthesis3(stack, s + "(", n);
+            stack.pop();
+            stack.push("[");
+            correctParenthesis3(stack, s + "[", n);
+            stack.pop();
+        }
+
+        if (stack.size() > 0) {
+            if ("(".equals(stack.peek())) {
+                s = s + ")";
+            } else {
+                s = s + "]";
+            }
+            String buffer = stack.pop();
+            correctParenthesis3(stack, s, n);
+            stack.push(buffer);
+        }
+    }
+
+    Stack<String> createCopyOfStack(Stack<String> stack) {
+        Stack<String> copy = new Stack<>();
+        copy.addAll(stack);
+        return copy;
+    }
+
+    void correctParenthesis2(int balance, int n, String s) {
+        if (s.length() == 2*n) {
+            writer.println(s);
+            return;
+        }
+
+        if (2*n - s.length() > balance ) {
+            correctParenthesis2(balance+1, n, s + "(");
+        }
+
+        if (balance > 0) {
+            correctParenthesis2(balance-1, n, s + ")");
+        }
+    }
 
     public void peaceQueens(int row, int n) {
         if (row == n) {
@@ -133,53 +183,7 @@ public class EasyBinaryAndPermutationsPrintingBacktracking {
 
     }
 
-    void correctParenthesis3(Stack<String> stack, String s, int n) {
-        if (s.length() == n) {
-            writer.println(s);
-            return;
-        }
 
-        if (n - s.length() < stack.size()) {
-            stack.push("(");
-            correctParenthesis3(createCopyOfStack(stack), s + "(", n);
-            // stack.pop();
-            stack.push("[");
-            correctParenthesis3(createCopyOfStack(stack), s + "[", n);
-            //   stack.pop();
-        }
-
-        if (stack.size() > 0) {
-
-            if ("(".equals(stack.peek())) {
-                s = s + ")";
-            } else {
-                s = s + "]";
-            }
-            stack.pop();
-            correctParenthesis3(createCopyOfStack(stack), s, n);
-        }
-    }
-
-    Stack<String> createCopyOfStack(Stack<String> stack) {
-        Stack<String> copy = new Stack<>();
-        copy.addAll(stack);
-        return copy;
-    }
-
-    void correctParenthesis2(int balance, int n, String s) {
-        if (s.length() == n) {
-            writer.println(s);
-            return;
-        }
-
-        if (n - s.length() < balance ) {
-            correctParenthesis2(balance+1, n, s + "(");
-        }
-
-        if (balance > 0) {
-            correctParenthesis2(balance-1, n, s + ")");
-        }
-    }
 
     void correctParenthesis(int open, int closed, LinkedList<String> s) {
         if (open <= closed) {
