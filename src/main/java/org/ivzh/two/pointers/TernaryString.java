@@ -5,7 +5,7 @@ import java.util.*;
 
 import static java.lang.Integer.parseInt;
 
-//  https://codeforces.com/problemset/problem/1354/B
+// https://codeforces.com/problemset/problem/1354/B
 public class TernaryString {
 
     private BufferedReader reader;
@@ -32,7 +32,6 @@ public class TernaryString {
 
     private void solve() {
         int t = nextInt();
-        List<String> strings = new ArrayList<>(t);
         List<Integer> result = new ArrayList<>(t);
 
         for (int i =0; i < t; i++) {
@@ -65,8 +64,9 @@ public class TernaryString {
 
         while (i < s.length()) {
             while (!checkFrequency(frequencySubstring, map) && j < s.length()) {
-                char c = s.charAt(j++);
+                char c = s.charAt(j);
                 frequencySubstring.merge(c, 1, Integer::sum);
+                ++j;
             }
 
             int diff = j - i;
