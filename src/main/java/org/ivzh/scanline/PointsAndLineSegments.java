@@ -58,11 +58,11 @@ public class PointsAndLineSegments {
         Map<Integer, Integer> pointCounts = new HashMap<>();
         int count = 0;
         for (Event e : container) {
-            if (0 == e.bracket) {
+            if (OPEN_BRACKET == e.bracket) {
                 ++count;
-            } else if (2 == e.bracket){
+            } else if (CLOSED_BRACKET == e.bracket){
                 --count;
-            } else if (1 == e.bracket) {
+            } else if (POINT == e.bracket) {
                 if (!pointCounts.containsKey(e.x)) {
                     pointCounts.put(e.x, Math.max(count, 0));
                 } else {
