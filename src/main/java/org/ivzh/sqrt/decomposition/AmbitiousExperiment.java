@@ -10,7 +10,7 @@ import static java.lang.Long.parseLong;
 public class AmbitiousExperiment {
 
     int n;
-    SqrtDecomposition sqrtDecomposition;
+    Decomposition decomposition;
     long[] a;
     long[] b;
     List<Integer>[] nDivisors;
@@ -39,7 +39,7 @@ public class AmbitiousExperiment {
     private void solve() throws IOException {
         this.n = nextInt();
 
-        this.sqrtDecomposition = new SqrtDecomposition(n);
+        this.decomposition = new Decomposition(n);
         this.a = new long[n+1];
         this.b = new long[n+1];
 
@@ -57,26 +57,25 @@ public class AmbitiousExperiment {
 
         int linesCount = nextInt();
         String[] line;
-        while (linesCount-- > 0) {
+        for (int i =0; i< linesCount; i++) {
             line = reader.readLine().split(" ");
             if ("1".equalsIgnoreCase(line[0])) {
                 int request = Integer.parseInt(line[1]);
-                println(sqrtDecomposition.query(a, request));
-              //  flush();
+                println(decomposition.sum(a, request));
             } else {
                 int left = Integer.parseInt(line[1]);
                 int right = Integer.parseInt(line[2]);
-                sqrtDecomposition.updateRange(a, left, right, Integer.parseInt(line[3]));
+                decomposition.updateRange(a, left, right, Integer.parseInt(line[3]));
             }
         }
     }
 
 
-    class SqrtDecomposition {
+    class Decomposition {
         int size;
         long[] blocks;
 
-        public SqrtDecomposition(int n) {
+        public Decomposition(int n) {
             this.size = (int) (Math.sqrt(n) + 1);
             this.blocks = new long[ size];
 
@@ -100,9 +99,10 @@ public class AmbitiousExperiment {
         }
 
 
-        public long query(long[] a, int position) {
-            long result =  b[position], dsz = nDivisors[position].size();
-            for (int i = 0; i < dsz; ++i)
+        public long sum(long[] a, int position) {
+            long result =  b[position];
+            long dividorsSize = nDivisors[position].size();
+            for (int i = 0; i < dividorsSize; ++i)
                 result += a[nDivisors[position].get(i)] + blocks[nDivisors[position].get(i) / size];
             return result;
         }
