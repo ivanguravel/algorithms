@@ -61,7 +61,7 @@ public class AmbitiousExperiment {
             line = reader.readLine().split(" ");
             if ("1".equalsIgnoreCase(line[0])) {
                 int request = Integer.parseInt(line[1]);
-                println(decomposition.sum(a, request));
+                println(decomposition.get(a, request));
             } else {
                 int left = Integer.parseInt(line[1]);
                 int right = Integer.parseInt(line[2]);
@@ -76,7 +76,7 @@ public class AmbitiousExperiment {
         long[] blocks;
 
         public Decomposition(int n) {
-            this.size = (int) (Math.sqrt(n) + 1);
+            this.size = (int) Math.sqrt(n) + 1;
             this.blocks = new long[ size];
 
         }
@@ -89,17 +89,20 @@ public class AmbitiousExperiment {
                 for (int i = l; i <= r; i++)
                     a[i] = a[i] + d;
             } else {
-                for (int i = l, end = (lBound + 1) * size; i < end; i++)
+                for (int i = l, end = (lBound + 1) * size; i < end; i++) {
                     a[i] = a[i] + d;
-                for (int i = lBound + 1; i < rBound; i++)
+                }
+                for (int i = lBound + 1; i < rBound; i++) {
                     blocks[i] = blocks[i] + d;
-                for (int i = rBound * size; i <= r; i++)
+                }
+                for (int i = rBound * size; i <= r; i++) {
                     a[i] = a[i] + d;
+                }
             }
         }
 
 
-        public long sum(long[] a, int position) {
+        public long get(long[] a, int position) {
             long result =  b[position];
             long dividorsSize = nDivisors[position].size();
             for (int i = 0; i < dividorsSize; ++i)
