@@ -8,14 +8,14 @@ import static java.lang.Long.parseLong;
 
 
 // https://acmp.ru/asp/do/index.asp?main=task&id_course=2&id_section=20&id_topic=45&id_problem=600
-public class SqrtDecomposition {
+public class SqrtDecomposition2 {
 
     private BufferedReader reader;
     private StringTokenizer tokenizer;
     private PrintWriter writer;
 
     public static void main(String[] args) {
-        new SqrtDecomposition().run();
+        new SqrtDecomposition2().run();
     }
 
     private void run() {
@@ -38,7 +38,8 @@ public class SqrtDecomposition {
 
         long[] arr = new long[(int)n+1];
 
-        for (int i = 1; i <= n; i++) {
+
+        for (int i = 0; i < n; i++) {
             arr[i] = nextLong();
             decomposition.insert(i, arr);
         }
@@ -49,15 +50,15 @@ public class SqrtDecomposition {
             operationType = nextToken();
 
             if ("rsq".equals(operationType)) {
-                writer.println(decomposition.rsq((int) nextLong(), (int) nextLong(), arr));
+                writer.println(decomposition.rsq((int) nextLong() -1, (int) nextLong() -1, arr));
             } else if ("rmq".equals(operationType)) {
-                writer.println(decomposition.rmq((int) nextLong(), (int) nextLong(), arr));
+                writer.println(decomposition.rmq((int) nextLong() -1, (int) nextLong() -1, arr));
             } else if ("get".equals(operationType)) {
-                writer.println(decomposition.get((int) nextLong(), arr));
+                writer.println(decomposition.get((int) nextLong() -1, arr));
             } else if ("update".equals(operationType)) {
-                decomposition.update((int) nextLong(), (int) nextLong(), nextLong(), arr);
+                decomposition.update((int) nextLong() -1, (int) nextLong() - 1, nextLong(), arr);
             } else {
-                decomposition.add((int) nextLong(), (int) nextLong(), nextLong(), arr);
+                decomposition.add((int) nextLong()-1, (int) nextLong()-1, nextLong(), arr);
             }
         }
     }
@@ -100,6 +101,11 @@ public class SqrtDecomposition {
             this.update = new Long[arrSize];
         }
 
+        public void insert(int i, long[] array) {
+            min[i/k] = Math.min(min[i/k], array[i]);
+            sum[i/k] = sum[i/k] + array[i];
+        }
+
         public long get (int i, long[] array) {
             if (update[i/k] != null) {
                 return update[i/k];
@@ -120,7 +126,8 @@ public class SqrtDecomposition {
                 updateSumAndMin(leftGroup, array);
             } else {
                 push(leftGroup, array);
-                for (int i = l; i <= Math.min(n+1, (leftGroup + 1) * k); i++) {
+                int afterLeft = afterGroup(leftGroup);
+                for (int i = l; i <= afterLeft; i++) {
                     array[i] = val;
                 }
                 updateSumAndMin(leftGroup, array);
@@ -149,20 +156,18 @@ public class SqrtDecomposition {
 
         void push(int group, long[] array) {
             int start = groupStart(group);
-            int end = Math.min(n+1, (group + 1) * k);
+            int end = afterGroup(group);
             if (update[group] != null) {
-                min[group] = Integer.MAX_VALUE;
-                sum[group] = 0;
+
                 for (int i = start; i < end; i++) {
                     array[i] = update[group];
-                    min[group] = Math.min(min[group], array[i]);
-                    sum[group] += array[i];
                 }
 
                 update[group] = null;
                 add[group] = 0;
-
-            } else {
+                min[group] = Integer.MAX_VALUE;
+                sum[group] = 0;
+            } else if (add[group] != 0) {
                 for (int i = start; i < end; i++) {
                     array[i] = array[i] + add[group];
                 }
@@ -183,7 +188,8 @@ public class SqrtDecomposition {
                 updateSumAndMin(leftGroup, array);
             } else {
                 push(leftGroup, array);
-                for (int i = l; i <= Math.min(n+1, (leftGroup + 1) * k); i++) {
+                int afterLeft = afterGroup(leftGroup);
+                for (int i = l; i <= afterLeft; i++) {
                     array[i] += val;
                 }
                 updateSumAndMin(leftGroup, array);
@@ -204,10 +210,7 @@ public class SqrtDecomposition {
             }
         }
 
-        public void insert(int i, long[] array) {
-            min[i/k] = Math.min(min[i/k], array[i]);
-            sum[i/k] = sum[i/k] + array[i];
-        }
+
 
         public long rmq(int l, int r, long[] array) {
             long answer = Integer.MAX_VALUE;
@@ -223,7 +226,8 @@ public class SqrtDecomposition {
                 updateSumAndMin(leftGroup, array);
             } else {
                 push(leftGroup, array);
-                for (int i = l; i <= Math.min(n+1, (leftGroup + 1) * k); i++) {
+                int afterLeft = afterGroup(leftGroup);
+                for (int i = l; i <= afterLeft; i++) {
                     answer = Math.min(answer, array[i]);
                 }
                 updateSumAndMin(leftGroup, array);
@@ -257,7 +261,8 @@ public class SqrtDecomposition {
                 updateSumAndMin(leftGroup, array);
             } else {
                 push(leftGroup, array);
-                for (int i = l; i <= Math.min(n+1, (leftGroup + 1) * k); i++) {
+                int afterLeft = afterGroup(leftGroup);
+                for (int i = l; i <=afterLeft; i++) {
                     answer += array[i];
                 }
                 updateSumAndMin(leftGroup, array);
@@ -283,6 +288,10 @@ public class SqrtDecomposition {
             } else {
                 return g * k;
             }
+        }
+
+        int afterGroup(int g) {
+            return Math.min(n+1, (g + 1) * k);
         }
     }
 
