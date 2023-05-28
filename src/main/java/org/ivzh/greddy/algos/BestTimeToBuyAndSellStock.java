@@ -7,19 +7,18 @@ import java.util.*;
 public class BestTimeToBuyAndSellStock {
     
     // kadane
-     public int maxProfit(int[] prices) {
-        int price = Integer.MAX_VALUE;
-        int profit = 0;
-        for (int i = 0; i < prices.length; i++) {
-            if (prices[i] < price)
-                price = prices[i];
-            else if (prices[i] - price > profit)
-                profit = prices[i] - price;
+    public int maxProfit(int[] prices) {
+        int max = Integer.MIN_VALUE;
+        int minprice = Integer.MAX_VALUE;
+
+        for (int i : prices) {
+            if (i < minprice) {
+                minprice = i;
+            }
+            max = Math.max(i - minprice, max);
         }
-        if (profit < 0) {
-            profit = 0;
-        }
-        return profit;
+
+        return max < 0 ? 0 : max;
     }
     
     public int maxProfitTrivial(int[] prices) {
