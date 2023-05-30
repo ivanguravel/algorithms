@@ -1,4 +1,4 @@
-package org.ivzh.other;
+package org.ivzh.fenwick;
 
 import java.io.PrintWriter;
 import java.util.Scanner;

@@ -1,4 +1,4 @@
-package org.ivzh.tree;
+package org.ivzh.fenwick;
 
 
 
