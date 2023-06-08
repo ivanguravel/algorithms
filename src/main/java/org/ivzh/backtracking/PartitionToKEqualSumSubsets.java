@@ -17,7 +17,7 @@ public class PartitionToKEqualSumSubsets {
         }
 
 
-        return map.values().stream().filter(t -> t ==k).count() > 0;
+        return map.values().stream().anyMatch(t -> t == k);
     }
 
     public List<List<Integer>> subsets(int[] a) {
