@@ -1,4 +1,4 @@
-package org.ivzh.dynamic.programming;
+package org.ivzh.dynamic.programming.two.dimensions;
 
 // https://leetcode.com/problems/longest-common-subsequence/
 public class LongestCommonSubsequence {

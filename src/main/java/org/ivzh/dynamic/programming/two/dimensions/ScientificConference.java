@@ -1,4 +1,4 @@
-package org.ivzh.dynamic.programming;
+package org.ivzh.dynamic.programming.two.dimensions;
 
 import java.util.Arrays;
 import java.util.Comparator;

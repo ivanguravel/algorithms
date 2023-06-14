@@ -1,4 +1,4 @@
-package org.ivzh.dynamic.programming;
+package org.ivzh.dynamic.programming.by.profile;
 
 import java.io.PrintWriter;
 import java.util.*;
