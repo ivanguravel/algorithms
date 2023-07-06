@@ -1,11 +1,12 @@
-package org.ivzh.graph;
+package org.ivzh.graph.shortest.path;
  
 import java.io.*;
 import java.util.*;
  
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
- 
+
+// https://acmp.ru/asp/do/index.asp?main=task&id_course=2&id_section=21&id_topic=51&id_problem=649
 public class ShortestPathBFS {
  
     int n;

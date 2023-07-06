@@ -1,8 +1,6 @@
-package org.ivzh.graph;
+package org.ivzh.graph.shortest.path.dijkstra;
 
 import java.io.*;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.*;
 
 import static java.lang.Integer.parseInt;

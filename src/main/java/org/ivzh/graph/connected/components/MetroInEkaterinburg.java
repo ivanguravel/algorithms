@@ -1,4 +1,4 @@
-package org.ivzh.graph;
+package org.ivzh.graph.connected.components;
 
 import java.io.PrintWriter;
 import java.util.*;

@@ -1,4 +1,4 @@
-package org.ivzh.graph;
+package org.ivzh.graph.shortest.path;
 
 import java.io.*;
 import java.util.*;
