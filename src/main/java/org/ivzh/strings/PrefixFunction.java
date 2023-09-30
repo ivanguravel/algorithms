@@ -36,16 +36,26 @@ public class PrefixFunction {
     }
 
     public int[] prefixFunction(String s) {
-        int[] result = new int[s.length()];
-        for (int i = 1; i < s.length(); i++) {
-            int j = result[i-1];
-            while (j > 0 && s.charAt(i) != s.charAt(j))
-                j = result[j-1];
-            if (s.charAt(i) == s.charAt(j))
-                j++;
-            result[i] = j;
+        int[] pi = new int[s.length()];
+        int  j = 0;
+        int i =1;
+
+        while (i < s.length()) {
+            if (s.charAt(i) == s.charAt(j)) {
+                pi[i] = j+1;
+                ++j;
+                ++i;
+            } else {
+                if (j == 0) {
+                    pi[i] =0;
+                    ++i;
+                } else {
+                    j = pi[j-1];
+                }
+            }
         }
-        return result;
+
+        return pi;
     }
 
     private String nextToken() {
