@@ -3,6 +3,7 @@ package org.ivzh.tree;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 // https://algocademy.com/app/#problem/post-order-tree-traversal
 public class PostOrderTreeTraversal {
@@ -34,6 +35,30 @@ public class PostOrderTreeTraversal {
             fillIn(root.left, result);
             result.add(root.val);
             fillIn(root.right, result);            
+        }
+    }
+
+
+    // WA: passed 18 test cases
+    private List<Integer> inOrderUsingStack(TreeNode root, List<Integer> result) {
+        Stack<Integer> stack = new Stack<>();
+        dfsMin(root, stack);
+
+        while (!stack.isEmpty()) {
+            result.add(stack.pop());
+            if (root.right !=null) {
+                dfsMin(root.right, stack);
+                root = root.right;
+            }
+        }
+
+        return result;
+    }
+
+    private void dfsMin(TreeNode node, Stack<Integer> stack) {
+        while (node != null) {
+            stack.push(node.val);
+            node = node.left;
         }
     }
 
