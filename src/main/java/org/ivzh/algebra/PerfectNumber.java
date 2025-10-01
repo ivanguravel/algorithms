@@ -4,19 +4,19 @@ package org.ivzh.algebra;
 public class PerfectNumber {
 
     public boolean checkPerfectNumber(int num) {
+        if (num == 1) {
+            return false;
+        }
         return num == findDivisorsSum(num);
     }
 
     private int findDivisorsSum(int num) {
-        int sum = 0;
-        Integer companion;
-        for (int i = 1; i*i < num; i++) {
+        int sum=1;
+        int companion;
+        for (int i = 2; i*i < num; i++) {
             if (num % i == 0) {
-                sum += i;
-                companion = num/i;
-                if (companion != num) {
-                    sum += companion;
-                }
+                companion = num / i;
+                sum = sum + i + companion;
             }
         }
         return sum;
