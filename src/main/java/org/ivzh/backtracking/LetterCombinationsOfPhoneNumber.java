@@ -4,9 +4,9 @@ import java.util.*;
 
 public class LetterCombinationsOfPhoneNumber {
 
-    private Map<Character, String> keys = new HashMap<>();
+   private final Map<Character, String> keys = new HashMap<>();
 
-    public LetterCombinationsOfPhoneNumber() {
+    public Solution() {
         keys.put('2', "abc");
         keys.put('3', "def");
         keys.put('4', "ghi");
@@ -17,32 +17,27 @@ public class LetterCombinationsOfPhoneNumber {
         keys.put('9', "wxyz");
     }
 
-
     public List<String> letterCombinations(String digits) {
-        if ("".equals(digits)) {
+        if (digits == null || digits.isEmpty()) {
             return Collections.emptyList();
         }
 
         List<String> result = new ArrayList<>();
-        backtracking(digits, 0, result, digits.length(), new LinkedList<>());
+        backtracking(digits, 0, new StringBuilder(), result);
         return result;
     }
 
-    private void backtracking(String digits, int position, List<String> result, int n, LinkedList<String> buff) {
-        if (buff.size() == n) {
-            String res = "";
-            for (String s : new HashSet<>(buff)) {
-                res = res + s;
-            }
-            result.add(res);
+    private void backtracking(String digits, int position, StringBuilder current, List<String> result) {
+        if (position == digits.length()) {
+            result.add(current.toString());
             return;
         }
 
         String letters = keys.get(digits.charAt(position));
-        for (int i = 0; i < letters.length(); i++) {
-            buff.add("" + letters.charAt(i));
-            backtracking(digits, position + 1, result, n, buff);
-            buff.removeLast();
+        for (char c : letters.toCharArray()) {
+            current.append(c);
+            backtracking(digits, position + 1, current, result);
+            current.deleteCharAt(current.length() - 1);
         }
     }
 }
