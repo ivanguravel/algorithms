@@ -17,6 +17,25 @@ public class ReverseList {
         return previous;
     }
 
+
+    public ListNode reverseListTwo(ListNode head) {
+        return reverseListRec(head, null);
+    }
+
+
+    public static ListNode reverseListRec(ListNode head, ListNode prev) {
+        if (head == null) {
+          return prev;
+        }
+    
+        ListNode next = head.next;
+        head.next = prev;
+
+        
+        return reverseListRec(next, head);
+    }
+    
+
     public class ListNode {
         int val;
         ListNode next;
